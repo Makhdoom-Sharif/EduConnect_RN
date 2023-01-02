@@ -7,11 +7,13 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import SimpleButton from '../components/buttons/SimpleButton';
-import SocialAuthButton from '../components/buttons/SocialAuthButton';
-import SimpleTextInput from '../components/TextFields/SimpleTextInput';
+import SimpleButton from '../../components/SimpleButton';
+import SocialAuthButton from '../../components/SocialAuthButton';
+import SimpleTextInput from '../../components/SimpleTextInput';
+import styles from './Styles';
+import SimpleDropDown from '../../components/SimpleDropDown';
 
-const Login = () => {
+const SignUp = () => {
   const handleClick = () => {
     console.log('Click works');
   };
@@ -23,24 +25,19 @@ const Login = () => {
           style={{
             height: '65%',
           }}>
-          <Text style={styles.centerText}>Login to your Account</Text>
+          <Text style={styles.centerText}>Register!</Text>
           <SimpleTextInput placeholder="Username or email" />
           <SimpleTextInput placeholder="Password" secureTextEntry />
-          <Text
-            style={[
-              styles.simpleTextStyle,
-              {textAlign: 'right', marginBottom: 10},
-            ]}>
-            Forgot your password?
-          </Text>
+          <SimpleTextInput placeholder="Confirm Password" secureTextEntry />
+          <SimpleDropDown />
           <SimpleButton
-            title="Login"
+            title="Sign Up"
             backgroundColor="#FBB718"
             textColor="#fff"
             handleClick={handleClick}
           />
           <Text style={[styles.simpleTextStyle, {textAlign: 'center'}]}>
-            or log in with
+            or SignUp with
           </Text>
           <SocialAuthButton />
         </View>
@@ -49,7 +46,7 @@ const Login = () => {
             styles.simpleTextStyle,
             {
               textAlign: 'center',
-              marginVertical: 15,
+              marginVertical: 20,
             },
           ]}>
           By using Edu-Connect you agree to our Terms of services and Privacy
@@ -59,29 +56,5 @@ const Login = () => {
     </SafeAreaView>
   );
 };
-const styles = StyleSheet.create({
-  main: {
-    backgroundColor: '#0A1A2E',
-    height: '100%',
-  },
-  mainTitle: {
-    color: '#fff',
-    fontSize: 40,
-    fontWeight: '800',
-    textAlign: 'center',
-    margin: '15%',
-  },
-  centerText: {
-    color: '#fff',
-    fontSize: 35,
-    fontWeight: '700',
-    textAlign: 'center',
-    marginHorizontal: '20%',
-    marginBottom: '15%',
-  },
-  simpleTextStyle: {
-    color: '#fff',
-    marginHorizontal: 20,
-  },
-});
-export default Login;
+
+export default SignUp;
