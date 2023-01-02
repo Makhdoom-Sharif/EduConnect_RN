@@ -1,10 +1,10 @@
 import React from 'react';
 import {Text} from 'react-native';
 import Login from './src/screens/Login';
-import SignUp from './src/screens/SignUp';
+import LandingScreen from './src/screens/LandingScreen';
 
 const App = () => {
-  return <Login />;
+  return <LandingScreen />;
 };
 
 export default App;
