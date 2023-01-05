@@ -11,31 +11,19 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: '800',
     textAlign: 'center',
-    margin: '15%',
-  },
-  bottomContainer: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  divider: {
-    height: 1,
-    backgroundColor: '#fff',
-    marginHorizontal: 20,
-    marginBottom: '10%',
+    margin: '10%',
   },
   centerText: {
     color: '#fff',
-    fontSize: 35,
+    fontSize: 30,
     fontWeight: '700',
     textAlign: 'center',
-    marginHorizontal: 20,
+    marginHorizontal: '20%',
     marginBottom: '10%',
   },
   simpleTextStyle: {
     color: '#fff',
     marginHorizontal: 20,
-    textAlign: 'center',
-    marginBottom: 10,
   },
 });
 export default styles;

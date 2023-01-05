@@ -11,11 +11,11 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: '800',
     textAlign: 'center',
-    margin: '15%',
+    margin: '10%',
   },
   centerText: {
     color: '#fff',
-    fontSize: 35,
+    fontSize: 30,
     fontWeight: '700',
     textAlign: 'center',
     marginHorizontal: '20%',

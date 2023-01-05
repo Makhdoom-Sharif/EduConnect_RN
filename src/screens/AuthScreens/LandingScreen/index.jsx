@@ -7,9 +7,9 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import SimpleButton from '../../components/SimpleButton';
-import SocialAuthButton from '../../components/SocialAuthButton';
-import SimpleTextInput from '../../components/SimpleTextInput';
+import SimpleButton from '../../../components/SimpleButton';
+import SocialAuthButton from '../../../components/SocialAuthButton';
+import SimpleTextInput from '../../../components/SimpleTextInput';
 import styles from './Styles';
 const LandingScreen = () => {
   const handleClick = () => {

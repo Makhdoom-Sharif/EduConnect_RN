@@ -7,11 +7,12 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import SimpleButton from '../../components/SimpleButton';
-import SocialAuthButton from '../../components/SocialAuthButton';
-import SimpleTextInput from '../../components/SimpleTextInput';
+import SimpleButton from '../../../components/SimpleButton';
+import SocialAuthButton from '../../../components/SocialAuthButton';
+import SimpleTextInput from '../../../components/SimpleTextInput';
 import styles from './Styles';
-import SimpleDropDown from '../../components/SimpleDropDown';
+import SimpleDropDown from '../../../components/SimpleDropDown';
+import BackButton from '../../../components/BackButton';
 
 const SignUp = () => {
   const handleClick = () => {
@@ -20,6 +21,7 @@ const SignUp = () => {
   return (
     <SafeAreaView style={styles.main}>
       <ScrollView>
+        <BackButton />
         <Text style={styles.mainTitle}>Edu-Connect</Text>
         <View
           style={{
