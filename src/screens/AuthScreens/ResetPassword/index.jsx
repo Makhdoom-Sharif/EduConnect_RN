@@ -12,14 +12,17 @@ import SocialAuthButton from '../../../components/SocialAuthButton';
 import SimpleTextInput from '../../../components/SimpleTextInput';
 import BackButton from '../../../components/BackButton';
 import styles from './Styles';
+import {useNavigation} from '@react-navigation/native';
 const ResetPassword = () => {
   const handleClick = () => {
     console.log('Click works');
   };
+  const {goBack} = useNavigation();
+
   return (
     <SafeAreaView style={styles.main}>
       <ScrollView>
-        <BackButton />
+        <BackButton onPress={goBack} />
         <Text style={styles.mainTitle}>Edu-Connect</Text>
         <View
           style={{

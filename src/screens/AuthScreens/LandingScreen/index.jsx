@@ -1,20 +1,13 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {SafeAreaView, Text, View} from 'react-native';
 import SimpleButton from '../../../components/SimpleButton';
-import SocialAuthButton from '../../../components/SocialAuthButton';
-import SimpleTextInput from '../../../components/SimpleTextInput';
 import styles from './Styles';
 const LandingScreen = () => {
   const handleClick = () => {
     console.log('Click works');
   };
+  const {navigate} = useNavigation();
   return (
     <SafeAreaView style={styles.main}>
       <Text style={styles.mainTitle}>Edu-Connect</Text>
@@ -30,13 +23,13 @@ const LandingScreen = () => {
           title="Get started for free"
           backgroundColor="#FBB718"
           textColor="#fff"
-          handleClick={handleClick}
+          handleClick={() => navigate('SignUpScreen')}
         />
         <SimpleButton
           title="I already have an account"
           backgroundColor="#fff"
           textColor="#000"
-          handleClick={handleClick}
+          handleClick={() => navigate('LoginScreen')}
         />
       </View>
     </SafeAreaView>

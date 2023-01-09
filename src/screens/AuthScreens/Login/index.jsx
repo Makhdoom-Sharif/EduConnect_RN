@@ -7,20 +7,23 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import SimpleButton from '../../../../components/SimpleButton';
-import SocialAuthButton from '../../../../components/SocialAuthButton';
-import SimpleTextInput from '../../../../components/SimpleTextInput';
-import BackButton from '../../../../components/BackButton';
+import SimpleButton from '../../../components/SimpleButton';
+import SocialAuthButton from '../../../components/SocialAuthButton';
+import SimpleTextInput from '../../../components/SimpleTextInput';
+import BackButton from '../../../components/BackButton';
 
 import styles from './Styles';
+import {useNavigation} from '@react-navigation/native';
 const Login = () => {
   const handleClick = () => {
     console.log('Click works');
   };
+  const {goBack, navigate} = useNavigation();
+
   return (
     <SafeAreaView style={styles.main}>
       <ScrollView>
-        <BackButton />
+        <BackButton onPress={goBack} />
         <Text style={styles.mainTitle}>Edu-Connect</Text>
         <View
           style={{
@@ -33,7 +36,8 @@ const Login = () => {
             style={[
               styles.simpleTextStyle,
               {textAlign: 'right', marginBottom: 10},
-            ]}>
+            ]}
+            onPress={() => navigate('ForgotPasswordScreen')}>
             Forgot your password?
           </Text>
           <SimpleButton

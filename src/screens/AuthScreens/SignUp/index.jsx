@@ -13,15 +13,19 @@ import SimpleTextInput from '../../../components/SimpleTextInput';
 import styles from './Styles';
 import SimpleDropDown from '../../../components/SimpleDropDown';
 import BackButton from '../../../components/BackButton';
+import {useNavigation} from '@react-navigation/native';
 
 const SignUp = () => {
   const handleClick = () => {
+    // navigate('Home')
     console.log('Click works');
   };
+  const {goBack, navigate} = useNavigation();
+
   return (
     <SafeAreaView style={styles.main}>
       <ScrollView>
-        <BackButton />
+        <BackButton onPress={goBack} />
         <Text style={styles.mainTitle}>Edu-Connect</Text>
         <View
           style={{

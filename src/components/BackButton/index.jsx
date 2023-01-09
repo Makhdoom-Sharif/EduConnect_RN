@@ -1,7 +1,8 @@
 import React from 'react';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-const Index = () => {
+const Index = props => {
+  const {onPress} = props;
   return (
     <View
       style={{
@@ -10,7 +11,8 @@ const Index = () => {
         borderRadius: 20,
         marginHorizontal: 10,
         marginTop: 5,
-      }}>
+      }}
+      onStartShouldSetResponder={() => onPress()}>
       <Icon
         name="leftcircleo"
         style={{
