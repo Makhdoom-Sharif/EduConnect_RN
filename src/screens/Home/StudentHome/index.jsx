@@ -1,39 +1,29 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, Text, View} from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Entypo from 'react-native-vector-icons/Entypo';
+import {SafeAreaView, ScrollView, View} from 'react-native';
+import {SafeAreaStyles} from '../../../Global/GlobalCSS';
+import CourseCard from '../../../components/CourseCard';
+import BoardCard from '../../../components/BoardCard';
+import SkillBaseCard from '../../../components/SkillBaseCard';
+import SearchLocation from '../../../components/SearchLocation';
+import RecommendCard from '../../../components/RecommendCard';
+import styles from './Styles';
+
 const StudentHome = () => {
   return (
-    <SafeAreaView
-      style={{
-        backgroundColor: '#0A1A2E',
-        width: '100%',
-        height: '100%',
-      }}>
-      <ScrollView
-        contentContainerStyle={{
-          alignItems: 'center',
-        }}>
-        <View
-          style={{
-            backgroundColor: '#FBB718',
-            width: '70%',
-            height: '100%',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            padding: 5,
-            borderRadius: 20,
-            alignItems: 'center',
-          }}>
-          <MaterialIcons
-            name="location-on"
-            size={25}
-            style={{
-              color: '#fff',
-            }}
-          />
-          <Text style={{color: '#fff'}}>Select The Location</Text>
-          <Entypo name="chevron-down" style={{color: '#fff'}} size={25} />
+    <SafeAreaView style={SafeAreaStyles}>
+      <View style={styles.SearchLocationContainer}>
+        <SearchLocation />
+      </View>
+      <ScrollView style={styles.ScrollViewStyles}>
+        <CourseCard />
+        <View style={styles.cardSpace}>
+          <BoardCard />
+        </View>
+        <View>
+          <SkillBaseCard />
+        </View>
+        <View style={styles.cardSpace}>
+          <RecommendCard />
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {Dimensions} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import styles from './Styles';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';

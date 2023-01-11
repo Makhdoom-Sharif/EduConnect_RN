@@ -1,7 +1,9 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
+import {Colors} from '../../Global/GlobalCSS';
 
 const styles = StyleSheet.create({
+  container: {backgroundColor: Colors.primary, height: '100%'},
   main: {
     marginLeft: 28,
     marginRight: 28,
@@ -66,6 +68,11 @@ const styles = StyleSheet.create({
     borderColor: '#E0E0E0',
     marginTop: 24,
     marginBottom: 24,
+  },
+  settingContainer: {
+    backgroundColor: Colors.backgroundPrimary,
+    borderRadius: 25,
+    paddingHorizontal: 10,
   },
   settingItem: {
     flexDirection: 'row',

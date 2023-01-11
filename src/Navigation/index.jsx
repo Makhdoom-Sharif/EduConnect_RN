@@ -5,13 +5,14 @@ import Login from '../screens/AuthScreens/Login';
 import SignUp from '../screens/AuthScreens/SignUp';
 import LandingScreen from '../screens/AuthScreens/LandingScreen';
 import ForgotPassword from '../screens/AuthScreens/ForgotPassword';
-import {mainTab} from '../Global/GlobalCSS';
+import {Colors, mainTab} from '../Global/GlobalCSS';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import StudentHome from '../screens/Home/StudentHome';
-import {Image, Text, View} from 'react-native';
+import Setting from '../screens/Setting';
+import {View} from 'react-native';
 const Tab = createBottomTabNavigator();
 function MyTabs() {
   return (
@@ -19,8 +20,8 @@ function MyTabs() {
       initialRouteName="Home"
       screenOptions={{
         tabBarStyle: mainTab,
-        activeTintColor: '#0A1A2E',
-        inactiveTintColor: '#0A1A2E',
+        activeTintColor: Colors.primary,
+        inactiveTintColor: Colors.primary,
       }}>
       <Tab.Screen
         name="Home"
@@ -31,67 +32,42 @@ function MyTabs() {
             return null;
           },
           tabBarIcon: ({focused, color, size}) => {
-            const colors = focused ? '#0A1A2E' : '#E0E0E0';
+            const colors = focused ? Colors.primary : '#E0E0E0';
             return <EntypoIcons name="home" size={25} color={colors} />;
           },
         }}
       />
-      {/* <Tab.Screen
-        name="Analytics"
-        component={StudentHome}
-        options={{
-          headerShown: null,
-          tabBarLabel: () => {
-            return null;
-          },
-          tabBarIcon: ({focused, color, size}) => {
-            const colors = focused ? '#0A1A2E' : '#E0E0E0';
-            return (
-              <MaterialCommunityIcons
-                name="google-analytics"
-                size={25}
-                color={colors}
-              />
-            );
-          },
-        }}
-      /> */}
       <Tab.Screen
         name="ScanQR"
         component={StudentHome}
         options={{
-          // tabBarStyle: {display: 'none'},
           headerShown: null,
           tabBarLabel: () => {
             return null;
           },
           tabBarIcon: ({focused, color, size}) => {
-            const colors = focused ? '#0A1A2E' : '#E0E0E0';
+            const colors = focused ? Colors.primary : Colors.disable;
 
             return (
-              // <View
-              // // onStartShouldSetResponder={haptic}
-              // >
               <View
-                style={{
-                  width: '40%',
-                  height: '200%',
-                  // justifyContent: 'cen',
-                  alignContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <View
-                  style={{
-                    height: '60%',
-                    backgroundColor: '#FBB718',
-                    width: '100%',
-                    borderRadius: 30,
-                    alignContent: 'center',
+                style={[
+                  mainTab,
+                  {
+                    position: 'absolute',
+                    top: -33,
+                    padding: 12,
+                    backgroundColor: Colors.secondary,
+                    borderRadius: 50,
                     alignItems: 'center',
                     justifyContent: 'center',
-                  }}>
-                  <Fontisto name="search" size={35} color={colors} />
-                </View>
+                  },
+                ]}>
+                <Fontisto
+                  name="search"
+                  size={35}
+                  color={colors}
+                  style={{right: -3}}
+                />
               </View>
             );
           },
@@ -102,30 +78,16 @@ function MyTabs() {
           },
         }}
       />
-      {/* <Tab.Screen
-        name="Themes"
-        component={Themes}
-        options={{
-          headerShown: null,
-          tabBarLabel: () => {
-            return null;
-          },
-          tabBarIcon: ({focused, color, size}) => {
-            const colors = focused ? '#003087' : '#E0E0E0';
-            return <FontAwesomeIcon5 name="brush" size={25} color={colors} />;
-          },
-        }}
-      /> */}
       <Tab.Screen
         name="Settings"
-        component={StudentHome}
+        component={Setting}
         options={{
           headerShown: null,
           tabBarLabel: () => {
             return null;
           },
           tabBarIcon: ({focused, color, size}) => {
-            const colors = focused ? '#0A1A2E' : '#E0E0E0';
+            const colors = focused ? Colors.primary : Colors.disable;
             return <Ionicons name="settings" size={25} color={colors} />;
           },
         }}
@@ -139,7 +101,7 @@ const Stack = createNativeStackNavigator();
 const Navigation = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="LandingScreen">
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
           name="LoginScreen"
           component={Login}
