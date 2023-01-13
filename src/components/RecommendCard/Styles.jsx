@@ -8,11 +8,10 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   container: {
-    borderRadius: 10,
+    borderRadius: 15,
     backgroundColor: Colors.white,
     alignItems: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingBottom: 10,
     marginVertical: 15,
     marginHorizontal: 10,
   },
@@ -21,16 +20,20 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingTop: 5,
   },
+  headingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   mainHeading: {
     paddingTop: 10,
     paddingHorizontal: 15,
     fontWeight: '700',
     fontSize: 21,
-    textAlign: 'center',
   },
   sideOption: {
-    alignSelf: 'flex-end',
-    margin: 10,
+    paddingTop: 10,
+    paddingHorizontal: 15,
     fontWeight: '600',
   },
   boxShadow: {
@@ -39,5 +42,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     elevation: 8,
   },
+  iconStyle: {
+    backgroundColor: Colors.backgroundPrimary,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 30,
+    paddingHorizontal: 30,
+  },
+  bio: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: 10,
+    paddingTop: 10,
+  },
+  bottomGap: {
+    paddingBottom: 5,
+  },
+  nameStyle: {fontWeight: '700', fontSize: 18},
 });
 export default styles;
