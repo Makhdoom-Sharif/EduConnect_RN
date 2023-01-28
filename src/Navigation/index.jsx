@@ -1,18 +1,20 @@
-import * as React from 'react';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Login from '../screens/AuthScreens/Login';
-import SignUp from '../screens/AuthScreens/SignUp';
-import LandingScreen from '../screens/AuthScreens/LandingScreen';
-import ForgotPassword from '../screens/AuthScreens/ForgotPassword';
-import {Colors, mainTab} from '../Global/GlobalCSS';
+import * as React from 'react';
+import {View} from 'react-native';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Colors, mainTab} from '../Global/GlobalCSS';
+import ForgotPassword from '../screens/AuthScreens/ForgotPassword';
+import LandingScreen from '../screens/AuthScreens/LandingScreen';
+import Login from '../screens/AuthScreens/Login';
+import SignUp from '../screens/AuthScreens/SignUp';
+import ChangePassword from '../screens/ChangePassword';
 import StudentHome from '../screens/Home/StudentHome';
 import Setting from '../screens/Setting';
-import {View} from 'react-native';
+import UpdateProfile from '../screens/UpdateProfile';
 const Tab = createBottomTabNavigator();
 function MyTabs() {
   return (
@@ -126,6 +128,25 @@ const Navigation = () => {
           name="Home"
           component={MyTabs}
           options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="UpdateProfile"
+          component={UpdateProfile}
+          options={{
+            headerShown: false,
+            presentation: 'modal',
+            animation: 'slide_from_bottom',
+          }}
+        />
+        <Stack.Screen
+          name="ChangePassword"
+          component={ChangePassword}
+          options={{
+            headerShown: false,
+            presentation: 'modal',
+            animation: 'slide_from_bottom',
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

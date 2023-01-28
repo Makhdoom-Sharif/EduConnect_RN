@@ -5537,6 +5537,11 @@ react-is@^17.0.1:
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-native-actions-sheet@^0.8.10:
+  version "0.8.10"
+  resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.8.10.tgz#6d566bd4634c34850ca49bd7c777df8d5749006f"
+  integrity sha512-kQXGUsA7jkbQjd1cZyJYZXcexbaBYmU9jwQKagxucwMp/VzNnoghBIJUwa9bL+lSZRve5TWAR7833Lq2U+xH/Q==
+
 react-native-codegen@^0.70.6:
   version "0.70.6"
   resolved "https://registry.yarnpkg.com/react-native-codegen/-/react-native-codegen-0.70.6.tgz#2ce17d1faad02ad4562345f8ee7cbe6397eda5cb"
@@ -5561,6 +5566,11 @@ react-native-gradle-plugin@^0.70.3:
   version "0.70.3"
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.70.3.tgz#cbcf0619cbfbddaa9128701aa2d7b4145f9c4fc8"
   integrity sha512-oOanj84fJEXUg9FoEAQomA8ISG+DVIrTZ3qF7m69VQUJyOGYyDZmPqKcjvRku4KXlEH6hWO9i4ACLzNBh8gC0A==
+
+react-native-image-picker@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-5.0.0.tgz#c3ad339c4df4c514b296dd9030e882f8b924ccdc"
+  integrity sha512-NkpMRSQ4ow3ot9VKaGlh7kge7r2mQNAL1WrlYMhNX+TcVVNbrhJm9gvEu35ELM0r9WwkKv19Zd8r/Vxw+ISL5w==
 
 react-native-safe-area-context@^4.4.1:
   version "4.4.1"

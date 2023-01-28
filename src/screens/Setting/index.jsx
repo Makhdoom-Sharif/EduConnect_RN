@@ -1,13 +1,18 @@
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
-import {Image, SafeAreaView, ScrollView, StatusBar, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {buildNumber, version} from '../../../package.json';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {buildNumber, version} from '../../../package.json';
 import styles from './Styles';
-import {whiteColorWithOpacity} from '../../Global/GlobalCSS';
 
 const Setting = props => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -15,11 +20,15 @@ const Setting = props => {
   const [modState, setModState] = useState('');
   const [actState, setActionSheet] = useState('');
   const [img, setImg] = useState({});
-  const navigation = useNavigation();
+  const {navigate} = useNavigation();
   const [priority, setPriority] = useState(0);
-  const changeProfile = () => {};
+  const updateProfile = () => {
+    navigate('UpdateProfile');
+  };
 
-  const changePassword = () => {};
+  const changePassword = () => {
+    navigate('ChangePassword');
+  };
 
   const openAppStoreReview = () => {};
 
@@ -32,8 +41,8 @@ const Setting = props => {
   const deleteUser = () => {};
   const data = [
     {
-      text: 'Change Profile',
-      func: () => changeProfile(),
+      text: 'Update Profile',
+      func: () => updateProfile(),
     },
     {
       text: 'Change Password',
@@ -71,8 +80,12 @@ const Setting = props => {
                 <Text style={styles.profText}>Settings</Text>
               </View>
               <View style={styles.centre}>
-                <View>
-                  <Image
+                <View
+                  onStartShouldSetResponder={() => {
+                    console.log('sds');
+                  }}
+                  style={{backgroundColor: 'red'}}>
+                  {/* <Image
                     source={
                       // user?.userDetail?.dp ? {uri: user.userDetail.dp} : Profile
                       ''
@@ -81,7 +94,9 @@ const Setting = props => {
                     height={100}
                     style={styles.avatar}
                     alt="profile"
-                  />
+                  /> */}
+                  <Text>dsdsdsd</Text>
+
                   <View style={styles.camera}>
                     <Entypo name="camera" size={20} color="#003087" />
                   </View>
