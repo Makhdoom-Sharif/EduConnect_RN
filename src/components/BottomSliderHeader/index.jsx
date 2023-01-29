@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Helvetica',
     fontStyle: 'normal',
     fontWeight: 'bold',
-    fontSize: 12,
+    // fontSize: 12,
     fontSize: 20,
   },
 });

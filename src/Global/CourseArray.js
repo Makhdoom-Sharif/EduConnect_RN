@@ -115,3 +115,27 @@ export const RecommendedData = [
     expectedRatePeriod: 'monthly',
   },
 ];
+
+export const preferedRegions = [
+  {
+    title: 'Azad Kashmir, Pakistan',
+  },
+  {
+    title: 'Balochistan, Pakistan',
+  },
+  {
+    title: 'Islamabad Capital Territory, Pakistan',
+  },
+  {
+    title: 'Khyber Pakhtunkhwa, Pakistan',
+  },
+  {
+    title: 'Northern Areas, Pakistan',
+  },
+  {
+    title: 'Punjab, Pakistan',
+  },
+  {
+    title: 'Sindh, Pakistan',
+  },
+];

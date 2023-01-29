@@ -13,6 +13,7 @@ import Login from '../screens/AuthScreens/Login';
 import SignUp from '../screens/AuthScreens/SignUp';
 import ChangePassword from '../screens/ChangePassword';
 import StudentHome from '../screens/Home/StudentHome';
+import SearchByLocation from '../screens/SearchByLocation';
 import Setting from '../screens/Setting';
 import UpdateProfile from '../screens/UpdateProfile';
 const Tab = createBottomTabNavigator();
@@ -103,7 +104,7 @@ const Stack = createNativeStackNavigator();
 const Navigation = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="LandingScreen">
         <Stack.Screen
           name="LoginScreen"
           component={Login}
@@ -142,6 +143,15 @@ const Navigation = () => {
         <Stack.Screen
           name="ChangePassword"
           component={ChangePassword}
+          options={{
+            headerShown: false,
+            presentation: 'modal',
+            animation: 'slide_from_bottom',
+          }}
+        />
+        <Stack.Screen
+          name="SearchByLocation"
+          component={SearchByLocation}
           options={{
             headerShown: false,
             presentation: 'modal',

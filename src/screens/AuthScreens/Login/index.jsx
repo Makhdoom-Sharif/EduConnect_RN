@@ -15,10 +15,11 @@ import BackButton from '../../../components/BackButton';
 import styles from './Styles';
 import {useNavigation} from '@react-navigation/native';
 const Login = () => {
+  const {goBack, navigate} = useNavigation();
   const handleClick = () => {
     console.log('Click works');
+    navigate('Home');
   };
-  const {goBack, navigate} = useNavigation();
 
   return (
     <SafeAreaView style={styles.main}>

@@ -1,9 +1,10 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
+import {Colors} from '../../../Global/GlobalCSS';
 
 const styles = StyleSheet.create({
   main: {
-    backgroundColor: '#0A1A2E',
+    backgroundColor: Colors.primary,
     height: '100%',
   },
   mainTitle: {

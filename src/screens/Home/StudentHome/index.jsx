@@ -7,11 +7,15 @@ import SkillBaseCard from '../../../components/SkillBaseCard';
 import SearchLocation from '../../../components/SearchLocation';
 import RecommendCard from '../../../components/RecommendCard';
 import styles from './Styles';
+import {useNavigation} from '@react-navigation/native';
 
 const StudentHome = () => {
+  const {navigate} = useNavigation();
   return (
     <SafeAreaView style={SafeAreaStyles}>
-      <View style={styles.SearchLocationContainer}>
+      <View
+        style={styles.SearchLocationContainer}
+        onStartShouldSetResponder={() => navigate('SearchByLocation')}>
         <SearchLocation />
       </View>
       <ScrollView style={styles.ScrollViewStyles}>

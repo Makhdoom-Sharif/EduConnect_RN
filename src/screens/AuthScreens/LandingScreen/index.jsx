@@ -24,6 +24,7 @@ const LandingScreen = () => {
           backgroundColor="#FBB718"
           textColor="#fff"
           handleClick={() => navigate('SignUpScreen')}
+          // handleClick={() => navigate('Home')}
         />
         <SimpleButton
           title="I already have an account"
