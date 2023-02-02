@@ -1,5 +1,5 @@
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 export const CourseArray = [
   {
     icon: MaterialCommunityIcons,
@@ -7,19 +7,19 @@ export const CourseArray = [
     CourseName: 'Maths',
   },
   {
-    icon: MaterialCommunityIcons,
-    iconName: 'math-integral-box',
-    CourseName: 'Maths',
+    icon: MaterialIcons,
+    iconName: 'science',
+    CourseName: 'Chemistry',
   },
   {
     icon: MaterialCommunityIcons,
-    iconName: 'math-integral-box',
-    CourseName: 'Maths',
+    iconName: 'math-compass',
+    CourseName: 'Physics',
   },
   {
-    icon: MaterialCommunityIcons,
-    iconName: 'math-integral-box',
-    CourseName: 'Maths',
+    icon: MaterialIcons,
+    iconName: 'computer',
+    CourseName: 'Computer Science',
   },
   {
     icon: MaterialCommunityIcons,

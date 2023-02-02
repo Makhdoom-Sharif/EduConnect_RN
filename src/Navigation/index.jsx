@@ -14,6 +14,7 @@ import SignUp from '../screens/AuthScreens/SignUp';
 import ChangePassword from '../screens/ChangePassword';
 import StudentHome from '../screens/Home/StudentHome';
 import SearchByLocation from '../screens/SearchByLocation';
+import SearchScreen from '../screens/SearchScreen';
 import Setting from '../screens/Setting';
 import UpdateProfile from '../screens/UpdateProfile';
 const Tab = createBottomTabNavigator();
@@ -41,8 +42,8 @@ function MyTabs() {
         }}
       />
       <Tab.Screen
-        name="ScanQR"
-        component={StudentHome}
+        name="Search"
+        component={SearchScreen}
         options={{
           headerShown: null,
           tabBarLabel: () => {

@@ -85,16 +85,6 @@ const Setting = props => {
                     console.log('sds');
                   }}
                   style={{backgroundColor: 'red'}}>
-                  {/* <Image
-                    source={
-                      // user?.userDetail?.dp ? {uri: user.userDetail.dp} : Profile
-                      ''
-                    }
-                    width={100}
-                    height={100}
-                    style={styles.avatar}
-                    alt="profile"
-                  /> */}
                   <Text>dsdsdsd</Text>
 
                   <View style={styles.camera}>
