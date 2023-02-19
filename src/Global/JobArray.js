@@ -1,40 +1,75 @@
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-export const CourseArray = [
+export const JobArray = [
   {
     icon: MaterialCommunityIcons,
     iconName: 'math-integral-box',
     logo: 'https://thumbs.dreamstime.com/b/physics-icon-vector-isolated-white-background-physics-transparent-sign-sign-symbols-thin-linear-outline-style-physics-134073851.jpg',
     id: 1,
-    courseName: 'Maths',
+    jobName: 'Maths',
   },
   {
     icon: MaterialIcons,
     iconName: 'science',
     logo: 'https://thumbs.dreamstime.com/b/physics-icon-vector-isolated-white-background-physics-transparent-sign-sign-symbols-thin-linear-outline-style-physics-134073851.jpg',
     id: 2,
-    courseName: 'Chemistry',
+    jobName: 'Chemistry',
   },
   {
     icon: MaterialCommunityIcons,
     iconName: 'math-compass',
     logo: 'https://thumbs.dreamstime.com/b/physics-icon-vector-isolated-white-background-physics-transparent-sign-sign-symbols-thin-linear-outline-style-physics-134073851.jpg',
     id: 3,
-    courseName: 'Physics',
+    jobName: 'Physics',
   },
   {
     icon: MaterialIcons,
     iconName: 'computer',
     logo: 'https://thumbs.dreamstime.com/b/physics-icon-vector-isolated-white-background-physics-transparent-sign-sign-symbols-thin-linear-outline-style-physics-134073851.jpg',
     id: 4,
-    courseName: 'Computer Science',
+    jobName: 'Computer Science',
   },
   {
     icon: MaterialCommunityIcons,
     iconName: 'math-integral-box',
     logo: 'https://thumbs.dreamstime.com/b/physics-icon-vector-isolated-white-background-physics-transparent-sign-sign-symbols-thin-linear-outline-style-physics-134073851.jpg',
     id: 5,
-    courseName: 'Maths',
+    jobName: 'Maths',
+  },
+  {
+    icon: MaterialCommunityIcons,
+    iconName: 'math-integral-box',
+    logo: 'https://thumbs.dreamstime.com/b/physics-icon-vector-isolated-white-background-physics-transparent-sign-sign-symbols-thin-linear-outline-style-physics-134073851.jpg',
+    id: 6,
+    jobName: 'Maths',
+  },
+  {
+    icon: MaterialCommunityIcons,
+    iconName: 'math-integral-box',
+    logo: 'https://thumbs.dreamstime.com/b/physics-icon-vector-isolated-white-background-physics-transparent-sign-sign-symbols-thin-linear-outline-style-physics-134073851.jpg',
+    id: 7,
+    jobName: 'Maths',
+  },
+  {
+    icon: MaterialCommunityIcons,
+    iconName: 'math-integral-box',
+    logo: 'https://thumbs.dreamstime.com/b/physics-icon-vector-isolated-white-background-physics-transparent-sign-sign-symbols-thin-linear-outline-style-physics-134073851.jpg',
+    id: 8,
+    jobName: 'Maths',
+  },
+  {
+    icon: MaterialCommunityIcons,
+    iconName: 'math-integral-box',
+    logo: 'https://thumbs.dreamstime.com/b/physics-icon-vector-isolated-white-background-physics-transparent-sign-sign-symbols-thin-linear-outline-style-physics-134073851.jpg',
+    id: 9,
+    jobName: 'Maths',
+  },
+  {
+    icon: MaterialCommunityIcons,
+    iconName: 'math-integral-box',
+    logo: 'https://thumbs.dreamstime.com/b/physics-icon-vector-isolated-white-background-physics-transparent-sign-sign-symbols-thin-linear-outline-style-physics-134073851.jpg',
+    id: 10,
+    jobName: 'Maths',
   },
 ];
 

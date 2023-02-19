@@ -6,6 +6,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Colors} from '../../Global/GlobalCSS';
 import {preferedRegions} from '../../Global/CourseArray';
+
 export default function SearchByLocation() {
   const [currentLocation, setCurrentLocatio] = useState(false);
   return (

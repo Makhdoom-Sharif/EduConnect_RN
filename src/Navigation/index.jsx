@@ -14,6 +14,14 @@ import SignUp from '../screens/AuthScreens/SignUp';
 import ChangePassword from '../screens/ChangePassword';
 import StudentHome from '../screens/Home/StudentHome';
 import SearchByLocation from '../screens/SearchByLocation';
+import SelectedCourse from '../screens/SelectedCourse';
+import SelectedTutor from '../screens/SelectedTutor';
+import SelectedStudent from '../screens/SelectedStudent';
+import TutorJobs from '../screens/TutorJobs';
+import SelectCourse from '../screens/SelectCourse';
+import SelectJob from '../screens/SelectJob';
+import JobCompleted from '../screens/JobCompleted';
+import SelectPaymentMethod from '../screens/SelectPaymentMethod';
 import SearchScreen from '../screens/SearchScreen';
 import Setting from '../screens/Setting';
 import UpdateProfile from '../screens/UpdateProfile';
@@ -159,6 +167,79 @@ const Navigation = () => {
             animation: 'slide_from_bottom',
           }}
         />
+        <Stack.Screen
+          name="SelectCourse"
+          component={SelectCourse}
+          options={{
+            headerShown: false,
+            presentation: 'modal',
+            animation: 'slide_from_right',
+          }}
+        />
+        <Stack.Screen
+          name="SelectedCourse"
+          component={SelectedCourse}
+          options={{
+            headerShown: false,
+            presentation: 'modal',
+            animation: 'slide_from_right',
+          }}
+        />
+        <Stack.Screen
+          name="SelectedTutor"
+          component={SelectedTutor}
+          options={{
+            headerShown: false,
+            presentation: 'modal',
+            animation: 'slide_from_right',
+          }}
+        />
+        <Stack.Screen
+          name="SelectPaymentMethod"
+          component={SelectPaymentMethod}
+          options={{
+            headerShown: false,
+            presentation: 'modal',
+            animation: 'slide_from_right',
+          }}
+        />
+        <Stack.Screen
+          name="TutorJobs"
+          component={TutorJobs}
+          options={{
+            headerShown: false,
+            presentation: 'modal',
+            animation: 'slide_from_right',
+          }}
+        />
+        <Stack.Screen
+          name="SelectJob"
+          component={SelectJob}
+          options={{
+            headerShown: false,
+            presentation: 'modal',
+            animation: 'slide_from_right',
+          }}
+        />
+         <Stack.Screen
+          name="SelectedStudent"
+          component={SelectedStudent}
+          options={{
+            headerShown: false,
+            presentation: 'modal',
+            animation: 'slide_from_right',
+          }}
+        />
+        <Stack.Screen
+          name="JobCompleted"
+          component={JobCompleted}
+          options={{
+            headerShown: false,
+            presentation: 'modal',
+            animation: 'slide_from_right',
+          }}
+        />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
