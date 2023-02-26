@@ -8,9 +8,18 @@ import ResetPassword from './src/screens/AuthScreens/ResetPassword';
 import * as React from 'react';
 import Setting from './src/screens/Setting';
 import Navigation from './src/Navigation';
-
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import {persistor, store} from './src/store/store';
 const App = () => {
-  return <Navigation />;
+  // return <Navigation />;
+  return (
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <Navigation />
+      </PersistGate>
+    </Provider>
+  );
 };
 
 export default App;

@@ -2,14 +2,14 @@ import React, {useState} from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 import styles from './Styles';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
-const index = () => {
+const index = props => {
+  const {onChangeValue} = props;
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState([]);
+  const [value, setValue] = useState();
   const [items, setItems] = useState([
     {label: 'Educationist', value: 'Educationist'},
     {label: 'Student', value: 'Student'},
   ]);
-
   return (
     <DropDownPicker
       style={styles.dropDownMain}
@@ -54,6 +54,7 @@ const index = () => {
       setValue={setValue}
       setItems={setItems}
       closeOnBackPressed={true}
+      onChangeValue={onChangeValue}
     />
   );
 };
