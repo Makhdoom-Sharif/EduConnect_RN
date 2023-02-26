@@ -18,12 +18,16 @@ import {signUpUser} from '../../../Services/auth';
 import {useFormik} from 'formik';
 import * as yup from 'yup';
 import ValidationMessage from '../../../components/ValidationMessage';
+import {useDispatch} from 'react-redux';
+import {login} from '../../../store/action';
+import {useToast} from 'react-native-toast-notifications';
 
 const SignUp = () => {
   const [loading, setLoading] = useState(false);
 
   const {goBack, navigate} = useNavigation();
-
+  const dispatch = useDispatch();
+  const toast = useToast();
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -64,19 +68,30 @@ const SignUp = () => {
 
     onSubmit: async (values, {resetForm}) => {
       setLoading(true);
-      // await signUpUser({email, role, contactNo, password, username});
-      console.log('object');
-      console.log('values', values);
-      setLoading(false);
+      const {email, role, contactNo, password, username} = values;
+      await signUpUser({email, role, contactNo, password, username})
+        .then(res => {
+          console.log('res', res);
+          resetForm();
+          navigate('LoginScreen');
+          setLoading(false);
+          toast.show('Account created successfully', {type: 'success'});
+        })
+        .catch(err => {
+          let errorMessage =
+            err?.response?.data?.code == 11000
+              ? `${
+                  Object.keys(err?.response?.data?.keyValue)[0] == 'contactNo'
+                    ? 'Contact no'
+                    : Object.keys(err?.response?.data?.keyValue)[0] ==
+                      'contactNo'
+                } is already in use.`
+              : 'Network error';
+          setLoading(false);
+          toast.show(errorMessage, {type: 'error'});
+        });
     },
   });
-  const handleClick = async () => {
-    // navigate('Home')
-    // console.log('Click works');
-    try {
-      await signUpUser({email, role, contactNo, password, username});
-    } catch (err) {}
-  };
 
   return (
     <SafeAreaView style={styles.main}>
@@ -126,7 +141,6 @@ const SignUp = () => {
             <ValidationMessage error={formik.errors.contactNo} />
           )}
           <SimpleDropDown
-            // value={formik.values.role}
             onChangeValue={val => formik.setFieldValue('role', val)}
           />
           <SimpleButton

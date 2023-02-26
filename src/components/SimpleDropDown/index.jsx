@@ -7,8 +7,8 @@ const index = props => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState();
   const [items, setItems] = useState([
-    {label: 'Educationist', value: 'Educationist'},
-    {label: 'Student', value: 'Student'},
+    {label: 'Educationist', value: 'teacher'},
+    {label: 'Student', value: 'student'},
   ]);
   return (
     <DropDownPicker
