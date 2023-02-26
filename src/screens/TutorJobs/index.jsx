@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
   Alert,
   Modal,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import {SafeAreaStyles} from '../../Global/GlobalCSS';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -47,14 +47,14 @@ export default function TutorJobs({route}) {
     jobLogo: jobLogo,
   });
 
-  const [hasJobStarted, setHasJobStarted] = useState(true)
+  const [hasJobStarted, setHasJobStarted] = useState(true);
   const [isJobCompleted, setIsJobCompleted] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [cardHolderName, setCardHolderName] = useState(null)
-  const [cardNumber, setCardNumber] = useState(null)
-  const [cardExpiryDate, setCardExpiryDate] = useState(null)
-  const [cardCVV, setCardCVV] = useState(null)
+  const [cardHolderName, setCardHolderName] = useState(null);
+  const [cardNumber, setCardNumber] = useState(null);
+  const [cardExpiryDate, setCardExpiryDate] = useState(null);
+  const [cardCVV, setCardCVV] = useState(null);
 
   const [interestedTutors, setInterestedTutors] = useState([
     {
@@ -104,9 +104,9 @@ export default function TutorJobs({route}) {
       currency: 'Rs.',
       specialization: ['maths', 'applied maths', 'calculus'],
     },
-  ]);  
-  const [bidStatus, setbidStatus] = useState('accepted')
-  const [tutorReview, setTutorReview] = useState('')
+  ]);
+  const [bidStatus, setbidStatus] = useState('accepted');
+  const [tutorReview, setTutorReview] = useState('');
 
   const onTutorSelect = tutor => {
     console.log(tutor, 'selected tutor');
@@ -114,8 +114,8 @@ export default function TutorJobs({route}) {
   };
 
   const submitReview = () => {
-    if(tutorReview.length>0){
-      setModalVisible(false)
+    if (tutorReview.length > 0) {
+      setModalVisible(false);
       //alert after response failure
       Alert.alert('Success', 'Review has been submitted', [
         {
@@ -125,8 +125,7 @@ export default function TutorJobs({route}) {
         },
         {text: 'OK', onPress: () => console.log('OK Pressed')},
       ]);
-    }
-    else{
+    } else {
       //alert after response failure
       Alert.alert('Error', 'Please provide valid review', [
         {
@@ -137,152 +136,220 @@ export default function TutorJobs({route}) {
         {text: 'OK', onPress: () => console.log('OK Pressed')},
       ]);
     }
-  }
+  };
 
   return (
     <SafeAreaView style={SafeAreaStyles}>
-      <ScrollView style={{height:'100%'}}>
-       { !isJobCompleted && <View style={styles.bannerImg}>
-          <Image
-            style={{
-              flex: 1,
-              width: 450,
-              height: 300,
-              resizeMode:'contain'
-            }}
-            source={require('../../assets/student_job.jpg')}
-          />
-        </View>}
+      <ScrollView style={{height: '100%'}}>
+        {!isJobCompleted && (
+          <View style={styles.bannerImg}>
+            <Image
+              style={{
+                flex: 1,
+                width: 450,
+                height: 300,
+                resizeMode: 'contain',
+              }}
+              source={'../../assets/student_job.jpg'}
+            />
+          </View>
+        )}
         <View style={styles.container}>
-          {  !hasJobStarted && !isJobCompleted ? (
-            <View style={[{width:'100%', flex: 1}, styles.tutors, styles.boxShadow]}>
+          {!hasJobStarted && !isJobCompleted ? (
+            <View
+              style={[
+                {width: '100%', flex: 1},
+                styles.tutors,
+                styles.boxShadow,
+              ]}>
               <View style={[styles.mb10]}>
-                <View style={[styles.mb10, {flexDirection:'row'}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>Job: </Text>
-                  <Text style={{fontSize: normalize(18)}}>Physics Tutor Required</Text>
+                <View style={[styles.mb10, {flexDirection: 'row'}]}>
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                    Job:{' '}
+                  </Text>
+                  <Text style={{fontSize: normalize(18)}}>
+                    Physics Tutor Required
+                  </Text>
                 </View>
-                <View style={[styles.mb10, {flexDirection:'row'}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>Student: </Text>
+                <View style={[styles.mb10, {flexDirection: 'row'}]}>
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                    Student:{' '}
+                  </Text>
                   <Text style={{fontSize: normalize(18)}}>Aslam Khan</Text>
                 </View>
-                <View style={[styles.mb10, {flexDirection:'row'}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>Status: </Text> 
+                <View style={[styles.mb10, {flexDirection: 'row'}]}>
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                    Status:{' '}
+                  </Text>
                   <Text style={{fontSize: normalize(18)}}>Bid Sent</Text>
                 </View>
-                <View style={[styles.mb10, {flexDirection:'row'}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>Budget: </Text> 
+                <View style={[styles.mb10, {flexDirection: 'row'}]}>
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                    Budget:{' '}
+                  </Text>
                   <Text style={{fontSize: normalize(18)}}>Rs. 5000/mo</Text>
                 </View>
               </View>
-              
-              <View style={[styles.mb10, {width:'100%'}]}>
-                { 
-                  bidStatus == 'accepted' &&
+
+              <View style={[styles.mb10, {width: '100%'}]}>
+                {bidStatus == 'accepted' && (
                   <TouchableOpacity
                     style={[styles.button, styles.mb10]}
                     onPress={() => navigation.goBack()}>
-                    <Text style={[styles.textStyles, {textAlign:'center', fontWeight:'bold'}]}>Start Meeting</Text>
+                    <Text
+                      style={[
+                        styles.textStyles,
+                        {textAlign: 'center', fontWeight: 'bold'},
+                      ]}>
+                      Start Meeting
+                    </Text>
                   </TouchableOpacity>
-                }
-                <TouchableOpacity style={[styles.button, styles.boxShadow, styles.mb10]}>
-                  <Text style={{textAlign:'center', fontWeight:'bold'}}>Cancel Job</Text>
+                )}
+                <TouchableOpacity
+                  style={[styles.button, styles.boxShadow, styles.mb10]}>
+                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                    Cancel Job
+                  </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, styles.boxShadow]} 
-                onPress={()=> navigation.goBack()}
-                >
-                  <Text style={{textAlign:'center', fontWeight:'bold'}}>Go Back</Text>
+                <TouchableOpacity
+                  style={[styles.button, styles.boxShadow]}
+                  onPress={() => navigation.goBack()}>
+                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                    Go Back
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
           ) : hasJobStarted && !isJobCompleted ? (
-            <View style={[{width:'100%'}, styles.tutors, styles.boxShadow]}>
+            <View style={[{width: '100%'}, styles.tutors, styles.boxShadow]}>
               <View style={[styles.mb10]}>
                 <Text style={[styles.mb10, {fontSize: normalize(18)}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>Title:</Text>{"  "}
-                  <Text style={{fontSize: normalize(18)}}>Physics Tutor Required</Text>
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                    Title:
+                  </Text>
+                  {'  '}
+                  <Text style={{fontSize: normalize(18)}}>
+                    Physics Tutor Required
+                  </Text>
                 </Text>
                 <Text style={[styles.mb10, {fontSize: normalize(18)}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>Status:</Text>{"  "}
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                    Status:
+                  </Text>
+                  {'  '}
                   <Text style={{fontSize: normalize(18)}}>In Progress</Text>
                 </Text>
                 <Text style={[styles.mb10, {fontSize: normalize(18)}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>Student:</Text> {"  "}
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                    Student:
+                  </Text>{' '}
+                  {'  '}
                   <Text style={{fontSize: normalize(18)}}>Aslam Khan</Text>
                 </Text>
                 <Text style={[{fontSize: normalize(18)}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>Agreed Budget:</Text>{"  "}
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                    Agreed Budget:
+                  </Text>
+                  {'  '}
                   <Text style={{fontSize: normalize(18)}}>Rs. 5000/mo</Text>
                 </Text>
               </View>
             </View>
-          )
-            : hasJobStarted && isJobCompleted ? 
-            <View style={[{width:'100%'}, styles.tutors, styles.boxShadow]}>
-              <View style={[styles.mb20, { alignItems:'center', width:'100%'}]}>
+          ) : hasJobStarted && isJobCompleted ? (
+            <View style={[{width: '100%'}, styles.tutors, styles.boxShadow]}>
+              <View
+                style={[styles.mb20, {alignItems: 'center', width: '100%'}]}>
                 <Image
                   style={[styles.logo]}
                   source={{
-                    uri: 'https://www.pngall.com/wp-content/uploads/9/Green-Tick-Vector-PNG-Images.png'
+                    uri: 'https://www.pngall.com/wp-content/uploads/9/Green-Tick-Vector-PNG-Images.png',
                   }}
                 />
-                <Text style={[styles.mb10, {fontSize: normalize(22), fontWeight:'bold', textAlign:'center'}]}>Job Completed</Text>
+                <Text
+                  style={[
+                    styles.mb10,
+                    {
+                      fontSize: normalize(22),
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                    },
+                  ]}>
+                  Job Completed
+                </Text>
               </View>
               <View style={[styles.mb20]}>
                 <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
                     Job:
-                  </Text>{"  "}
-                  <Text style={{fontSize: normalize(18)}}>Physics Tutor Required</Text>
+                  </Text>
+                  {'  '}
+                  <Text style={{fontSize: normalize(18)}}>
+                    Physics Tutor Required
+                  </Text>
                 </Text>
                 <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
                     Student:
-                  </Text>{"  "}
+                  </Text>
+                  {'  '}
                   <Text style={{fontSize: normalize(18)}}>Aslam Khan</Text>
                 </Text>
                 <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
                     Agreed Budget:
-                  </Text>{"  "}
+                  </Text>
+                  {'  '}
                   <Text style={{fontSize: normalize(18)}}>Rs. 5000/mo</Text>
                 </Text>
               </View>
-              
-              <View style={[styles.mb10, {width:'100%'}]} >
-                <TouchableOpacity style={[styles.mb10, styles.button, styles.boxShadow]} onPress={()=> navigation.goBack()}>
-                  <Text style={{textAlign:'center', fontWeight:'bold'}}>Go Back</Text>
+
+              <View style={[styles.mb10, {width: '100%'}]}>
+                <TouchableOpacity
+                  style={[styles.mb10, styles.button, styles.boxShadow]}
+                  onPress={() => navigation.goBack()}>
+                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                    Go Back
+                  </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.mb10, styles.button, styles.boxShadow]} onPress={()=> setModalVisible(true)}>
-                  <Text style={{textAlign:'center', fontWeight:'bold'}}>Review Student</Text>
+                <TouchableOpacity
+                  style={[styles.mb10, styles.button, styles.boxShadow]}
+                  onPress={() => setModalVisible(true)}>
+                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                    Review Student
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
-            : ''
-        }
+          ) : (
+            ''
+          )}
 
           <Modal
             animationType="slide"
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
-              setModalVisible(!modalVisible)
+              setModalVisible(!modalVisible);
             }}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                 <View style={[styles.mb10, {backgroundColor:Colors.white, width: '100%',}]}>
-                  <Text
-                    style={[{fontSize: normalize(15)}]}>
+                <View
+                  style={[
+                    styles.mb10,
+                    {backgroundColor: Colors.white, width: '100%'},
+                  ]}>
+                  <Text style={[{fontSize: normalize(15)}]}>
                     Provide Student Review:
                   </Text>
                   <TextInput
-                    style={{ 
-                    height: 80, 
-                    borderColor: 'gray', 
-                    borderWidth: 1,
-                    placeholderTextColor: 'gray',
-                    backgroundColor:"#fff",
-                    borderRadius: 7
-                  }}
+                    style={{
+                      height: 80,
+                      borderColor: 'gray',
+                      borderWidth: 1,
+                      placeholderTextColor: 'gray',
+                      backgroundColor: '#fff',
+                      borderRadius: 7,
+                    }}
                     onChangeText={text => setTutorReview(text)}
                     value={tutorReview}
                     multiline={true}
@@ -290,11 +357,15 @@ export default function TutorJobs({route}) {
                   />
                 </View>
                 <View style={[styles.mb10, {width: '100%'}]}>
-                  <TouchableOpacity style={[styles.button, styles.boxShadow]} onPress={()=> submitReview()}>
-                    <Text style={{textAlign:'center', fontWeight:'bold'}}>Submit</Text>
+                  <TouchableOpacity
+                    style={[styles.button, styles.boxShadow]}
+                    onPress={() => submitReview()}>
+                    <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                      Submit
+                    </Text>
                   </TouchableOpacity>
                 </View>
-              </View> 
+              </View>
             </View>
           </Modal>
         </View>

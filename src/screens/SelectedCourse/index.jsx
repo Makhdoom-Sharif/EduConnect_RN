@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
   Alert,
   Modal,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import {SafeAreaStyles} from '../../Global/GlobalCSS';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -47,14 +47,14 @@ export default function SelectedCourse({route}) {
     courseLogo: courseLogo,
   });
 
-  const [hasJobStarted, setHasJobStarted] = useState(false)
+  const [hasJobStarted, setHasJobStarted] = useState(false);
   const [isJobCompleted, setIsJobCompleted] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [cardHolderName, setCardHolderName] = useState(null)
-  const [cardNumber, setCardNumber] = useState(null)
-  const [cardExpiryDate, setCardExpiryDate] = useState(null)
-  const [cardCVV, setCardCVV] = useState(null)
+  const [cardHolderName, setCardHolderName] = useState(null);
+  const [cardNumber, setCardNumber] = useState(null);
+  const [cardExpiryDate, setCardExpiryDate] = useState(null);
+  const [cardCVV, setCardCVV] = useState(null);
 
   const [interestedTutors, setInterestedTutors] = useState([
     {
@@ -71,7 +71,7 @@ export default function SelectedCourse({route}) {
       chargedBy: 'hr',
       currency: 'Rs.',
       specialization: ['databases'],
-      reviews:[]
+      reviews: [],
     },
     {
       avatar:
@@ -88,10 +88,10 @@ export default function SelectedCourse({route}) {
       chargedBy: 'mo',
       currency: 'Rs.',
       specialization: ['physics', 'applied physics', 'chemistry'],
-      reviews:[
+      reviews: [
         'A very helpful and kind person - Ali (Student)',
-        'His way of teaching is amazing - Aalia Khan (Student)'
-      ]
+        'His way of teaching is amazing - Aalia Khan (Student)',
+      ],
     },
     {
       avatar:
@@ -108,10 +108,10 @@ export default function SelectedCourse({route}) {
       chargedBy: 'mo',
       currency: 'Rs.',
       specialization: ['maths', 'applied maths', 'calculus'],
-      reviews:[
+      reviews: [
         'A very helpful and kind person - Ali (Student)',
-        'His way of teaching is amazing - Aalia Khan (Student)'
-      ]
+        'His way of teaching is amazing - Aalia Khan (Student)',
+      ],
     },
   ]);
 
@@ -121,11 +121,10 @@ export default function SelectedCourse({route}) {
   };
 
   const initiateJobCompletion = () => {
-    if(true){
-      navigation.navigate('JobCompleted', {})
-    }
-    else{
-       //alert after response failure
+    if (true) {
+      navigation.navigate('JobCompleted', {});
+    } else {
+      //alert after response failure
       Alert.alert('Error', 'Please provide data to continue', [
         {
           text: 'Cancel',
@@ -135,257 +134,308 @@ export default function SelectedCourse({route}) {
         {text: 'OK', onPress: () => console.log('OK Pressed')},
       ]);
     }
-  }
+  };
 
   return (
     <SafeAreaView style={SafeAreaStyles}>
-      <ScrollView style={{height:'100%'}}>
-        {
-          !isJobCompleted &&
+      <ScrollView style={{height: '100%'}}>
+        {!isJobCompleted && (
           <View style={styles.bannerImg}>
             <Image
-                style={[{
-                width: 450,
-                height: 400,
-                resizeMode:'contain'
-              }, 
-              styles.mb20]}
-                source={require('../../assets/tutor_job.jpg')}
-              />
+              style={[
+                {
+                  width: 450,
+                  height: 400,
+                  resizeMode: 'contain',
+                },
+                styles.mb20,
+              ]}
+              source={'../../assets/tutor_job.jpg'}
+            />
           </View>
-        }
-      
-      <View style={styles.container}>
-        { !hasJobStarted && !isJobCompleted ? (
-          <View>
-            <View style={[styles.mb20, styles.mainHeading, styles.boxShadow, {backgroundColor:Colors.white, borderRadius:5, padding:5, paddingLeft:10, fontSize: normalize(20)}]}>
-              <Text style={[styles.mb10,{fontSize: normalize(20), marginTop:5}]}>Interested Tutors:</Text>
-            </View>
-            <FlatList
-              data={interestedTutors}
-              contentContainerStyle={{
-                flexDirection: 'row',
-              }}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              renderItem={({item}) => (
-                <TouchableOpacity
-                  style={[styles.tutors, styles.boxShadow, {marginRight:20}]}
-                  onPress={() => onTutorSelect(item)}
-                  >
-                  <Image
-                    style={[styles.avatar, styles.mb20]}
-                    source={{
-                      uri: item.avatar,
-                    }}
-                  />
+        )}
 
-                  <View style={styles.tutorInfo}>
-                    <Text
-                      style={[
-                        styles.textStyles,
-                        styles.mb10,
-                        {
-                          marginLeft: 5,
-                          fontSize: normalize(16),
-                          fontWeight: '600',
-                        },
-                      ]}>
-                      {item.name}
-                    </Text>
-                  </View>
-
-                  <View style={styles.tutorInfo}>
-                    <Icon
-                      name="clock-o"
-                      size={15}
-                      style={{marginTop: 5}}
-                      color={Colors.primary}
+        <View style={styles.container}>
+          {!hasJobStarted && !isJobCompleted ? (
+            <View>
+              <View
+                style={[
+                  styles.mb20,
+                  styles.mainHeading,
+                  styles.boxShadow,
+                  {
+                    backgroundColor: Colors.white,
+                    borderRadius: 5,
+                    padding: 5,
+                    paddingLeft: 10,
+                    fontSize: normalize(20),
+                  },
+                ]}>
+                <Text
+                  style={[
+                    styles.mb10,
+                    {fontSize: normalize(20), marginTop: 5},
+                  ]}>
+                  Interested Tutors:
+                </Text>
+              </View>
+              <FlatList
+                data={interestedTutors}
+                contentContainerStyle={{
+                  flexDirection: 'row',
+                }}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                renderItem={({item}) => (
+                  <TouchableOpacity
+                    style={[styles.tutors, styles.boxShadow, {marginRight: 20}]}
+                    onPress={() => onTutorSelect(item)}>
+                    <Image
+                      style={[styles.avatar, styles.mb20]}
+                      source={{
+                        uri: item.avatar,
+                      }}
                     />
-                    <Text
-                      style={[
-                        styles.textStyles,
-                        {marginLeft: 5, fontSize: normalize(12)},
-                      ]}>
-                      {item.experience} {' yrs'}
-                    </Text>
-                  </View>
 
-                  <View style={styles.tutorInfo}>
-                    <Icon
-                      name="graduation-cap"
-                      size={15}
-                      style={{marginTop: 5}}
-                      color={Colors.primary}
-                    />
-                    <Text
-                      style={[
-                        styles.textStyles,
-                        {marginLeft: 5, fontSize: normalize(12)},
-                      ]}>
-                      {item.qualification}
-                    </Text>
-                  </View>
+                    <View style={styles.tutorInfo}>
+                      <Text
+                        style={[
+                          styles.textStyles,
+                          styles.mb10,
+                          {
+                            marginLeft: 5,
+                            fontSize: normalize(16),
+                            fontWeight: '600',
+                          },
+                        ]}>
+                        {item.name}
+                      </Text>
+                    </View>
 
-                  <View style={styles.tutorInfo}>
-                    <Icon
-                      name="map-marker"
-                      size={15}
-                      style={{marginTop: 5}}
-                      color={Colors.primary}
-                    />
-                    <Text
-                      style={[
-                        styles.textStyles,
-                        {marginLeft: 5, fontSize: normalize(12)},
-                      ]}>
-                      {item.location}
-                    </Text>
-                  </View>
-
-                  <View style={styles.tutorInfo}>
-                    <Icon
-                      name="motorcycle"
-                      size={15}
-                      style={{marginTop: 5}}
-                      color={Colors.primary}
-                    />
-                    <Text
-                      style={[
-                        styles.textStyles,
-                        {marginLeft: 5, fontSize: normalize(12)},
-                      ]}>
-                      {item.distance} km away
-                    </Text>
-                  </View>
-
-                  <View style={styles.tutorInfo}>
-                    {[...Array(item.rating)].map((el, index) => (
+                    <View style={styles.tutorInfo}>
                       <Icon
-                        key={index}
-                        name="star"
+                        name="clock-o"
                         size={15}
                         style={{marginTop: 5}}
                         color={Colors.primary}
                       />
-                    ))}
-                  </View>
-                </TouchableOpacity>
-              )}
-            />
-          </View>
-        ) : hasJobStarted && !isJobCompleted ? (
-          <View style={[{width:'100%'}, styles.boxShadow, styles.tutors]}>
-            <View style={[styles.mb30]}>
-              <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
-                <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>
-                  Title:
-                </Text>{"  "}
-                <Text style={{fontSize: normalize(18)}}>
-                  Physics Tutor Required
-                </Text>
-              </Text>
-              <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
-                <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>
-                  Tutor:
-                </Text>{"  "}
-                <Text style={{fontSize: normalize(18)}}>Aslam Khan</Text>
-              </Text>
-              <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
-                <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>
-                  Job Status:
-                </Text>{"  "}
-                <Text style={{fontSize: normalize(18)}}>In Progress</Text>
-              </Text>
-              <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
-                <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>
-                  Agreed Budget:
-                </Text>{"  "}
-                <Text style={{fontSize: normalize(18)}}>Rs. 5000/mo</Text>
-              </Text>
-            </View>
+                      <Text
+                        style={[
+                          styles.textStyles,
+                          {marginLeft: 5, fontSize: normalize(12)},
+                        ]}>
+                        {item.experience} {' yrs'}
+                      </Text>
+                    </View>
 
-            <View style={[styles.mb10,{width:'100%'}]}>
-              <TouchableOpacity style={[ styles.button, styles.boxShadow]} onPress={()=> initiateJobCompletion()}>
-                <Text style={{textAlign:'center', fontWeight:'bold'}}>Mark As Completed</Text>
-              </TouchableOpacity>
+                    <View style={styles.tutorInfo}>
+                      <Icon
+                        name="graduation-cap"
+                        size={15}
+                        style={{marginTop: 5}}
+                        color={Colors.primary}
+                      />
+                      <Text
+                        style={[
+                          styles.textStyles,
+                          {marginLeft: 5, fontSize: normalize(12)},
+                        ]}>
+                        {item.qualification}
+                      </Text>
+                    </View>
+
+                    <View style={styles.tutorInfo}>
+                      <Icon
+                        name="map-marker"
+                        size={15}
+                        style={{marginTop: 5}}
+                        color={Colors.primary}
+                      />
+                      <Text
+                        style={[
+                          styles.textStyles,
+                          {marginLeft: 5, fontSize: normalize(12)},
+                        ]}>
+                        {item.location}
+                      </Text>
+                    </View>
+
+                    <View style={styles.tutorInfo}>
+                      <Icon
+                        name="motorcycle"
+                        size={15}
+                        style={{marginTop: 5}}
+                        color={Colors.primary}
+                      />
+                      <Text
+                        style={[
+                          styles.textStyles,
+                          {marginLeft: 5, fontSize: normalize(12)},
+                        ]}>
+                        {item.distance} km away
+                      </Text>
+                    </View>
+
+                    <View style={styles.tutorInfo}>
+                      {[...Array(item.rating)].map((el, index) => (
+                        <Icon
+                          key={index}
+                          name="star"
+                          size={15}
+                          style={{marginTop: 5}}
+                          color={Colors.primary}
+                        />
+                      ))}
+                    </View>
+                  </TouchableOpacity>
+                )}
+              />
             </View>
-            <View style={[styles.mb10,{width:'100%'}]}>
-              <TouchableOpacity style={[ styles.button, styles.boxShadow]}
-              onPress={()=> navigation.goBack()}
-              >
-                <Text style={{textAlign:'center', fontWeight:'bold'}}>Go Back</Text>
-              </TouchableOpacity>
+          ) : hasJobStarted && !isJobCompleted ? (
+            <View style={[{width: '100%'}, styles.boxShadow, styles.tutors]}>
+              <View style={[styles.mb30]}>
+                <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                    Title:
+                  </Text>
+                  {'  '}
+                  <Text style={{fontSize: normalize(18)}}>
+                    Physics Tutor Required
+                  </Text>
+                </Text>
+                <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                    Tutor:
+                  </Text>
+                  {'  '}
+                  <Text style={{fontSize: normalize(18)}}>Aslam Khan</Text>
+                </Text>
+                <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                    Job Status:
+                  </Text>
+                  {'  '}
+                  <Text style={{fontSize: normalize(18)}}>In Progress</Text>
+                </Text>
+                <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                    Agreed Budget:
+                  </Text>
+                  {'  '}
+                  <Text style={{fontSize: normalize(18)}}>Rs. 5000/mo</Text>
+                </Text>
+              </View>
+
+              <View style={[styles.mb10, {width: '100%'}]}>
+                <TouchableOpacity
+                  style={[styles.button, styles.boxShadow]}
+                  onPress={() => initiateJobCompletion()}>
+                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                    Mark As Completed
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View style={[styles.mb10, {width: '100%'}]}>
+                <TouchableOpacity
+                  style={[styles.button, styles.boxShadow]}
+                  onPress={() => navigation.goBack()}>
+                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                    Go Back
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        )
-          : hasJobStarted && isJobCompleted ? 
-          <View style={[{width:'100%'}, styles.tutors, styles.boxShadow]}>
-             <View style={[styles.mb10, {width:'100%', alignItems:'center'}]}>
-              <Image
-                  style={[{
-                  width: 250,
-                  height: 250,
-                }, 
-                styles.mb10]}
-                  source={{uri: 'https://www.pngall.com/wp-content/uploads/9/Green-Tick-Vector-PNG-Images.png'}}
+          ) : hasJobStarted && isJobCompleted ? (
+            <View style={[{width: '100%'}, styles.tutors, styles.boxShadow]}>
+              <View
+                style={[styles.mb10, {width: '100%', alignItems: 'center'}]}>
+                <Image
+                  style={[
+                    {
+                      width: 250,
+                      height: 250,
+                    },
+                    styles.mb10,
+                  ]}
+                  source={{
+                    uri: 'https://www.pngall.com/wp-content/uploads/9/Green-Tick-Vector-PNG-Images.png',
+                  }}
                 />
-                 <Text style={[{fontSize: normalize(24), fontWeight:'bold'}, styles.mb20]}>
+                <Text
+                  style={[
+                    {fontSize: normalize(24), fontWeight: 'bold'},
+                    styles.mb20,
+                  ]}>
                   Job Completed
                 </Text>
-            </View>
-            <View style={[styles.mb10]}>
-              <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
-                <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>
-                  Title:
-                </Text>{"  "}
-                <Text style={{fontSize: normalize(18)}}>
-                  Physics Tutor Required
+              </View>
+              <View style={[styles.mb10]}>
+                <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                    Title:
+                  </Text>
+                  {'  '}
+                  <Text style={{fontSize: normalize(18)}}>
+                    Physics Tutor Required
+                  </Text>
                 </Text>
-              </Text>
-              <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
-                <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>
-                  Tutor:
-                </Text>{"  "}
-                <Text style={{fontSize: normalize(18)}}>Aslam Khan</Text>
-              </Text>
-              <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
-                <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>
-                  Agreed Budget:
-                </Text>{"  "}
-                <Text style={{fontSize: normalize(18)}}>Rs. 5000/mo</Text>
-              </Text>
-              <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
-                <Text style={[{fontSize: normalize(18), fontWeight:'bold'}]}>
-                  Job Status:
-                </Text>{"  "}
-                <Text style={{fontSize: normalize(18)}}>Completed</Text>
-              </Text>
+                <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                    Tutor:
+                  </Text>
+                  {'  '}
+                  <Text style={{fontSize: normalize(18)}}>Aslam Khan</Text>
+                </Text>
+                <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                    Agreed Budget:
+                  </Text>
+                  {'  '}
+                  <Text style={{fontSize: normalize(18)}}>Rs. 5000/mo</Text>
+                </Text>
+                <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
+                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                    Job Status:
+                  </Text>
+                  {'  '}
+                  <Text style={{fontSize: normalize(18)}}>Completed</Text>
+                </Text>
+              </View>
+              <View style={[styles.mb10, {width: '100%'}]}>
+                <TouchableOpacity
+                  style={[styles.mb10, styles.button, styles.boxShadow]}>
+                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                    Post Job Again
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.mb10, styles.button, styles.boxShadow]}>
+                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                    Contact Tutor
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.mb10, styles.button, styles.boxShadow]}
+                  onPress={() => navigation.goBack()}>
+                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                    Go Back
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={[styles.mb10, {width:'100%'}]} >
-              <TouchableOpacity style={[ styles.mb10, styles.button, styles.boxShadow]}>
-                <Text style={{textAlign:'center', fontWeight:'bold'}}>Post Job Again</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[styles.mb10, styles.button, styles.boxShadow]}>
-                <Text style={{textAlign:'center', fontWeight:'bold'}}>Contact Tutor</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[styles.mb10, styles.button, styles.boxShadow]} onPress={()=> navigation.goBack()}>
-                <Text style={{textAlign:'center', fontWeight:'bold'}}>Go Back</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          : ''
-      }
+          ) : (
+            ''
+          )}
 
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
                 <TextInput
                   style={styles.input}
                   onChangeText={setCardHolderName}
@@ -394,12 +444,12 @@ export default function SelectedCourse({route}) {
                   keyboardType="numeric"
                 />
                 <TextInput
-                    style={styles.input}
-                    onChangeText={setCardNumber}
-                    value={cardNumber}
-                    placeholder="useless placeholder"
-                    keyboardType="numeric"
-                  />
+                  style={styles.input}
+                  onChangeText={setCardNumber}
+                  value={cardNumber}
+                  placeholder="useless placeholder"
+                  keyboardType="numeric"
+                />
                 <TextInput
                   style={styles.input}
                   onChangeText={setCardExpiryDate}
@@ -414,10 +464,10 @@ export default function SelectedCourse({route}) {
                   placeholder="useless placeholder"
                   keyboardType="numeric"
                 />
+              </View>
             </View>
-          </View>
-        </Modal>
-      </View>
+          </Modal>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
-  Modal
+  Modal,
 } from 'react-native';
 import {Colors, SafeAreaStyles} from '../../Global/GlobalCSS';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -46,21 +46,26 @@ export default function JobCompleted({route}) {
   ]);
 
   const [jobReview, setJobReview] = useState('');
-  const [cardHolderName, setCardHolderName] = useState(null)
-  const [cardNumber, setCardNumber] = useState(null)
-  const [cardExpiryDate, setCardExpiryDate] = useState(null)
-  const [cardCVV, setCardCVV] = useState(null)
+  const [cardHolderName, setCardHolderName] = useState(null);
+  const [cardNumber, setCardNumber] = useState(null);
+  const [cardExpiryDate, setCardExpiryDate] = useState(null);
+  const [cardCVV, setCardCVV] = useState(null);
 
-  const [paymentSuccess, setPaymentSuccess] = useState(false)
-  const [tutorReview, setTutorReview] = useState('')
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [tutorReview, setTutorReview] = useState('');
 
   const initiatePayment = () => {
-    console.log('working')
+    console.log('working');
     if (paymentOptionsValue == 1) {
-      if(cardHolderName && cardNumber && cardExpiryDate && cardCVV && tutorReview){
-        setPaymentSuccess(true)
-      } 
-      else {
+      if (
+        cardHolderName &&
+        cardNumber &&
+        cardExpiryDate &&
+        cardCVV &&
+        tutorReview
+      ) {
+        setPaymentSuccess(true);
+      } else {
         //alert after response failure
         Alert.alert('Error', 'Please provide data to continue', [
           {
@@ -75,13 +80,13 @@ export default function JobCompleted({route}) {
   };
 
   const closeModal = () => {
-    setPaymentSuccess(false)
-    setCardHolderName(null)
-    setCardNumber (null)
-    setCardExpiryDate  (null)
-    setCardCVV(null)
-    setTutorReview('')
-  }
+    setPaymentSuccess(false);
+    setCardHolderName(null);
+    setCardNumber(null);
+    setCardExpiryDate(null);
+    setCardCVV(null);
+    setTutorReview('');
+  };
 
   return (
     <SafeAreaView style={SafeAreaStyles}>
@@ -94,7 +99,7 @@ export default function JobCompleted({route}) {
                 height: 400,
                 resizeMode: 'contain',
               }}
-              source={require('../../assets/payment.jpg')}
+              source={'../../assets/payment.jpg'}
             />
           </View>
           <View style={[styles.mb10, styles.mt30, {width: '100%'}]}>
@@ -168,19 +173,18 @@ export default function JobCompleted({route}) {
               </View>
 
               <View style={[styles.mb10, {width: '100%'}]}>
-                <Text
-                  style={[styles.textWhite, {fontSize: normalize(15)}]}>
+                <Text style={[styles.textWhite, {fontSize: normalize(15)}]}>
                   Provide Tutor Review:
                 </Text>
                 <TextInput
-                  style={{ 
-                  height: 80, 
-                  borderColor: 'gray', 
-                  borderWidth: 1,
-                  placeholderTextColor: 'gray',
-                  backgroundColor:"#fff",
-                  borderRadius: 7
-                }}
+                  style={{
+                    height: 80,
+                    borderColor: 'gray',
+                    borderWidth: 1,
+                    placeholderTextColor: 'gray',
+                    backgroundColor: '#fff',
+                    borderRadius: 7,
+                  }}
                   onChangeText={text => setTutorReview(text)}
                   value={tutorReview}
                   multiline={true}
@@ -192,9 +196,7 @@ export default function JobCompleted({route}) {
                 <TouchableOpacity
                   style={[styles.button, styles.mt20, {alignItems: 'center'}]}
                   onPress={() => initiatePayment()}>
-                  <Text style={[styles.textStyles, styles.textWhite]}>
-                    Pay
-                  </Text>
+                  <Text style={[styles.textStyles, styles.textWhite]}>Pay</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.button, styles.mt10, {alignItems: 'center'}]}
@@ -218,27 +220,41 @@ export default function JobCompleted({route}) {
           onRequestClose={() => {
             setPaymentSuccess(!paymentSuccess);
           }}>
-          <View style={[styles.centeredView, {backgroundColor:Colors.white}]}>
-            <View style={[styles.mb10, { width:'100%', alignItems:'center'}]}>
+          <View style={[styles.centeredView, {backgroundColor: Colors.white}]}>
+            <View style={[styles.mb10, {width: '100%', alignItems: 'center'}]}>
               <Image
-                  style={[{
-                  width: 250,
-                  height: 250,
-                }, 
-                styles.mb10]}
-                  source={{uri: 'https://www.pngall.com/wp-content/uploads/9/Green-Tick-Vector-PNG-Images.png'}}
-                />
-                 <Text style={[{fontSize: normalize(24), fontWeight:'bold'}, styles.mb20]}>
-                  Payment Successful
-                </Text>
+                style={[
+                  {
+                    width: 250,
+                    height: 250,
+                  },
+                  styles.mb10,
+                ]}
+                source={{
+                  uri: 'https://www.pngall.com/wp-content/uploads/9/Green-Tick-Vector-PNG-Images.png',
+                }}
+              />
+              <Text
+                style={[
+                  {fontSize: normalize(24), fontWeight: 'bold'},
+                  styles.mb20,
+                ]}>
+                Payment Successful
+              </Text>
             </View>
-              <TouchableOpacity
-                style={[styles.button, styles.mb20]}
-                onPress={() => closeModal()}>
-                <Text style={[styles.textStyles, styles.textWhite, {textAlign:'center', fontWeight:'bold'}]}>Go Back</Text>
-              </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.mb20]}
+              onPress={() => closeModal()}>
+              <Text
+                style={[
+                  styles.textStyles,
+                  styles.textWhite,
+                  {textAlign: 'center', fontWeight: 'bold'},
+                ]}>
+                Go Back
+              </Text>
+            </TouchableOpacity>
           </View>
-
         </Modal>
       </ScrollView>
     </SafeAreaView>
