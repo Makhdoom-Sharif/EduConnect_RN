@@ -1,21 +1,77 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
+  ScrollView, Text, View
 } from 'react-native';
-import SimpleButton from '../../../components/SimpleButton';
-import SocialAuthButton from '../../../components/SocialAuthButton';
-import SimpleTextInput from '../../../components/SimpleTextInput';
 import BackButton from '../../../components/BackButton';
-
+import SimpleButton from '../../../components/SimpleButton';
+import SimpleTextInput from '../../../components/SimpleTextInput';
+import SocialAuthButton from '../../../components/SocialAuthButton';
+import { useNavigation } from '@react-navigation/native';
 import styles from './Styles';
-import {useNavigation} from '@react-navigation/native';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import ValidationMessage from '../../../components/ValidationMessage';
+import { useDispatch } from 'react-redux';
+import { useToast } from 'react-native-toast-notifications';
+import { loginUser } from '../../../Services/auth';
+import { login } from '../../../store/action';
+
+
 const Login = () => {
-  const {goBack, navigate} = useNavigation();
+  const { goBack, navigate } = useNavigation();
+  const dispatch = useDispatch();
+  const toast = useToast();
+
+
+  const [loading, setLoading] = useState(false)
+
+
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema: yup.object().shape({
+      email: yup.string().email('Not a valid email!').required('Required!'),
+      password: yup
+        .string()
+        .required('Required!')
+        .min(6, 'minimum 6 characters required!')
+        .max(16, 'maximum limit reached!'),
+    }),
+
+    onSubmit: async (values, { resetForm }) => {
+      setLoading(true);
+      const { email, password } = values;
+      console.log('values', values);
+      await loginUser({ email, password })
+        .then(res => {
+          console.log('res', res);
+          // resetForm();
+          // navigate('LoginScreen');
+          // dispatch(login(res))
+          setLoading(false);
+          // toast.show('Account created successfully', { type: 'success' });
+        })
+        .catch(err => {
+          // let errorMessage =
+          //   err?.response?.data?.code == 11000
+          //     ? `${Object.keys(err?.response?.data?.keyValue)[0] == 'contactNo'
+          //       ? 'Contact no'
+          //       : Object.keys(err?.response?.data?.keyValue)[0] ==
+          //       'contactNo'
+          //     } is already in use.`
+          //     : 'Network error';
+          setLoading(false);
+          // toast.show(errorMessage, { type: 'error' });
+        });
+    },
+  });
+
+
+
+
   const handleClick = () => {
     console.log('Click works');
     navigate('Home');
@@ -31,12 +87,22 @@ const Login = () => {
             height: '65%',
           }}>
           <Text style={styles.centerText}>Login to your Account</Text>
-          <SimpleTextInput placeholder="Username or email" />
-          <SimpleTextInput placeholder="Password" secureTextEntry />
+          <SimpleTextInput placeholder="Email" onChange={event => {
+            formik.setFieldValue('email', event.nativeEvent.text);
+          }} />
+          {formik.errors.email && formik.values.email.length > 0 && (
+            <ValidationMessage error={formik.errors.username} />
+          )}
+          <SimpleTextInput placeholder="Password" secureTextEntry onChange={event => {
+            formik.setFieldValue('password', event.nativeEvent.text);
+          }} />
+          {formik.errors.password && formik.values.password.length > 0 && (
+            <ValidationMessage error={formik.errors.password} />
+          )}
           <Text
             style={[
               styles.simpleTextStyle,
-              {textAlign: 'right', marginBottom: 10},
+              { textAlign: 'right', marginBottom: 10 },
             ]}
             onPress={() => navigate('ForgotPasswordScreen')}>
             Forgot your password?
@@ -45,9 +111,10 @@ const Login = () => {
             title="Login"
             backgroundColor="#FBB718"
             textColor="#fff"
-            handleClick={handleClick}
+            handleClick={formik.handleSubmit}
+            loading={loading}
           />
-          <Text style={[styles.simpleTextStyle, {textAlign: 'center'}]}>
+          <Text style={[styles.simpleTextStyle, { textAlign: 'center' }]}>
             or log in with
           </Text>
           <SocialAuthButton />
