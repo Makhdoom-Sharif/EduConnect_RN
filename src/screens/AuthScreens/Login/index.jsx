@@ -19,7 +19,7 @@ import { login } from '../../../store/action';
 
 
 const Login = () => {
-  const { goBack, navigate } = useNavigation();
+  const { goBack, navigate, reset } = useNavigation();
   const dispatch = useDispatch();
   const toast = useToast();
 
@@ -47,12 +47,20 @@ const Login = () => {
       console.log('values', values);
       await loginUser({ email, password })
         .then(res => {
-          console.log('res', res);
-          // resetForm();
-          // navigate('LoginScreen');
-          // dispatch(login(res))
+          const { user, ...others } = res.data
+          const userDetails = { ...others, userID: user }
+          dispatch(login(userDetails))
+          resetForm();
+          reset({
+            index: 0,
+            routes: [
+              {
+                name: 'Home',
+              },
+            ],
+          });
           setLoading(false);
-          // toast.show('Account created successfully', { type: 'success' });
+          toast.show('Login successfully', { type: 'success' });
         })
         .catch(err => {
           // let errorMessage =
