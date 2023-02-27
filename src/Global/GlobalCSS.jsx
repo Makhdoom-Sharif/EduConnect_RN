@@ -26,7 +26,8 @@ export const scanbtn = {
 };
 export const SafeAreaStyles = {
   backgroundColor: Colors.primary,
-  flex: 0,
+  flex: 1,
+
 };
 export const whiteColorWithOpacity = {
   backgroundColor: '#fff',

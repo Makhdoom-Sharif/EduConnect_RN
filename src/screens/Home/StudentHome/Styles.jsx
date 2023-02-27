@@ -1,6 +1,6 @@
-import {Dimensions, StyleSheet} from 'react-native';
-import {Colors} from '../../../Global/GlobalCSS';
-const {height} = Dimensions.get('window');
+import { Dimensions, StyleSheet } from 'react-native';
+import { Colors } from '../../../Global/GlobalCSS';
+const { height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   ScrollViewStyles: {
@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
   },
   SearchLocationContainer: {
     alignItems: 'center',
+    marginTop: 20
   },
   cardSpace: {
     marginVertical: 25,

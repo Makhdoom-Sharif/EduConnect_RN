@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {Colors} from '../../Global/GlobalCSS';
+import { StyleSheet } from 'react-native';
+import { Colors } from '../../Global/GlobalCSS';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 18,
     paddingTop: 5,
+    color: Colors.primary,
   },
   mainHeading: {
     paddingTop: 10,
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 21,
     textAlign: 'center',
-    // color: Colors.primary,
+    color: Colors.primary,
   },
   boxShadow: {
     shadowColor: Colors.primary,
@@ -35,13 +36,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     elevation: 8,
   },
-  notification:{
-    position: 'absolute', 
-    right: -5, 
-    top: -5, 
-    borderRadius: 20, 
+  notification: {
+    position: 'absolute',
+    right: -5,
+    top: -5,
+    borderRadius: 20,
     height: 20,
-    width: 20, 
+    width: 20,
     backgroundColor: Colors.secondary
   }
 });

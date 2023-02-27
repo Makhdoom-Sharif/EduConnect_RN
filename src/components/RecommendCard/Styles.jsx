@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {Colors} from '../../Global/GlobalCSS';
+import { StyleSheet } from 'react-native';
+import { Colors } from '../../Global/GlobalCSS';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -30,11 +30,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     fontWeight: '700',
     fontSize: 21,
+    color: Colors.primary,
   },
   sideOption: {
     paddingTop: 10,
     paddingHorizontal: 15,
     fontWeight: '600',
+    color: Colors.primary,
   },
   boxShadow: {
     shadowColor: Colors.primary,
@@ -58,6 +60,6 @@ const styles = StyleSheet.create({
   bottomGap: {
     paddingBottom: 5,
   },
-  nameStyle: {fontWeight: '700', fontSize: 18},
+  nameStyle: { fontWeight: '700', fontSize: 18 },
 });
 export default styles;

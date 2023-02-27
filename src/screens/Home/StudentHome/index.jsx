@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {SafeAreaView, ScrollView, View} from 'react-native';
-import {SafeAreaStyles} from '../../../Global/GlobalCSS';
+import React, { useState } from 'react';
+import { SafeAreaView, ScrollView, View } from 'react-native';
+import { SafeAreaStyles } from '../../../Global/GlobalCSS';
 import CourseCard from '../../../components/CourseCard';
 import JobCard from '../../../components/JobCard';
 import BoardCard from '../../../components/BoardCard';
@@ -8,13 +8,16 @@ import SkillBaseCard from '../../../components/SkillBaseCard';
 import SearchLocation from '../../../components/SearchLocation';
 import RecommendCard from '../../../components/RecommendCard';
 import styles from './Styles';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 // import {selectedCoursesArray} from '../../../Global/CourseArray';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useSelector } from 'react-redux';
 
 const StudentHome = () => {
-  const {navigate} = useNavigation();
+  const loginDetails = useSelector(state => state?.login)
+  console.log('Login Details', loginDetails);
+  const { navigate } = useNavigation();
 
   let selectedCoursesArray = [
     {
@@ -23,7 +26,7 @@ const StudentHome = () => {
       logo: 'https://thumbs.dreamstime.com/b/physics-icon-vector-isolated-white-background-physics-transparent-sign-sign-symbols-thin-linear-outline-style-physics-134073851.jpg',
       id: 1,
       courseName: 'Maths',
-      hasUpdate:true
+      hasUpdate: true
     },
     {
       icon: MaterialIcons,
@@ -31,7 +34,7 @@ const StudentHome = () => {
       logo: 'https://thumbs.dreamstime.com/b/physics-icon-vector-isolated-white-background-physics-transparent-sign-sign-symbols-thin-linear-outline-style-physics-134073851.jpg',
       id: 2,
       courseName: 'Chemistry',
-      hasUpdate:false
+      hasUpdate: false
     },
     {
       icon: MaterialCommunityIcons,
@@ -39,7 +42,7 @@ const StudentHome = () => {
       logo: 'https://thumbs.dreamstime.com/b/physics-icon-vector-isolated-white-background-physics-transparent-sign-sign-symbols-thin-linear-outline-style-physics-134073851.jpg',
       id: 3,
       courseName: 'Physics',
-      hasUpdate:false
+      hasUpdate: false
     },
   ];
 
@@ -50,15 +53,15 @@ const StudentHome = () => {
       logo: 'https://thumbs.dreamstime.com/b/physics-icon-vector-isolated-white-background-physics-transparent-sign-sign-symbols-thin-linear-outline-style-physics-134073851.jpg',
       id: 1,
       jobName: 'Maths',
-      hasUpdate:true
+      hasUpdate: true
     },
   ];
 
-  const [userType, setUserType] = useState(1); //1 STUDENT //2 TUTOR
+  // const [userType, setUserType] = useState(1); //1 STUDENT //2 TUTOR
 
   return (
     <SafeAreaView style={SafeAreaStyles}>
-      {userType == 1 ? (
+      {loginDetails?.role == 'student' ? (
         <>
           <View
             style={styles.SearchLocationContainer}
@@ -66,12 +69,10 @@ const StudentHome = () => {
             <SearchLocation />
           </View>
           <ScrollView style={styles.ScrollViewStyles}>
-            {selectedCoursesArray != null ? (
+            {selectedCoursesArray != null && (
               <View style={styles.cardSpace}>
                 <CourseCard selectedCoursesArray={selectedCoursesArray} />
               </View>
-            ) : (
-              ''
             )}
             <View>
               <CourseCard />
@@ -95,12 +96,10 @@ const StudentHome = () => {
             <SearchLocation />
           </View>
           <ScrollView style={styles.ScrollViewStyles}>
-            {userJobsArray != null ? (
+            {userJobsArray != null && (
               <View style={styles.cardSpace}>
                 <JobCard userJobsArray={userJobsArray} />
               </View>
-            ) : (
-              ''
             )}
             <View>
               <JobCard />

@@ -1,12 +1,13 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import {View} from 'react-native';
+import { useEffect } from 'react'
+import { View } from 'react-native';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Colors, mainTab} from '../Global/GlobalCSS';
+import { Colors, mainTab } from '../Global/GlobalCSS';
 import ForgotPassword from '../screens/AuthScreens/ForgotPassword';
 import LandingScreen from '../screens/AuthScreens/LandingScreen';
 import Login from '../screens/AuthScreens/Login';
@@ -25,6 +26,7 @@ import SelectPaymentMethod from '../screens/SelectPaymentMethod';
 import SearchScreen from '../screens/SearchScreen';
 import Setting from '../screens/Setting';
 import UpdateProfile from '../screens/UpdateProfile';
+import { useSelector } from 'react-redux';
 const Tab = createBottomTabNavigator();
 function MyTabs() {
   return (
@@ -43,7 +45,7 @@ function MyTabs() {
           tabBarLabel: () => {
             return null;
           },
-          tabBarIcon: ({focused, color, size}) => {
+          tabBarIcon: ({ focused, color, size }) => {
             const colors = focused ? Colors.primary : '#E0E0E0';
             return <EntypoIcons name="home" size={25} color={colors} />;
           },
@@ -57,7 +59,7 @@ function MyTabs() {
           tabBarLabel: () => {
             return null;
           },
-          tabBarIcon: ({focused, color, size}) => {
+          tabBarIcon: ({ focused, color, size }) => {
             const colors = focused ? Colors.primary : Colors.disable;
 
             return (
@@ -78,7 +80,7 @@ function MyTabs() {
                   name="search"
                   size={35}
                   color={colors}
-                  style={{right: -3}}
+                  style={{ right: -3 }}
                 />
               </View>
             );
@@ -98,7 +100,7 @@ function MyTabs() {
           tabBarLabel: () => {
             return null;
           },
-          tabBarIcon: ({focused, color, size}) => {
+          tabBarIcon: ({ focused, color, size }) => {
             const colors = focused ? Colors.primary : Colors.disable;
             return <Ionicons name="settings" size={25} color={colors} />;
           },
@@ -109,35 +111,38 @@ function MyTabs() {
 }
 
 const Stack = createNativeStackNavigator();
-
 const Navigation = () => {
+  const loginDetails = useSelector(state => state?.login)
+  useEffect(() => {
+
+  }, [])
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="LandingScreen">
+      <Stack.Navigator initialRouteName={loginDetails.accessToken ? "Home" : "LandingScreen"}>
         <Stack.Screen
           name="LoginScreen"
           component={Login}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="SignUpScreen"
           component={SignUp}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="LandingScreen"
           component={LandingScreen}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="ForgotPasswordScreen"
           component={ForgotPassword}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="Home"
           component={MyTabs}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
@@ -221,7 +226,7 @@ const Navigation = () => {
             animation: 'slide_from_right',
           }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="SelectedStudent"
           component={SelectedStudent}
           options={{
@@ -239,7 +244,7 @@ const Navigation = () => {
             animation: 'slide_from_right',
           }}
         />
-        
+
       </Stack.Navigator>
     </NavigationContainer>
   );
