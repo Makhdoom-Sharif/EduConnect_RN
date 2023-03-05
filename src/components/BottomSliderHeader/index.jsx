@@ -8,7 +8,7 @@ const BottomSliderHeader = props => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.titleStyle}>{title}</Text>
+        <Text style={{color:'#fff', marginRight:5, fontSize:26}}>{title}</Text>
       </View>
       <View>
         <TouchableOpacity onPress={goBack}>

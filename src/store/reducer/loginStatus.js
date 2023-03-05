@@ -6,11 +6,15 @@ const data = {
   role: null,
   userID: null
 };
+const initialState = {};
+
 
 const loginStatus = (state = data, action) => {
   switch (action.type) {
     case 'LOGIN':
       return { ...state, ...action.payload };
+    case 'LOGOUT':
+      return initialState;
     default:
       return state;
   }

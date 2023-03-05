@@ -13,6 +13,9 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {buildNumber, version} from '../../../package.json';
 import styles from './Styles';
+import { useDispatch } from 'react-redux';
+import { login, logout } from '../../store/action';
+import { useSelector } from 'react-redux';
 
 const Setting = props => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -21,7 +24,13 @@ const Setting = props => {
   const [actState, setActionSheet] = useState('');
   const [img, setImg] = useState({});
   const {navigate} = useNavigation();
+  const dispatch = useDispatch();
   const [priority, setPriority] = useState(0);
+  const {accessToken, name} = useSelector(state => state?.login);
+
+  const result = name.split(/(?=[A-Z])/);
+  const userName = result[0]+' '+result[1]
+
   const updateProfile = () => {
     navigate('UpdateProfile');
   };
@@ -36,7 +45,11 @@ const Setting = props => {
 
   const contactUS = () => {};
 
-  const signOutApp = () => {};
+  const signOutApp = () => {
+    dispatch(logout())
+    console.log(accessToken)
+    navigate('LoginScreen')
+  };
 
   const deleteUser = () => {};
   const data = [
@@ -80,7 +93,7 @@ const Setting = props => {
                 <Text style={styles.profText}>Settings</Text>
               </View>
               <View style={styles.centre}>
-                <View
+                {/* <View
                   onStartShouldSetResponder={() => {
                     console.log('sds');
                   }}
@@ -90,13 +103,13 @@ const Setting = props => {
                   <View style={styles.camera}>
                     <Entypo name="camera" size={20} color="#003087" />
                   </View>
-                </View>
+                </View> */}
                 <View
                   style={[
                     {marginTop: 16},
                     {display: 'flex', flexDirection: 'row'},
                   ]}>
-                  <Text style={styles.username}>username</Text>
+                  <Text style={[styles.username, { color:'#fff', fontSize: 26 }]}>{userName}</Text>
 
                   <View style={{marginRight: -10}}></View>
                 </View>

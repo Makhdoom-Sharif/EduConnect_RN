@@ -127,6 +127,10 @@ const Login = () => {
           </Text>
           <SocialAuthButton />
         </View>
+        {/* <Text onPress={() => navigate('SignUpScreen')} style={[styles.simpleTextStyle,{ textAlign: 'center', marginTop:0},]}>
+          Not a user?  {''}
+          <Text  style={{textDecorationLine: 'underline'}}>Register here</Text> 
+        </Text> */}
         <Text
           style={[
             styles.simpleTextStyle,

@@ -16,7 +16,6 @@ import { useSelector } from 'react-redux';
 
 const StudentHome = () => {
   const loginDetails = useSelector(state => state?.login)
-  console.log('Login Details', loginDetails);
   const { navigate } = useNavigation();
 
   let selectedCoursesArray = [

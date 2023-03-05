@@ -147,10 +147,14 @@ const SignUp = () => {
             handleClick={formik.handleSubmit}
             loading={loading}
           />
-          <Text style={[styles.simpleTextStyle, { textAlign: 'center' }]}>
+          {/* <Text style={[styles.simpleTextStyle, { textAlign: 'center' }]}>
             or SignUp widfdfth
-          </Text>
+          </Text> */}
           {/* <SocialAuthButton /> */}
+          {/* <Text style={[styles.simpleTextStyle,{ textAlign: 'center', marginTop:0},]}>
+            Already a user? 
+            <Text onPress={navigate('LoginScreen')} style={{textDecorationLine: 'underline'}}>Login here</Text> 
+          </Text> */}
         </View>
         <Text
           style={[
