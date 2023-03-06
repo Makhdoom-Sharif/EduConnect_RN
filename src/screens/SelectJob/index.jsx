@@ -18,6 +18,8 @@ import {SafeAreaStyles} from '../../Global/GlobalCSS';
 import DropDownPicker from 'react-native-dropdown-picker';
 import styles from './Styles';
 import {useNavigation} from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 export default function SelectJob({route}) {
   //responsive font size
@@ -36,49 +38,49 @@ export default function SelectJob({route}) {
   };
 
   const navigation = useNavigation();
-  const {jobId, jobName, jobLogo} = route.params;
+  const {_id, accessToken} = useSelector(state => state?.login);
+
+  // const {jobId, jobName, jobLogo, job, teacher, student, course, description, } = route.params;
 
   const [jobData, setJobData] = useState(
     route.params
-      ? {
-          jobId: jobId,
-          jobName: jobName,
-          jobLogo: jobLogo,
-        }
-      : null,
+      ? route.params
+      : null
   );
 
-  const [jobOwner, setJobOwner] = useState([
-    {
-      avatar:
-        'https://thumbs.dreamstime.com/b/young-happy-teen-girl-laughing-smiling-young-happy-teen-girl-laughing-smiling-outside-159870575.jpg',
-      name: 'Aalia Khan',
-      gender: 'female',
-      about: 'Aiming for a bright future',
-      location: 'Block 20, F.B Area, Karachi',
-      distance: 5,
-      payBy: 'hr',
-      currency: 'Rs.',
-    },
-    {
-      avatar: 'https://www.assyst.de/cms/upload/sub/digitalisierung/15-M.jpg',
-      name: 'Ahmed Khan',
-      gender: 'male',
-      about: 'Aiming for a bright future',
-      location: 'Block 21, F.B Area, Karachi',
-      distance: 5,
-      payBy: 'mo',
-      currency: 'Rs.',
-    },
-  ]);
+  // const [jobOwner, setJobOwner] = useState()
+
+
+  // const [jobOwner, setJobOwner] = useState([
+  //   {
+  //     avatar:
+  //       'https://thumbs.dreamstime.com/b/young-happy-teen-girl-laughing-smiling-young-happy-teen-girl-laughing-smiling-outside-159870575.jpg',
+  //     name: 'Aalia Khan',
+  //     gender: 'female',
+  //     about: 'Aiming for a bright future',
+  //     location: 'Block 20, F.B Area, Karachi',
+  //     distance: 5,
+  //     payBy: 'hr',
+  //     currency: 'Rs.',
+  //   },
+  //   {
+  //     avatar: 'https://www.assyst.de/cms/upload/sub/digitalisierung/15-M.jpg',
+  //     name: 'Ahmed Khan',
+  //     gender: 'male',
+  //     about: 'Aiming for a bright future',
+  //     location: 'Block 21, F.B Area, Karachi',
+  //     distance: 5,
+  //     payBy: 'mo',
+  //     currency: 'Rs.',
+  //   },
+  // ]);
 
   const [budget, setBudget] = useState(0);
 
   const viewStudentProfile = student => {
     console.log('working');
-    if (jobOwner) {
-      console.log(jobOwner, 'working');
-      navigation.navigate('SelectedStudent', jobOwner[0]);
+    if (route.params.student) {
+      navigation.navigate('SelectedStudent', route.params.student);
     } else {
       Alert.alert('Error', 'error', [
         {
@@ -91,16 +93,38 @@ export default function SelectJob({route}) {
     }
   };
 
-  const placeBidAmount = () => {
-    if (budget) {
-      Alert.alert('Bid Placed', 'Interested Student will respond back to you', [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
-      ]);
+  const placeBidAmount = async () => {
+    if (budget && _id && route.params._id) {
+      let obj = {
+        job: route.params._id,
+        teacher: _id,
+        bidAmount: budget
+      }
+      console.log(obj)
+      try {
+        const res = await axios.post(`https://educonnectbackend-production.up.railway.app/api/bids/`, obj, {
+          headers: {
+            token:'Bearer ' + accessToken
+          }
+        })
+        if (res) {
+          Alert.alert(
+            'Bid Sent',
+            'Your bid has been sent successfully',
+            [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {text: 'OK', onPress: () => resetStates()},
+            ],
+          );
+          navigate('Home')
+        }
+      } catch (error) {
+        console.log(error)
+      }
     } else {
       //alert after response failure
       Alert.alert('Error', 'Please provide bid amount', [
@@ -113,6 +137,12 @@ export default function SelectJob({route}) {
       ]);
     }
   };
+
+  const resetStates = () => {
+    setJobData(null)
+    setBudget(0)  
+  }
+
 
   return (
     <SafeAreaView style={SafeAreaStyles}>
@@ -132,22 +162,22 @@ export default function SelectJob({route}) {
                   },
                   styles.mb20,
                 ]}
-                source={'../../assets/student_job.jpg'}
+                source={'../../../assets/student_job.jpg'}
               />
             </View>
 
             <View style={styles.container}>
               <View style={[styles.jobDetails, styles.boxShadow]}>
-                <Text style={[styles.mb10, {fontSize: normalize(24)}]}>
-                  Physics Tutor Required
+                <Text style={[styles.mb10, {fontSize: normalize(16)}]}>
+                  {jobData ? jobData.description : 'Job description not available' }
                 </Text>
-                <Text style={[styles.mb10, {fontSize: normalize(14)}]}>
+                {/* <Text style={[styles.mb10, {fontSize: normalize(14)}]}>
                   I need a full time tutor to help me in my physics course
-                </Text>
+                </Text> */}
               </View>
 
               <View style={[styles.jobDetails, styles.boxShadow]}>
-                <Text style={[{fontSize: normalize(14)}]}>Budget: 5000/mo</Text>
+                <Text style={[{fontSize: normalize(14)}]}>Budget: {jobData.jobBudget}</Text>
               </View>
 
               <View
@@ -170,11 +200,11 @@ export default function SelectJob({route}) {
                   onStartShouldSetResponder={() => viewStudentProfile()}>
                   <Image
                     style={styles.jobDetailUserAvatar}
-                    source={{
-                      uri: 'https://thumbs.dreamstime.com/b/young-happy-teen-girl-laughing-smiling-young-happy-teen-girl-laughing-smiling-outside-159870575.jpg',
+                    source={jobData && jobData.student.profilePicture? {uri:jobData.student.profilePicture} : {
+                      uri: 'https://cdn.dribbble.com/users/304574/screenshots/6222816/male-user-placeholder.png'
                     }}
                   />
-                  <Text>Aalia Khan</Text>
+                  <Text>{jobData.student.name}</Text>
                 </View>
               </View>
 

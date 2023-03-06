@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View } from 'react-native';
 import { SafeAreaStyles } from '../../../Global/GlobalCSS';
 import CourseCard from '../../../components/CourseCard';
@@ -13,10 +13,13 @@ import { useNavigation } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const StudentHome = () => {
   const loginDetails = useSelector(state => state?.login)
   const { navigate } = useNavigation();
+  const [studentJobs, setStudentJobs] = useState(null)
+
 
   let selectedCoursesArray = [
     {
@@ -56,6 +59,26 @@ const StudentHome = () => {
     },
   ];
 
+
+    const allStudentJobs = async () => {
+      const headers = { token: 'Bearer ' + loginDetails.accessToken }
+      console.log(headers)
+      console.log(loginDetails._id)
+      const res = await axios.get(`https://educonnectbackend-production.up.railway.app/api/jobs/student/${loginDetails._id}`, {
+        headers
+      })
+      if(res){
+        console.log(res.data, 'all student jobs')
+        setStudentJobs(res.data)
+      }
+      // console.log(res.data, 'all student jobs')
+    }
+
+    useEffect(() => {
+      allStudentJobs()
+    }, [])
+    
+
   // const [userType, setUserType] = useState(1); //1 STUDENT //2 TUTOR
 
   return (
@@ -70,7 +93,7 @@ const StudentHome = () => {
           <ScrollView style={styles.ScrollViewStyles}>
             {selectedCoursesArray != null && (
               <View style={styles.cardSpace}>
-                <CourseCard selectedCoursesArray={selectedCoursesArray} />
+                <CourseCard selectedCoursesArray={studentJobs ? studentJobs : null} />
               </View>
             )}
             <View>

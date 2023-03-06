@@ -118,7 +118,7 @@ export default function UpdateProfile() {
         bio: userBio,
         hourlyRate: userPayRate,
         highestQualification: userQualification,
-        course: selected,
+        courses: selected,
       }
       console.log(data)
       console.log(_id)

@@ -131,5 +131,12 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
   },
+  textHighlight: {
+    backgroundColor: Colors.white,
+    borderRadius: 5,
+    padding: 5,
+    paddingLeft: 10,
+    fontSize: 20,
+  }
 });
 export default styles;

@@ -28,8 +28,8 @@ const Setting = props => {
   const [priority, setPriority] = useState(0);
   const {accessToken, name} = useSelector(state => state?.login);
 
-  const result = name.split(/(?=[A-Z])/);
-  const userName = result[0]+' '+result[1]
+  // const result = name.split(/(?=[A-Z])/);
+  // const userName = result[0]+' '+result[1]
 
   const updateProfile = () => {
     navigate('UpdateProfile');
@@ -109,7 +109,7 @@ const Setting = props => {
                     {marginTop: 16},
                     {display: 'flex', flexDirection: 'row'},
                   ]}>
-                  <Text style={[styles.username, { color:'#fff', fontSize: 26 }]}>{userName}</Text>
+                  {/* <Text style={[styles.username, { color:'#fff', fontSize: 26 }]}>{userName}</Text> */}
 
                   <View style={{marginRight: -10}}></View>
                 </View>

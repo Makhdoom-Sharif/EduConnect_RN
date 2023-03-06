@@ -6,9 +6,13 @@ import {JobArray} from '../../Global/JobArray';
 import {useNavigation} from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 const JobCard = ({ userJobsArray }) => {
   const {navigate} = useNavigation();
+  const {accessToken, _id} = useSelector(state => state?.login);
+
 
   const onJobSelect = (job) => {
     if(userJobsArray){
@@ -19,16 +23,11 @@ const JobCard = ({ userJobsArray }) => {
       });
     }
     else{
-      navigate('SelectJob',{
-        jobId: job.id,
-        jobName: job.jobName,
-        jobLogo: job.logo,
-      })
+      navigate('SelectJob', job)
     }
   }
 
   const [userJobs, setUserJobs] = useState()
-  const {accessToken, _id} = useSelector(state => state?.login);
 
   const allUserJobs = async () => {
     console.log('Bearer ' + accessToken)
@@ -57,7 +56,7 @@ const JobCard = ({ userJobsArray }) => {
       {userJobsArray ? 'Your Jobs' : 'Available Jobs'}
       </Text>
       <FlatList
-        data={userJobsArray !=undefined ? userJobsArray : userJobs}
+        data={userJobsArray ? userJobsArray : userJobs}
         contentContainerStyle={{
           flexDirection: 'row',
         }}
@@ -81,8 +80,12 @@ const JobCard = ({ userJobsArray }) => {
               </>
             :
               <>
-                <Icon name="male" size={30} color={Colors.primary} />
-                <Text style={styles.textStyles}>{item.title}</Text>
+                <Icon name="book" size={30} color={Colors.primary} />
+                <Text style={styles.textStyles}>{item.description.substring(0, 15).concat('...')}</Text>
+                <Text style={[styles.textStyles, {fontSize:13}]}>{item.course.title}</Text>
+                <Text style={[styles.textStyles, {backgroundColor:Colors.secondary, marginTop:5, 
+                  paddingVertical:2, paddingHorizontal:10, borderRadius:5, fontSize:14, fontWeight:'bold'}]}>
+                  Rs.{item.jobBudget}</Text>
               </>
             
             }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -14,16 +14,16 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import {SafeAreaStyles} from '../../Global/GlobalCSS';
+import { SafeAreaStyles } from '../../Global/GlobalCSS';
 import DropDownPicker from 'react-native-dropdown-picker';
 import styles from './Styles';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
-export default function SelectCourse({route}) {
+export default function SelectCourse({ route }) {
   //responsive font size
-  const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
+  const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
   // based on iphone 5s's scale
   const scale = SCREEN_WIDTH / 320;
@@ -38,16 +38,16 @@ export default function SelectCourse({route}) {
   };
 
   const navigation = useNavigation();
-  const {courseId, courseName, isAcademic} = route.params;
-  const {_id, accessToken} = useSelector(state => state?.login);
+  const { courseId, courseName, isAcademic } = route.params;
+  const { _id, accessToken } = useSelector(state => state?.login);
 
   const [courseData, setCourseData] = useState(
     route.params
       ? {
-          courseId: courseId,
-          courseName: courseName,
-          isAcademic: isAcademic,
-        }
+        courseId: courseId,
+        courseName: courseName,
+        isAcademic: isAcademic,
+      }
       : null,
   );
 
@@ -134,15 +134,28 @@ export default function SelectCourse({route}) {
     },
   ]);
 
+  const [payByOpen, setPayByOpen] = useState(false);
+  const [payByValue, setPayByValue] = useState(null);
+  const [payBy, setPayBy] = useState([
+    {
+      label: 'Per Hour',
+      value: '/hour',
+    },
+    {
+      label: 'Per Month',
+      value: '/month',
+    },
+  ]);
+
   const [jobTitle, setJobTitle] = useState('');
   const [jobDescription, setJobDescription] = useState('');
 
   const [budget, setBudget] = useState(0);
 
   const createSearchTutorJob = async () => {
-    if (jobDescription && courseClass && board && tutorExperience && budget) {
+    if (jobDescription && courseClass && board && tutorExperience && budget && payByValue) {
       //api call to post job
-      let data= {
+      let data = {
         student: _id,
         description: jobDescription,
         course: courseId,
@@ -151,12 +164,13 @@ export default function SelectCourse({route}) {
         experienceRequired: tutorExperienceValue.toString(),
         jobBudget: budget,
         status: 'pending',
+        jobPayDuration: payByValue
       }
       console.log(data)
       try {
         const res = await axios.post('https://educonnectbackend-production.up.railway.app/api/jobs', data, {
           headers: {
-            token:'Bearer ' + accessToken
+            token: 'Bearer ' + accessToken
           }
         })
         if (res) {
@@ -170,7 +184,7 @@ export default function SelectCourse({route}) {
                 onPress: () => console.log('Cancel Pressed'),
                 style: 'cancel',
               },
-              {text: 'OK', onPress: () => console.log('OK Pressed')},
+              { text: 'OK', onPress: () => console.log('OK Pressed') },
             ],
           );
         }
@@ -185,7 +199,7 @@ export default function SelectCourse({route}) {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
       ]);
     }
   };
@@ -205,7 +219,7 @@ export default function SelectCourse({route}) {
               style={[
                 styles.mb30,
                 styles.mainHeading,
-                {fontSize: normalize(30)},
+                { fontSize: normalize(30) },
               ]}>
               {courseData.courseName}
             </Text>
@@ -228,8 +242,8 @@ export default function SelectCourse({route}) {
               />
             </View> */}
 
-            <View style={[styles.mb10, {width: '100%'}]}>
-              <Text style={[styles.textWhite, {fontSize: normalize(15)}]}>
+            <View style={[styles.mb10, { width: '100%' }]}>
+              <Text style={[styles.textWhite, { fontSize: normalize(15) }]}>
                 Provide Job Description:
               </Text>
               <TextInput
@@ -248,12 +262,12 @@ export default function SelectCourse({route}) {
               />
             </View>
 
-            <View style={[styles.mb10, {width: '100%'}]}>
-              <Text style={[styles.textWhite, {fontSize: normalize(15)}]}>
+            <View style={[styles.mb10, { width: '100%' }]}>
+              <Text style={[styles.textWhite, { fontSize: normalize(15) }]}>
                 Select Class:
               </Text>
               <DropDownPicker
-                style={{zIndex: 1}}
+                style={{ zIndex: 1 }}
                 open={classOpen}
                 value={classValue}
                 items={courseClass}
@@ -263,12 +277,12 @@ export default function SelectCourse({route}) {
               />
             </View>
 
-            <View style={[styles.mb10, {width: '100%'}]}>
-              <Text style={[styles.textWhite, {fontSize: normalize(15)}]}>
+            <View style={[styles.mb10, { width: '100%' }]}>
+              <Text style={[styles.textWhite, { fontSize: normalize(15) }]}>
                 Select Board:
               </Text>
               <DropDownPicker
-                style={{zIndex: 1}}
+                style={{ zIndex: 1 }}
                 open={boardOpen}
                 value={boardValue}
                 items={board}
@@ -278,12 +292,12 @@ export default function SelectCourse({route}) {
               />
             </View>
 
-            <View style={[styles.mb10, {width: '100%'}]}>
-              <Text style={[styles.textWhite, {fontSize: normalize(15)}]}>
+            <View style={[styles.mb10, { width: '100%' }]}>
+              <Text style={[styles.textWhite, { fontSize: normalize(15) }]}>
                 Select Preferred Tutor Experience:
               </Text>
               <DropDownPicker
-                style={{zIndex: 1}}
+                style={{ zIndex: 1 }}
                 open={tutorExperienceOpen}
                 value={tutorExperienceValue}
                 items={tutorExperience}
@@ -293,8 +307,8 @@ export default function SelectCourse({route}) {
               />
             </View>
 
-            <View style={[styles.mb10, {width: '100%'}]}>
-              <Text style={[styles.textWhite, {fontSize: normalize(15)}]}>
+            <View style={[styles.mb10, { width: '100%' }]}>
+              <Text style={[styles.textWhite, { fontSize: normalize(15) }]}>
                 Provide Job Budget:
               </Text>
               <TextInput
@@ -312,16 +326,31 @@ export default function SelectCourse({route}) {
               />
             </View>
 
-            <View style={[styles.mb10, {width: '100%'}]}>
+            <View style={[styles.mb10, { width: '100%' }]}>
+              <Text style={[styles.textWhite, { fontSize: normalize(15) }]}>
+                Select Payment Method:
+              </Text>
+              <DropDownPicker
+                style={{ zIndex: 1 }}
+                open={payByOpen}
+                value={payByValue}
+                items={payBy}
+                setOpen={setPayByOpen}
+                setValue={setPayByValue}
+                setItems={setPayBy}
+              />
+            </View>
+
+            <View style={[styles.mb10, { width: '100%' }]}>
               <TouchableOpacity
-                style={[styles.button, styles.mt20, {textAlign: 'center'}]}
+                style={[styles.button, styles.mt20, { textAlign: 'center' }]}
                 onPress={() => createSearchTutorJob()}>
                 <Text style={[styles.textStyles, styles.textWhite]}>
                   Find Tutor
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.button, styles.mt10, {textAlign: 'center'}]}
+                style={[styles.button, styles.mt10, { textAlign: 'center' }]}
                 onPress={() => navigation.goBack()}>
                 <Text style={[styles.textStyles, styles.textWhite]}>
                   Go Back

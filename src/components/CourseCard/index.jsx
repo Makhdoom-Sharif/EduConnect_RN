@@ -14,16 +14,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const CourseCard = ({ selectedCoursesArray }) => {
   const {navigate} = useNavigation();
   const [courses, setCourses] = useState('')
+  console.log(selectedCoursesArray)
 
-  const {accessToken} = useSelector(state => state?.login);
+  const {accessToken, _id} = useSelector(state => state?.login);
 
   const onCourseSelect = (course) => {
     if(selectedCoursesArray){
-      navigate('SelectedCourse', {
-        courseId: course.id,
-        courseName: course.courseName,
-        courseLogo: course.logo,
-      });
+      navigate('SelectedCourse', course);
     }
     else{
       navigate('SelectCourse', {
@@ -70,13 +67,13 @@ const CourseCard = ({ selectedCoursesArray }) => {
             {
               selectedCoursesArray ? 
               <>
-                <item.icon name={item.iconName} size={40} color={Colors.primary} />
-                <Text style={styles.textStyles}>{item.courseName}</Text>
-                { item.hasUpdate &&
+                <Icon name="book" size={30} color={Colors.primary} />
+                <Text style={styles.textStyles}>{item.course.title}</Text>
+                {/* { item.hasUpdate &&
                   <View style={styles.notification}>
                       <Text style={{fontWeight:'bold', textAlign:'center'}}> 1 </Text>                    
                   </View> 
-                }
+                } */}
               </>
             : 
               <>

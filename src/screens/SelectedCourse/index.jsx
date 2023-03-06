@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -21,6 +21,8 @@ import styles from './Styles';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {Colors} from '../../Global/GlobalCSS';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 export default function SelectedCourse({route}) {
   //responsive font size
@@ -39,13 +41,12 @@ export default function SelectedCourse({route}) {
   };
 
   const navigation = useNavigation();
-  const {courseId, courseName, courseLogo} = route.params;
+  const { _id, accessToken} = useSelector(state => state?.login);
 
-  const [courseData, setCourseData] = useState({
-    courseId: courseId,
-    courseName: courseName,
-    courseLogo: courseLogo,
-  });
+  // const {courseId, courseName, courseLogo} = route.params;
+
+  const [jobData, setJobData] = useState(route.params);
+  console.log(jobData, 'selected course')
 
   const [hasJobStarted, setHasJobStarted] = useState(false);
   const [isJobCompleted, setIsJobCompleted] = useState(false);
@@ -115,6 +116,8 @@ export default function SelectedCourse({route}) {
     },
   ]);
 
+  const [jobBids, setJobBids] = useState()
+
   const onTutorSelect = tutor => {
     console.log(tutor, 'selected tutor');
     navigation.navigate('SelectedTutor', tutor);
@@ -136,6 +139,23 @@ export default function SelectedCourse({route}) {
     }
   };
 
+  const getStudentJobBids = async () => {
+    const headers = { token: 'Bearer ' + accessToken}
+    if(jobData && jobData._id){
+      console.log(jobData._id)
+      const res = await axios.get(`https://educonnectbackend-production.up.railway.app/api/bids/${jobData._id}`)
+      if(res){
+        console.log(res.data, 'all bids') 
+        setJobBids(res.data)
+      }
+    }
+  }
+
+  useEffect(() => {
+    getStudentJobBids()
+  }, [])
+  
+
   return (
     <SafeAreaView style={SafeAreaStyles}>
       <ScrollView style={{height: '100%'}}>
@@ -150,37 +170,38 @@ export default function SelectedCourse({route}) {
                 },
                 styles.mb20,
               ]}
-              source={'../../assets/tutor_job.jpg'}
+              source={'../../../assets/tutor_job.jpg'}
             />
           </View>
         )}
 
         <View style={styles.container}>
-          {!hasJobStarted && !isJobCompleted ? (
+          {jobData.status == 'pending' && jobData.status != 'started' ? (
             <View>
-              <View
-                style={[
-                  styles.mb20,
-                  styles.mainHeading,
-                  styles.boxShadow,
-                  {
-                    backgroundColor: Colors.white,
-                    borderRadius: 5,
-                    padding: 5,
-                    paddingLeft: 10,
-                    fontSize: normalize(20),
-                  },
-                ]}>
-                <Text
-                  style={[
-                    styles.mb10,
-                    {fontSize: normalize(20), marginTop: 5},
-                  ]}>
+              <View style={[ styles.mb20, styles.mainHeading, styles.boxShadow, styles.textHighlight]}>
+                <Text style={[styles.mt10, styles.mb10, {fontSize: normalize(20), textAlign:'center', backgroundColor:'#f2f2f2', borderRadius:5, paddingVertical:10}]}>
+                  Job Details
+                </Text>
+                <Text style={[styles.mt10, styles.mb10, {fontSize: normalize(16)}]}>
+                  Title: {jobData.description}
+                </Text>
+                <Text style={[styles.mb10, {fontSize: normalize(16)}]}>
+                  Course: {jobData.course.title}
+                </Text>
+                <Text style={[styles.mb10, {fontSize: normalize(16)}]}>
+                  Budget: {jobData.jobBudget}
+                </Text>
+                <Text style={[styles.mb10, {fontSize: normalize(16)}]}>
+                  Status: {jobData.status}
+                </Text>
+              </View>
+              <View style={[ styles.mb20, styles.mainHeading, styles.boxShadow, styles.textHighlight]}>
+                <Text style={[styles.mb10, {fontSize: normalize(20), marginTop: 5}]}>
                   Interested Tutors:
                 </Text>
               </View>
               <FlatList
-                data={interestedTutors}
+                data={jobBids}
                 contentContainerStyle={{
                   flexDirection: 'row',
                 }}
@@ -188,12 +209,12 @@ export default function SelectedCourse({route}) {
                 showsHorizontalScrollIndicator={false}
                 renderItem={({item}) => (
                   <TouchableOpacity
-                    style={[styles.tutors, styles.boxShadow, {marginRight: 20}]}
+                    style={[styles.tutors, styles.boxShadow, styles.mb20, {marginRight: 20}]}
                     onPress={() => onTutorSelect(item)}>
                     <Image
-                      style={[styles.avatar, styles.mb20]}
-                      source={{
-                        uri: item.avatar,
+                      style={[styles.avatar]}
+                      source={item.profilePicture ? { uri: item.profilePicture } : {
+                        uri: 'https://cdn.dribbble.com/users/304574/screenshots/6222816/male-user-placeholder.png'
                       }}
                     />
 
@@ -201,18 +222,27 @@ export default function SelectedCourse({route}) {
                       <Text
                         style={[
                           styles.textStyles,
-                          styles.mb10,
                           {
                             marginLeft: 5,
                             fontSize: normalize(16),
                             fontWeight: '600',
                           },
                         ]}>
-                        {item.name}
+                        {item.teacher.name}
                       </Text>
                     </View>
 
                     <View style={styles.tutorInfo}>
+                      <Text
+                        style={[
+                          styles.textStyles, styles.mb10,
+                          {marginLeft: 5, fontSize: normalize(12)},
+                        ]}>
+                        {item.teacher.bio}
+                      </Text>
+                    </View>
+
+                    {/* <View style={styles.tutorInfo}>
                       <Icon
                         name="clock-o"
                         size={15}
@@ -226,7 +256,7 @@ export default function SelectedCourse({route}) {
                         ]}>
                         {item.experience} {' yrs'}
                       </Text>
-                    </View>
+                    </View> */}
 
                     <View style={styles.tutorInfo}>
                       <Icon
@@ -240,11 +270,28 @@ export default function SelectedCourse({route}) {
                           styles.textStyles,
                           {marginLeft: 5, fontSize: normalize(12)},
                         ]}>
-                        {item.qualification}
+                        {item.teacher.highestQualification}
                       </Text>
                     </View>
 
                     <View style={styles.tutorInfo}>
+                      <Icon
+                        name="dollar"
+                        size={15}
+                        style={{marginTop: 5}}
+                        color={Colors.primary}
+                      />
+                      <Text
+                        style={[
+                          styles.textStyles,
+                          {marginLeft: 5, fontSize: normalize(12)},
+                        ]}>
+                        {item.teacher.hourlyRate}
+                      </Text>
+                    </View>
+                    
+
+                    {/* <View style={styles.tutorInfo}>
                       <Icon
                         name="map-marker"
                         size={15}
@@ -258,9 +305,9 @@ export default function SelectedCourse({route}) {
                         ]}>
                         {item.location}
                       </Text>
-                    </View>
+                    </View> */}
 
-                    <View style={styles.tutorInfo}>
+                    {/* <View style={styles.tutorInfo}>
                       <Icon
                         name="motorcycle"
                         size={15}
@@ -274,9 +321,9 @@ export default function SelectedCourse({route}) {
                         ]}>
                         {item.distance} km away
                       </Text>
-                    </View>
+                    </View> */}
 
-                    <View style={styles.tutorInfo}>
+                    {/* <View style={styles.tutorInfo}>
                       {[...Array(item.rating)].map((el, index) => (
                         <Icon
                           key={index}
@@ -286,12 +333,13 @@ export default function SelectedCourse({route}) {
                           color={Colors.primary}
                         />
                       ))}
-                    </View>
+                    </View> */}
                   </TouchableOpacity>
                 )}
               />
             </View>
-          ) : hasJobStarted && !isJobCompleted ? (
+          ) 
+          : jobData.status == 'started' && jobData.status != 'completed' ? (
             <View style={[{width: '100%'}, styles.boxShadow, styles.tutors]}>
               <View style={[styles.mb30]}>
                 <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
@@ -345,7 +393,8 @@ export default function SelectedCourse({route}) {
                 </TouchableOpacity>
               </View>
             </View>
-          ) : hasJobStarted && isJobCompleted ? (
+            
+          ) : jobData.status == 'started' && jobData.status == 'completed' ? (
             <View style={[{width: '100%'}, styles.tutors, styles.boxShadow]}>
               <View
                 style={[styles.mb10, {width: '100%', alignItems: 'center'}]}>
