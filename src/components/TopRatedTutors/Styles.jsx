@@ -8,10 +8,11 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   container: {
-    borderRadius: 15,
+    borderRadius: 10,
     backgroundColor: Colors.white,
     alignItems: 'center',
-    paddingBottom: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     marginVertical: 15,
     marginHorizontal: 10,
   },
@@ -19,23 +20,14 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 18,
     paddingTop: 5,
-  },
-  headingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    color: Colors.primary,
   },
   mainHeading: {
     paddingTop: 10,
     paddingHorizontal: 15,
     fontWeight: '700',
     fontSize: 21,
-    color: Colors.primary,
-  },
-  sideOption: {
-    paddingTop: 10,
-    paddingHorizontal: 15,
-    fontWeight: '600',
+    textAlign: 'center',
     color: Colors.primary,
   },
   boxShadow: {
@@ -44,22 +36,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     elevation: 8,
   },
-  iconStyle: {
-    backgroundColor: Colors.backgroundPrimary,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 30,
-    paddingHorizontal: 30,
-  },
-  bio: {
-    alignSelf: 'flex-start',
-    paddingHorizontal: 10,
-    paddingTop: 10,
-  },
-  bottomGap: {
-    paddingBottom: 5,
-  },
-  nameStyle: { fontWeight: '700', fontSize: 18 },
 });
 export default styles;

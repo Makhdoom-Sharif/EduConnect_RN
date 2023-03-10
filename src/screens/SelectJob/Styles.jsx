@@ -91,6 +91,9 @@ const styles = StyleSheet.create({
     height:70,
     borderRadius: 70,
     resizeMode:'contain'
+  },
+  error:{
+    color:'red'
   }
 });
 export default styles;

@@ -16,8 +16,9 @@ const styles = StyleSheet.create({
     marginVertical: 25,
   },
   container: {
-    paddingTop: 20,
-    marginHorizontal:28,
+    paddingTop: 50,
+    marginLeft: 28,
+    marginRight: 28,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -54,6 +55,7 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   textStyles: {
+    fontWeight: '600',
     fontSize: 14,
     paddingTop: 5,
   },
@@ -69,77 +71,20 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5
   },
-  tutors: {
+  coins: {
     backgroundColor: Colors.white,
     padding: 20,
     marginBottom: 20,
     borderRadius:10,
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     textAlign: 'center',
   },
-  avatar:{
-    height: 150,
-    width: 150,
-    resizeMode: 'contain',
-    borderRadius: 100,
-  },
-  tutorInfo:{
-    justifyContent: 'flex-start',
+  coinInfo:{
+    justifyContent: 'center',
     flexDirection:'row', 
     flexWrap:'wrap',
   },
-  bannerImg:{
-    display: 'flex',
-    alignItems: 'center',
-    textAlign: 'center',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  textHighlight: {
-    backgroundColor: Colors.white,
-    borderRadius: 5,
-    padding: 5,
-    paddingLeft: 10,
-    fontSize: 20,
-  },
-  error:{
-    color:'red',
-  }
 });
 export default styles;

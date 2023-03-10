@@ -1,14 +1,127 @@
-import React, {useState} from 'react';
-import {FlatList, StyleSheet, Text, TextInput, View} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  FlatList,
+  StyleSheet, 
+  Text, 
+  TextInput, 
+  View,
+  Image,
+  TouchableOpacity,
+  PixelRatio,
+  Dimensions,
+  Platform,
+  ScrollView,
+  SafeAreaView,
+  Alert
+} from 'react-native';
 import BottomSliderHeader from '../../components/BottomSliderHeader';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Colors} from '../../Global/GlobalCSS';
 import {preferedRegions} from '../../Global/CourseArray';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
+import { SelectList } from 'react-native-dropdown-select-list'
+import { useNavigation } from '@react-navigation/native';
+import { tutorsByLocation } from '../../store/action';
+import styles from '../SelectCourse/Styles';
+
 
 export default function SearchByLocation() {
-  const [currentLocation, setCurrentLocatio] = useState(false);
+  const navigation = useNavigation()
+  const dispatch = useDispatch()
+  //responsive font size
+  const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+
+  // based on iphone 5s's scale
+  const scale = SCREEN_WIDTH / 320;
+
+  const normalize = size => {
+    const newSize = size * scale;
+    if (Platform.OS === 'ios') {
+      return Math.round(PixelRatio.roundToNearestPixel(newSize));
+    } else {
+      return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2;
+    }
+  };
+
+  const { _id, accessToken } = useSelector(state => state?.login);
+  const [locationList, setLocationList] = useState([
+    {
+      label: "Clifton",
+      value: "Clifton"
+    },
+    {
+      label: "Defence Housing Authority (DHA)",
+      value: "Defence Housing Authority (DHA)"
+    },
+    {
+      label: "Gulshan-e-Iqbal",
+      value: "Gulshan-e-Iqbal"
+    },
+    {
+      label: "North Nazimabad",
+      value: "North Nazimabad"
+    },
+    {
+      label: "Gulistan-e-Jauhar",
+      value: "Gulistan-e-Jauhar"
+    },
+    {
+      label: "Tariq Road",
+      value: "Tariq Road"
+    },
+    {
+      label: "Saddar",
+      value: "Saddar"
+    },
+    {
+      label: "PECHS",
+      value: "PECHS"
+    },
+    {
+      label: "Bahadurabad",
+      value: "Bahadurabad"
+    },
+    {
+      label: "Nazimabad",
+      value: "Nazimabad"
+    },
+    {
+      label: "Korangi",
+      value: "Korangi"
+    },
+    {
+      label: "Malir",
+      value: "Malir"
+    },
+    {
+      label: "Karachi Cantonment",
+      value: "Karachi Cantonment"
+    },
+    {
+      label: "Jamshed Road",
+      value: "Jamshed Road"
+    },
+    {
+      label: "Liaquatabad",
+      value: "Liaquatabad"
+    },
+    {
+      label: "FB Area",
+      value: "FB Area"
+    },
+  ])
+
+  const [location, setLocation] = useState(null)
+
+  const searchTutorsByLocation = () => {
+    console.log(location,'search lcoation')
+    dispatch(tutorsByLocation(location))
+    navigation.navigate('Home')
+  }
+
   return (
     <View
       style={{
@@ -18,7 +131,7 @@ export default function SearchByLocation() {
       }}>
       <View style={styles.container}>
         <BottomSliderHeader title="Search By Location" />
-        <View
+        {/* <View
           style={{
             marginHorizontal: 5,
             borderColor: Colors.black,
@@ -41,8 +154,28 @@ export default function SearchByLocation() {
               marginHorizontal: 7,
             }}
           />
+        </View> */}
+        <View style={{ width: '100%', marginBottom:20, marginTop:20 }}>
+          <SelectList
+            boxStyles={{ backgroundColor: '#fff' }}
+            dropdownStyles={{ backgroundColor: '#fff' }}
+            setSelected={(val) => setLocation(val)}
+            data={locationList}
+            save="value"
+          />
         </View>
-        <View
+        <View style={{width:'100%'}}>
+          <TouchableOpacity
+            style={[styles.mb10, styles.button, styles.boxShadow]}
+            onPress={() => searchTutorsByLocation()}
+            disabled={!location}
+            >
+            <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
+              Search Tutors
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {/* <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -61,8 +194,8 @@ export default function SearchByLocation() {
             }}>
             Use current location
           </Text>
-        </View>
-        <View
+        </View> */}
+        {/* <View
           style={{
             backgroundColor: Colors.backgroundPrimary,
             borderRadius: 15,
@@ -103,14 +236,14 @@ export default function SearchByLocation() {
               </View>
             );
           }}
-        />
+        /> */}
       </View>
     </View>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    marginLeft: 28,
-    marginRight: 28,
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     marginLeft: 28,
+//     marginRight: 28,
+//   },
+// });

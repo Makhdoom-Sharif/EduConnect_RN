@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {SafeAreaView, Text, View} from 'react-native';
+import {SafeAreaView, Text, View, Image} from 'react-native';
 import SimpleButton from '../../../components/SimpleButton';
 import styles from './Styles';
 const LandingScreen = () => {
@@ -10,7 +10,17 @@ const LandingScreen = () => {
   const {navigate} = useNavigation();
   return (
     <SafeAreaView style={styles.main}>
-      <Text style={styles.mainTitle}>Edu-Connect</Text>
+      {/* <Text style={styles.mainTitle}>Edu-Connect</Text> */}
+      <Image
+        style={[
+          {
+            width: 400,
+            height: 300,
+            resizeMode: 'contain',
+          }
+        ]}
+        source={require('../../../assets/logo2.png')}
+      />
       <View style={styles.bottomContainer}>
         <Text style={styles.centerText}>Learn Everything You Want </Text>
         <View style={styles.divider} />

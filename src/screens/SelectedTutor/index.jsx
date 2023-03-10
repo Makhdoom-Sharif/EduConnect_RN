@@ -19,10 +19,15 @@ import styles from './Styles';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {Colors} from '../../Global/GlobalCSS';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { refresh } from '../../store/action';
+import { useDispatch } from 'react-redux';
 
 export default function SelectedTutor({route}) {
   const navigation = useNavigation();
-  console.log(route.params, 'params');
+  console.log(route.params, 'selected tutor data');
+  const dispatch = useDispatch()
 
   //responsive font size
   const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -39,8 +44,11 @@ export default function SelectedTutor({route}) {
     }
   };
 
-  const [tutorData, setTutorData] = useState(route.params);
+  const { _id, accessToken} = useSelector(state => state?.login);
+
+  const [tutorBidData, setTutorBidData] = useState(route.params.teacher);
   const [modalVisible, setModalVisible] = useState(false);
+  console.log(tutorBidData.courses)
   // const filterKeys = (val, dataObj) => {
   //   const filtered = Object.keys(dataObj)
   //     .filter(key => !key.includes(val))
@@ -55,7 +63,7 @@ export default function SelectedTutor({route}) {
   // const iteratableFilter = valArr => {
   //   let obj = null;
   //   for (let i = 0; i < valArr.length; i++) {
-  //     obj = filterKeys(valArr[i], obj == null ? tutorData : obj);
+  //     obj = filterKeys(valArr[i], obj == null ? tutorBidData : obj);
   //   }
   //   return obj;
   // };
@@ -66,36 +74,61 @@ export default function SelectedTutor({route}) {
     }
   }
 
-  const scheduleMeeting = () => {
-    const value = true;
-    if (value) {
-      //api call to post job
-
-      //alert after response success
+  const setBidStatus = (status) => {
+    console.log(status)
+    console.log(route.params._id)
+    const bidId = route.params._id
+    if(status){
+      let data= {
+        status: status
+      }
+      dispatch(refresh(false))
       Alert.alert(
-        'Invite Sent',
-        'A meeting invite has been sent to the tutor',
+        "Are your sure?",
+        `Are you sure you want to ${status == 'accepted' ? 'accept' : 'reject'} this Bid?`,
         [
           {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
+            text: "Yes",
+            onPress: async () => {
+              const res = await axios.patch(`https://educonnectbackend-production.up.railway.app/api/bids/${bidId}`, data, {
+                  headers: {
+                    token:'Bearer ' + accessToken
+                  }
+                })
+                if (res) { 
+                  Alert.alert('Success', `Bid has been ${status} successfully`, [
+                    {
+                      text: 'Cancel',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () => resetStates()},
+                  ]);
+                }
+                else{
+                  Alert.alert('Error', 'Something went wrong', [
+                    {
+                      text: 'Cancel',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  ]);
+                }
+            },
           },
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ],
+          {
+            text: "No",
+          },
+        ]
       );
-    } else {
-      //alert after response failure
-      Alert.alert('Error', 'Something went wrong', [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
-      ]);
     }
   };
+
+  const resetStates = () => {
+    {dispatch(refresh(true)); 
+    navigation.navigate('Home')}
+  }
 
   return (
     <SafeAreaView style={SafeAreaStyles}>
@@ -111,7 +144,7 @@ export default function SelectedTutor({route}) {
                         key={index}
                         style={[styles.avatar, styles.mb20]}
                         source={{
-                          uri: tutorData[key],
+                          uri: tutorBidData[key],
                         }}
                       />
                     ) : (
@@ -141,10 +174,10 @@ export default function SelectedTutor({route}) {
                                 : {marginLeft: 5}
                             }
                             key={index}>
-                            {tutorData[key]}
+                            {tutorBidData[key]}
                           </Text>
                         ) :(
-                          [...Array(tutorData[key])].map((el, index) => (
+                          [...Array(tutorBidData[key])].map((el, index) => (
                             <Icon
                               key={index}
                               name="star"
@@ -166,8 +199,8 @@ export default function SelectedTutor({route}) {
             <View style={styles.tutorInfo}>
               <Image
                 style={[styles.avatar, styles.mb20]}
-                source={{
-                  uri: tutorData['avatar'],
+                source={tutorBidData && tutorBidData.profilePicture ? { uri: tutorBidData.profilePicture } : {
+                  uri: 'https://cdn.dribbble.com/users/304574/screenshots/6222816/male-user-placeholder.png'
                 }}
               />
             </View>
@@ -178,72 +211,82 @@ export default function SelectedTutor({route}) {
                   fontWeight: 'bold',
                   marginLeft: 5,
                 }}>
-                {tutorData['name']}
+                {tutorBidData.name}
               </Text>
             </View>
             <View style={styles.tutorInfo}>
-              <Text style={{marginLeft: 5, marginTop: 2}}>{tutorData['about']}</Text>
+              <Text style={{marginLeft: 5, marginTop: 2}}>{tutorBidData && tutorBidData.bio}</Text>
             </View>
           </View>
 
           <View style={[styles.card, styles.mb10, {flexDirection:'row', justifyContent:'space-around'}]}>
-            <View>
+            {/* <View>
               <View style={[styles.mb10, {flexDirection:'row', alignItems:'center'}]}>
                 <Icon name="clock-o" size={20} color={Colors.primary} />
-                <Text style={{marginLeft: 5, fontSize: normalize(18)}}>{tutorData['experience']}{' yrs'}</Text>
+                <Text style={{marginLeft: 5, fontSize: normalize(18)}}>{tutorBidData['experience']}{' yrs'}</Text>
               </View>
               <View style={{flexDirection:'row', alignItems:'center'}}>
                 <Icon name="male" size={20} color={Colors.primary} />
-                <Text style={{marginLeft: 5,fontSize: normalize(18)}}>{tutorData['gender']}</Text>
+                <Text style={{marginLeft: 5,fontSize: normalize(18)}}>{tutorBidData['gender']}</Text>
               </View>
-            </View>
+            </View> */}
             <View>
               <View style={[styles.mb10, {flexDirection:'row', alignItems:'center'}]}>
                 <Icon name="graduation-cap" size={20} color={Colors.primary} />
-                <Text style={{marginLeft: 5,fontSize: normalize(18)}}>{tutorData['qualification']}</Text>
+                <Text style={{marginLeft: 5,fontSize: normalize(18)}}>{tutorBidData.highestQualification}</Text>
               </View>
               <View style={{flexDirection:'row', alignItems:'center'}}>
                 <Icon name="book" size={20} color={Colors.primary} />
                 {
-                  (tutorData['specialization'] && tutorData['specialization'].length == 1) ? <Text style={{marginLeft: 5, marginTop: 2, fontSize: normalize(18)}}> {tutorData['specialization'][0]} </Text> 
-                  : (<Text style={{marginLeft: 5,fontSize: normalize(18)}} onPress={()=> showSpecializations(tutorData['specialization'])}>see all</Text>)
+                  (tutorBidData && tutorBidData.courses && tutorBidData.courses.length == 1) ? 
+                  <Text style={{marginLeft: 5, marginTop: 2, fontSize: normalize(18)}}> 
+                    {tutorBidData.courses[0].title} </Text> 
+                  : (<Text style={{marginLeft: 5,fontSize: normalize(18)}} onPress={()=> showSpecializations(tutorBidData.courses)}>view all specializations</Text>)
                 }
               </View>
             </View>
           </View>
 
-          <View style={[styles.card, styles.mb10]}>
+          
+          <View style={[styles.card,  styles.mb10]}>
+              <View style={[styles.mb10, {flexDirection:'row', alignItems:'center', justifyContent:'flex-start'}]}>
+                <Icon name="dollar" size={20} color={Colors.primary} />
+                <Text style={{marginLeft: 5,fontSize: normalize(18)}}>{route.params.bidAmount}</Text>
+              </View>
+          </View>
+
+          {/* <View style={[styles.card, styles.mb10]}>
             <View style={[{flexDirection:'row', alignItems:'center'}, styles.mb10]}>
               <Icon name="map-marker" size={20} color={Colors.primary} />
-              <Text style={{marginLeft: 5,fontSize: normalize(18)}}>{tutorData['location']}</Text>
+              <Text style={{marginLeft: 5,fontSize: normalize(18)}}>{tutorBidData['location']}</Text>
             </View>
             <View style={{flexDirection:'row', alignItems:'center'}}>
               <Icon name="motorcycle" size={20} color={Colors.primary} />
               <Text style={{marginLeft: 5,fontSize: normalize(18)}}>
-                {tutorData['distance'] + ' Km away'}
+                {tutorBidData['distance'] + ' Km away'}
               </Text>
             </View>
-          </View>
+          </View> */}
 
-          <View style={[styles.card,  styles.mb10]}>
+          {/* <View style={[styles.card,  styles.mb10]}>
             <View style={[styles.tutorInfo, {alignItems:'center'}]}>
               <Icon name="usd" size={20} color={Colors.primary} />
               <Text style={{marginLeft: 5,fontSize: normalize(18)}}>
-                {tutorData['currency'] +
-                  tutorData['fees'] +
+                {tutorBidData['currency'] +
+                  tutorBidData['fees'] +
                   '/' +
-                  tutorData['chargedBy']}
+                  tutorBidData['chargedBy']}
               </Text>
             </View>
-          </View>
+          </View> */}
 
-          <View style={[styles.card, styles.mb30]}>
+          {/* <View style={[styles.card, styles.mb30]}>
             <View style={[styles.tutorInfo, styles.mb10, {alignItems:'center'}]}>
               <Icon name="comments" size={20} color={Colors.primary} />
             </View>
             <View>
-              {tutorData['reviews'].length > 0 ?
-                tutorData['reviews'].map((item, index) => {
+              {tutorBidData['reviews'].length > 0 ?
+                tutorBidData['reviews'].map((item, index) => {
                   return <Text style={[styles.mb10, {fontSize: normalize(14)}]}>
                   {item}
                 </Text>
@@ -254,23 +297,30 @@ export default function SelectedTutor({route}) {
                 </Text>
               }
             </View>
-          </View>
+          </View> */}
 
           <View style={[{width: '100%'}, styles.mb10]}>
             <TouchableOpacity
               style={[styles.button, styles.mb10]}
-              onPress={() => scheduleMeeting()}>
+              onPress={() => setBidStatus('accepted')}>
               <Text style={[styles.textStyles, styles.textWhite, {textAlign:'center', fontWeight:'bold'}]}>
-                Invite For Meeting
+                Accept Bid
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
+              style={[styles.button, styles.mb10]}
+              onPress={() => setBidStatus('rejected')}>
+              <Text style={[styles.textStyles, styles.textWhite, {textAlign:'center', fontWeight:'bold'}]}>
+                Reject Bid
+              </Text>
+            </TouchableOpacity>
+            {/* <TouchableOpacity
               style={[styles.button, styles.mb10]}
               onPress={() => scheduleMeeting()}>
               <Text style={[styles.textStyles, styles.textWhite, {textAlign:'center', fontWeight:'bold'}]}>
                 Start Job
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               style={[styles.button, styles.mb10]}
               onPress={() => navigation.goBack()}>
@@ -290,8 +340,8 @@ export default function SelectedTutor({route}) {
             <View style={styles.modalView}>
               <Text style={[styles.textStyle, styles.mb20, {fontSize: normalize(16), fontWeight: 'bold'}]}>Specializations </Text> 
               <View style={{textAlign:'left'}}>
-                  {tutorData['specialization'].map((item,index)=> {
-                    return <Text style={[styles.modalText, {textAlign:'left'}]}> {index+1 + '.'} {item} {index == tutorData['specialization'].length-1 ? '' : ','} </Text>
+                  {tutorBidData.courses.map((item,index)=> {
+                    return <Text style={[styles.modalText, {textAlign:'left'}]}> {index+1 + '.'} {item.title} </Text>
                   })}
               </View>
               <Pressable

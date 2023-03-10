@@ -35,6 +35,10 @@ const Setting = props => {
     navigate('UpdateProfile');
   };
 
+  const buyCoins = () => {
+    navigate('BuyCoins');
+  };
+
   const changePassword = () => {
     navigate('ChangePassword');
   };
@@ -56,6 +60,10 @@ const Setting = props => {
     {
       text: 'Update Profile',
       func: () => updateProfile(),
+    },
+    {
+      text: 'Buy Coins',
+      func: () => buyCoins(),
     },
     {
       text: 'Change Password',

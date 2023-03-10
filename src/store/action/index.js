@@ -9,3 +9,16 @@ export const logout = () => {
     type: 'LOGOUT'
   };
 };
+export const refresh = data => {
+  return {
+    type: 'REFRESH',
+    payload: data,
+  };
+};
+export const tutorsByLocation = data => {
+  return {
+    type: 'TUTORS_BY_LOCATIONS',
+    payload: data,
+  };
+};
+

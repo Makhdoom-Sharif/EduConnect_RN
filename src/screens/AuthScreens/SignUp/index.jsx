@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   View,
+  Image
 } from 'react-native';
 import SimpleButton from '../../../components/SimpleButton';
 import SocialAuthButton from '../../../components/SocialAuthButton';
@@ -94,7 +95,17 @@ const SignUp = () => {
     <SafeAreaView style={styles.main}>
       <ScrollView>
         <BackButton onPress={goBack} />
-        <Text style={styles.mainTitle}>Edu-Connect</Text>
+        {/* <Text style={styles.mainTitle}>Edu-Connect</Text> */}
+        <Image
+          style={[
+            {
+              width: 400,
+              height: 300,
+              resizeMode: 'contain',
+            }
+          ]}
+          source={require('../../../assets/logo2.png')}
+        />
         <View
           style={{
             height: '65%',

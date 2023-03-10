@@ -20,6 +20,8 @@ import styles from './Styles';
 import {useNavigation} from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { refresh } from '../../store/action';
 
 export default function SelectJob({route}) {
   //responsive font size
@@ -39,6 +41,7 @@ export default function SelectJob({route}) {
 
   const navigation = useNavigation();
   const {_id, accessToken} = useSelector(state => state?.login);
+  const dispatch = useDispatch()
 
   // const {jobId, jobName, jobLogo, job, teacher, student, course, description, } = route.params;
 
@@ -76,6 +79,8 @@ export default function SelectJob({route}) {
   // ]);
 
   const [budget, setBudget] = useState(0);
+  const [isValidBudget, setIsValidBudget] = useState(false)
+  const [isJobBudgetTouched, setIsJobBudgetTouched] = useState(false)
 
   const viewStudentProfile = student => {
     console.log('working');
@@ -101,6 +106,8 @@ export default function SelectJob({route}) {
         bidAmount: budget
       }
       console.log(obj)
+      dispatch(refresh(false))
+
       try {
         const res = await axios.post(`https://educonnectbackend-production.up.railway.app/api/bids/`, obj, {
           headers: {
@@ -139,8 +146,19 @@ export default function SelectJob({route}) {
   };
 
   const resetStates = () => {
+    dispatch(refresh(true))
     setJobData(null)
     setBudget(0)  
+    navigation.navigate('Home')
+  }
+
+  const getBudgetValidity = () => {
+    if(Number(budget) > Number(jobData.jobBudget)){
+      setIsValidBudget(true)
+    }
+    else{
+      setIsValidBudget(false)
+    }
   }
 
 
@@ -149,7 +167,7 @@ export default function SelectJob({route}) {
       <ScrollView
         style={[styles.scrollView, {height: '100%'}]}
         nestedScrollEnabled={true}>
-        {jobData ? (
+        {jobData &&
           <>
             <View style={styles.bannerImg}>
               <Image
@@ -162,7 +180,7 @@ export default function SelectJob({route}) {
                   },
                   styles.mb20,
                 ]}
-                source={'../../../assets/student_job.jpg'}
+                source={require('../../assets/student_job.jpg')}
               />
             </View>
 
@@ -213,6 +231,7 @@ export default function SelectJob({route}) {
                   Bid Amount:
                 </Text>
                 <TextInput
+                  onFocus={() => setIsJobBudgetTouched(true)}
                   style={{
                     paddingLeft: 10,
                     height: 50,
@@ -222,17 +241,20 @@ export default function SelectJob({route}) {
                     backgroundColor: '#fff',
                     borderRadius: 7,
                   }}
-                  onChangeText={text => setBudget(text)}
+                  onChangeText={text => {setBudget(text)}}
                   value={budget}
                   keyboardType="numeric"
                   placeholder="Place Your Bid Amount"
                 />
+                <Text style={styles.error}>{(isJobBudgetTouched && (Number(budget) > jobData.jobBudget)) ? 'Bid amount should not exceed budget amount' : null}</Text>
               </View>
 
               <View style={[styles.mb10, {width: '100%'}]}>
                 <TouchableOpacity
                   style={[styles.button, styles.mt20]}
-                  onPress={() => placeBidAmount()}>
+                  onPress={() => placeBidAmount()}
+                  disabled={(Number(budget) > Number(jobData.jobBudget))}
+                  >
                   <Text
                     style={[
                       styles.textStyles,
@@ -257,11 +279,7 @@ export default function SelectJob({route}) {
               </View>
             </View>
           </>
-        ) : (
-          <View style={styles.container}>
-            <Text>No data available</Text>
-          </View>
-        )}
+        } 
       </ScrollView>
     </SafeAreaView>
   );

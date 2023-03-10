@@ -70,6 +70,9 @@ const styles = StyleSheet.create({
     color: '#fff',
     padding: 10,
     borderRadius: 5
+  },
+  error:{
+    color:'red'
   }
 });
 export default styles;

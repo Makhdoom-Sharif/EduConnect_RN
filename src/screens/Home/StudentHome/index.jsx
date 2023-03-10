@@ -5,20 +5,30 @@ import CourseCard from '../../../components/CourseCard';
 import JobCard from '../../../components/JobCard';
 import BoardCard from '../../../components/BoardCard';
 import SkillBaseCard from '../../../components/SkillBaseCard';
+import TopRatedTutors from '../../../components/TopRatedTutors';
 import SearchLocation from '../../../components/SearchLocation';
-import RecommendCard from '../../../components/RecommendCard';
+import RecommendTopRated from '../../../components/RecommendTopRated';
+import RecommendNearest from '../../../components/RecommendNearest';
 import styles from './Styles';
 import { useNavigation } from '@react-navigation/native';
 // import {selectedCoursesArray} from '../../../Global/CourseArray';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { refresh } from '../../../store/action';
+import TutorsByLocation from '../../../components/TutorsByLocation';
 
 const StudentHome = () => {
   const loginDetails = useSelector(state => state?.login)
+  const refreshState = useSelector(state => state?.refresh);
+  const userLocation = useSelector(state => state?.tutorsByLocation);
+  console.log(userLocation,'location')
+
   const { navigate } = useNavigation();
+  const dispatch = useDispatch()
   const [studentJobs, setStudentJobs] = useState(null)
+  const [teacherJobs, setTeacherJobs] = useState(null)
 
 
   let selectedCoursesArray = [
@@ -60,7 +70,7 @@ const StudentHome = () => {
   ];
 
 
-    const allStudentJobs = async () => {
+    const studentPostedJobs = async () => {
       const headers = { token: 'Bearer ' + loginDetails.accessToken }
       console.log(headers)
       console.log(loginDetails._id)
@@ -74,10 +84,37 @@ const StudentHome = () => {
       // console.log(res.data, 'all student jobs')
     }
 
+
+    const teacherSelectedJobs = async () => {
+        const headers = { token: 'Bearer ' + loginDetails.accessToken }
+        console.log(loginDetails._id, 'teacher')
+        const res = await axios.get(`https://educonnectbackend-production.up.railway.app/api/jobs/teacher/started/${loginDetails._id}`, {
+            headers
+          });
+        if(res){
+          console.log(res.data, 'all teacher jobs')
+          setTeacherJobs(res.data)
+        }
+      }
+
+
     useEffect(() => {
-      allStudentJobs()
+      if(loginDetails.role == 'student'){
+        studentPostedJobs()
+      }
+      else{
+        teacherSelectedJobs()
+      }
     }, [])
     
+    useEffect(() => {
+      if(loginDetails.role == 'student'){
+        studentPostedJobs()
+      }
+      else{
+        teacherSelectedJobs()
+      }
+    }, [refreshState])
 
   // const [userType, setUserType] = useState(1); //1 STUDENT //2 TUTOR
 
@@ -91,41 +128,38 @@ const StudentHome = () => {
             <SearchLocation />
           </View>
           <ScrollView style={styles.ScrollViewStyles}>
-            {selectedCoursesArray != null && (
-              <View style={styles.cardSpace}>
-                <CourseCard selectedCoursesArray={studentJobs ? studentJobs : null} />
-              </View>
-            )}
-            <View>
-              <CourseCard />
+            <View style={styles.cardSpace}>
+              <CourseCard selectedCoursesArray={studentJobs ? studentJobs : null} />
             </View>
             {/* <View style={styles.cardSpace}>
               <BoardCard />
             </View> */}
-            <View style={styles.cardSpace}>
+            {/* <View style={styles.cardSpace}>
               <SkillBaseCard />
+              <TopRatedTutors/>
+            </View> */}
+            <View>
+              <TutorsByLocation />
+            </View>
+            <View style={styles.cardSpace}>
+              <RecommendTopRated />
             </View>
             <View>
-              <RecommendCard />
+              <RecommendNearest />
             </View>
           </ScrollView>
         </>
       ) : (
         <>
-          <View
+          {/* <View
             style={styles.SearchLocationContainer}
             onStartShouldSetResponder={() => navigate('SearchByLocation')}>
             <SearchLocation />
-          </View>
+          </View> */}
           <ScrollView style={styles.ScrollViewStyles}>
-            {userJobsArray != null && (
               <View style={styles.cardSpace}>
-                <JobCard userJobsArray={userJobsArray} />
+                <JobCard teacherJobsArray={teacherJobs ? teacherJobs : null} />
               </View>
-            )}
-            <View>
-              <JobCard />
-            </View>
           </ScrollView>
         </>
       )}

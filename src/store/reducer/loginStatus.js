@@ -12,7 +12,7 @@ const initialState = {};
 const loginStatus = (state = data, action) => {
   switch (action.type) {
     case 'LOGIN':
-      return { ...state, ...action.payload };
+      return action.payload
     case 'LOGOUT':
       return initialState;
     default:

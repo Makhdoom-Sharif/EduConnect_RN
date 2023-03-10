@@ -85,8 +85,8 @@ export default function SelectedStudent({route}) {
           <View style={styles.tutorInfo}>
             <Image
               style={[styles.avatar, styles.mb20]}
-              source={{
-                uri: studentData['avatar'],
+              source={studentData.profilePicture ? { uri : studentData.profilePicture } : {
+                uri: 'https://cdn.dribbble.com/users/304574/screenshots/6222816/male-user-placeholder.png'
               }}
             />
           </View>
@@ -97,22 +97,22 @@ export default function SelectedStudent({route}) {
                 fontWeight: 'bold',
                 marginLeft: 5,
               }}>
-              {studentData['name']}
+              {studentData.name}
             </Text>
           </View>
-          <View style={styles.tutorInfo}>
-            <Text style={{marginLeft: 5, marginTop: 2}}>{studentData['about']}</Text>
-          </View>
+          {/* <View style={styles.tutorInfo}>
+            <Text style={{marginLeft: 5, marginTop: 2}}>{studentData.description}</Text>
+          </View> */}
         </View>
 
-        <View style={[styles.card, styles.mb10, {flexDirection:'row', justifyContent:'space-around'}]}>
+        {/* <View style={[styles.card, styles.mb10, {flexDirection:'row', justifyContent:'space-around'}]}>
             <View style={{flexDirection:'row', alignItems:'center'}}>
               <Icon name="male" size={20} color={Colors.primary} />
               <Text style={{marginLeft: 5,fontSize: normalize(18)}}>{studentData['gender']}</Text>
             </View>
-        </View>
+        </View> */}
 
-        <View style={[styles.card, styles.mb10]}>
+        {/* <View style={[styles.card, styles.mb10]}>
           <View style={[{flexDirection:'row', alignItems:'center'}, styles.mb10]}>
             <Icon name="map-marker" size={20} color={Colors.primary} />
             <Text style={{marginLeft: 5,fontSize: normalize(18)}}>{studentData['location']}</Text>
@@ -123,18 +123,18 @@ export default function SelectedStudent({route}) {
               {studentData['distance'] + ' Km away'}
             </Text>
           </View>
-        </View>
+        </View> */}
 
-        <View style={[styles.card, styles.mb10]}>
+        {/* <View style={[styles.card, styles.mb10]}>
           <View style={[styles.tutorInfo, {alignItems:'center'}]}>
             <Icon name="usd" size={20} color={Colors.primary} />
             <Text style={{marginLeft: 5,fontSize: normalize(18)}}>
               {studentData['payBy']}
             </Text>
           </View>
-        </View>
+        </View> */}
 
-        <View style={[styles.card]}>
+        {/* <View style={[styles.card]}>
           <View style={[styles.tutorInfo, styles.mb10, {alignItems:'center'}]}>
             <Icon name="comments" size={20} color={Colors.primary} />
           </View>
@@ -146,7 +146,7 @@ export default function SelectedStudent({route}) {
                 A very bright mind - Amna Ali (Tutor)
               </Text>
           </View>
-        </View>
+        </View> */}
 
         <View style={[{width: '100%'}]}>
           <TouchableOpacity
