@@ -192,11 +192,7 @@ export default function SelectCourse({ route }) {
         // status: 'pending',
         jobPayDuration: payByValue
       }
-      console.log(data)
-      console.log(cardNumber)
-      console.log(cardCVV)
-      console.log(cardHolderName)
-
+      
       dispatch(refresh(false))
       try {
         const res = await axios.post('https://educonnectbackend-production.up.railway.app/api/jobs', data, {

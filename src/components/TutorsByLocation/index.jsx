@@ -34,6 +34,7 @@ const TutorsByLocation = () => {
 
   useEffect(() => {
     getTeachersByLocation()
+    console.log('ran')
   }, [userLocation])
 
 

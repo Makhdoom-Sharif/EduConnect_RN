@@ -285,9 +285,16 @@ export default function SelectedCourse({ route }) {
                     <Text style={[styles.mt10, styles.mb10, { fontSize: normalize(16), fontWeight: 'bold' }]}>
                       Title:
                     </Text>
-                    <Text style={[styles.mt10, styles.mb10, { fontSize: normalize(16) }]}>
+                    {/* <Text style={[styles.mt10, styles.mb10, { fontSize: normalize(16) }]}>
                       {jobData.description ? jobData.description : 'not available'}
-                    </Text>
+                    </Text> */}
+                    {/* <Text style={[styles.mt10, styles.mb10]}> */}
+                      <View style={[styles.mt10,{flex: 1, marginLeft:10}]}>
+                          <Text style={{ fontSize: normalize(16), textAlign:'right'}}>
+                            {jobData.description}
+                          </Text>
+                      </View>
+                    {/* </Text> */}
                   </View>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
                     <Text style={[styles.mt10, styles.mb10, { fontSize: normalize(16), fontWeight: 'bold' }]}>

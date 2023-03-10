@@ -267,7 +267,7 @@ export default function SelectedTutor({ route }) {
 
 
           <View style={[styles.card, styles.mb10]}>
-            <View style={[styles.mb10, { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }]}>
+            <View style={[{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }]}>
               <Icon name="dollar" size={20} color={Colors.primary} />
               <Text style={{ marginLeft: 5, fontSize: normalize(18) }}>{route.params.bidAmount}</Text>
             </View>

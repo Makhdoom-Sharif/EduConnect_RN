@@ -78,7 +78,8 @@ const CourseCard = ({ selectedCoursesArray }) => {
                 <> */}
                     <Icon name="book" size={30} color={Colors.primary} />
                     {/* <Text style={styles.textStyles}>{item.description.substring(0, 5).concat('...')}</Text> */}
-                    <Text style={[styles.textStyles, { fontSize: 20 }]}>{item.course.title}</Text>
+                    <Text style={[styles.textStyles, { fontSize: 20 }]}>{item.description.substring(0,10).concat('...')}</Text>
+                    <Text style={[styles.textStyles, { fontSize: 14 }]}>{item.course.title}</Text>
                     <Text style={[styles.textStyles, {
                       backgroundColor: Colors.secondary, marginTop: 5,
                       paddingVertical: 2, paddingHorizontal: 10, borderRadius: 5, fontSize: 14, fontWeight: 'bold'

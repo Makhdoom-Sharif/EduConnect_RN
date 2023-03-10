@@ -113,7 +113,7 @@ export default function TutorJobs({route}) {
     navigation.navigate('SelectedTutor', tutor);
   };
 
-  const submitReview = () => {
+  const postStudentReview = () => {
     let review = {
       studentId: jobData.student,
       teacherId: jobData.teacher,
@@ -122,6 +122,7 @@ export default function TutorJobs({route}) {
       reviewText: tutorReviewsStudent
     }
     console.log(review, 'review data')
+    const res = true
     // const res = await axios.post(`https://educonnectbackend-production.up.railway.app/api/ratings/`, review, headers)
     // if(res){
     //   console.log(res2, 'review sent')
