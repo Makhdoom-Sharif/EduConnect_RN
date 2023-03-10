@@ -17,7 +17,7 @@ import {Colors, SafeAreaStyles} from '../../Global/GlobalCSS';
 import DropDownPicker from 'react-native-dropdown-picker';
 import styles from './Styles';
 import {useNavigation} from '@react-navigation/native';
-
+import imageTutorJob from '../../Assets/payment.jpg';
 export default function JobCompleted({route}) {
   //responsive font size
   const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -99,7 +99,7 @@ export default function JobCompleted({route}) {
                 height: 400,
                 resizeMode: 'contain',
               }}
-              source={'../../assets/payment.jpg'}
+              source={imageTutorJob}
             />
           </View>
           <View style={[styles.mb10, styles.mt30, {width: '100%'}]}>

@@ -3,10 +3,12 @@ import React from 'react';
 import {SafeAreaView, Text, View, Image} from 'react-native';
 import SimpleButton from '../../../components/SimpleButton';
 import styles from './Styles';
+import imageLogo from '../../../Assets/logo2.png';
 const LandingScreen = () => {
   const handleClick = () => {
     console.log('Click works');
   };
+
   const {navigate} = useNavigation();
   return (
     <SafeAreaView style={styles.main}>
@@ -17,9 +19,9 @@ const LandingScreen = () => {
             width: 400,
             height: 300,
             resizeMode: 'contain',
-          }
+          },
         ]}
-        source={require('../../../assets/logo2.png')}
+        source={imageLogo}
       />
       <View style={styles.bottomContainer}>
         <Text style={styles.centerText}>Learn Everything You Want </Text>

@@ -1,31 +1,26 @@
-import React, { useState } from 'react';
-import {
-  SafeAreaView,
-  ScrollView, Text, View, Image
-} from 'react-native';
+import React, {useState} from 'react';
+import {SafeAreaView, ScrollView, Text, View, Image} from 'react-native';
 import BackButton from '../../../components/BackButton';
 import SimpleButton from '../../../components/SimpleButton';
 import SimpleTextInput from '../../../components/SimpleTextInput';
 import SocialAuthButton from '../../../components/SocialAuthButton';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import styles from './Styles';
-import { useFormik } from 'formik';
+import {useFormik} from 'formik';
 import * as yup from 'yup';
 import ValidationMessage from '../../../components/ValidationMessage';
-import { useDispatch } from 'react-redux';
-import { useToast } from 'react-native-toast-notifications';
-import { loginUser } from '../../../Services/auth';
-import { login } from '../../../store/action';
-
+import {useDispatch} from 'react-redux';
+import {useToast} from 'react-native-toast-notifications';
+import {loginUser} from '../../../Services/auth';
+import {login} from '../../../store/action';
+import logo2 from '../../../Assets/logo2.png';
 
 const Login = () => {
-  const { goBack, navigate, reset } = useNavigation();
+  const {goBack, navigate, reset} = useNavigation();
   const dispatch = useDispatch();
   const toast = useToast();
 
-
-  const [loading, setLoading] = useState(false)
-
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -41,15 +36,15 @@ const Login = () => {
         .max(16, 'maximum limit reached!'),
     }),
 
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values, {resetForm}) => {
       setLoading(true);
-      const { email, password } = values;
+      const {email, password} = values;
       console.log('values', values);
-      await loginUser({ email, password })
+      await loginUser({email, password})
         .then(res => {
-          const { user, ...others } = res.data
-          const userDetails = { ...others, userID: user }
-          dispatch(login(userDetails))
+          const {user, ...others} = res.data;
+          const userDetails = {...others, userID: user};
+          dispatch(login(userDetails));
           resetForm();
           reset({
             index: 0,
@@ -60,7 +55,7 @@ const Login = () => {
             ],
           });
           setLoading(false);
-          toast.show('Login successfully', { type: 'success' });
+          toast.show('Login successfully', {type: 'success'});
         })
         .catch(err => {
           // let errorMessage =
@@ -76,9 +71,6 @@ const Login = () => {
         });
     },
   });
-
-
-
 
   const handleClick = () => {
     console.log('Click works');
@@ -96,31 +88,38 @@ const Login = () => {
               width: 400,
               height: 300,
               resizeMode: 'contain',
-            }
+            },
           ]}
-          source={require('../../../assets/logo2.png')}
+          source={logo2}
         />
         <View
           style={{
             height: '65%',
           }}>
           <Text style={styles.centerText}>Login to your Account</Text>
-          <SimpleTextInput placeholder="Email" onChange={event => {
-            formik.setFieldValue('email', event.nativeEvent.text);
-          }} />
+          <SimpleTextInput
+            placeholder="Email"
+            onChange={event => {
+              formik.setFieldValue('email', event.nativeEvent.text);
+            }}
+          />
           {formik.errors.email && formik.values.email.length > 0 && (
             <ValidationMessage error={formik.errors.username} />
           )}
-          <SimpleTextInput placeholder="Password" secureTextEntry onChange={event => {
-            formik.setFieldValue('password', event.nativeEvent.text);
-          }} />
+          <SimpleTextInput
+            placeholder="Password"
+            secureTextEntry
+            onChange={event => {
+              formik.setFieldValue('password', event.nativeEvent.text);
+            }}
+          />
           {formik.errors.password && formik.values.password.length > 0 && (
             <ValidationMessage error={formik.errors.password} />
           )}
           <Text
             style={[
               styles.simpleTextStyle,
-              { textAlign: 'right', marginBottom: 10 },
+              {textAlign: 'right', marginBottom: 10},
             ]}
             onPress={() => navigate('ForgotPasswordScreen')}>
             Forgot your password?
@@ -132,7 +131,7 @@ const Login = () => {
             handleClick={formik.handleSubmit}
             loading={loading}
           />
-          <Text style={[styles.simpleTextStyle, { textAlign: 'center' }]}>
+          <Text style={[styles.simpleTextStyle, {textAlign: 'center'}]}>
             or log in with
           </Text>
           <SocialAuthButton />

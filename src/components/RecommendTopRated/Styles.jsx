@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { Colors } from '../../Global/GlobalCSS';
+import {StyleSheet} from 'react-native';
+import {Colors} from '../../Global/GlobalCSS';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -60,11 +60,11 @@ const styles = StyleSheet.create({
   bottomGap: {
     paddingBottom: 5,
   },
-  nameStyle: { fontWeight: '700', fontSize: 18 },
+  nameStyle: {fontWeight: '700', fontSize: 18},
   profile: {
-    height: 80,
+    height: 100,
     width: 100,
-    resizeMode: 'contain'
+    borderRadius: 100,
   },
 });
 export default styles;

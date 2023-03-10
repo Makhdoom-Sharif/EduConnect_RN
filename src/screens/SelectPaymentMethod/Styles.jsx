@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   mainHeading: {
     color: Colors.white,
-    fontFamily: 'poppins',
+    // fontFamily: 'poppins',
     textTransform: 'capitalize',
   },
   textStyles: {
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.secondary,
     color: '#fff',
     padding: 10,
-    borderRadius: 5
-  }
+    borderRadius: 5,
+  },
 });
 export default styles;

@@ -8,7 +8,9 @@ const BottomSliderHeader = props => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={{color:'#fff', marginRight:5, fontSize:26}}>{title}</Text>
+        <Text style={{color: '#fff', marginRight: 5, fontSize: 26}}>
+          {title}
+        </Text>
       </View>
       <View>
         <TouchableOpacity onPress={goBack}>
@@ -25,6 +27,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    width: '100%',
   },
   titleStyle: {
     fontFamily: 'Helvetica',

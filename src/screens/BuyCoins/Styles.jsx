@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   mainHeading: {
     color: Colors.white,
-    fontFamily: 'poppins',
+    // fontFamily: 'poppins',
     textTransform: 'capitalize',
   },
   textStyles: {
@@ -69,22 +69,22 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.secondary,
     color: '#fff',
     padding: 10,
-    borderRadius: 5
+    borderRadius: 5,
   },
   coins: {
     backgroundColor: Colors.white,
     padding: 20,
     marginBottom: 20,
-    borderRadius:10,
+    borderRadius: 10,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     textAlign: 'center',
   },
-  coinInfo:{
+  coinInfo: {
     justifyContent: 'center',
-    flexDirection:'row', 
-    flexWrap:'wrap',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 });
 export default styles;

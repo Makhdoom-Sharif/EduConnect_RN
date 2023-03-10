@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   cardSpace: {
     marginVertical: 25,
   },
-  bannerImg:{
+  bannerImg: {
     display: 'flex',
     alignItems: 'center',
     textAlign: 'center',
@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: '100%',
-    height:'100%',
-    resizeMode:'contain'
+    height: '100%',
+    resizeMode: 'contain',
   },
   mt10: {
     marginTop: 10,
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   mainHeading: {
     color: Colors.white,
-    fontFamily: 'poppins',
+    // fontFamily: 'poppins',
     textTransform: 'capitalize',
   },
   textStyles: {
@@ -73,27 +73,27 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.secondary,
     color: '#fff',
     padding: 10,
-    borderRadius: 5
+    borderRadius: 5,
   },
   jobDetails: {
     backgroundColor: Colors.white,
     padding: 20,
     marginBottom: 20,
-    borderRadius:5,
+    borderRadius: 5,
     display: 'flex',
-    width:'100%',
+    width: '100%',
     flexDirection: 'column',
     alignItems: 'flex-start',
     textAlign: 'center',
   },
-  jobDetailUserAvatar:{
+  jobDetailUserAvatar: {
     width: 70,
-    height:70,
+    height: 70,
     borderRadius: 70,
-    resizeMode:'contain'
+    resizeMode: 'contain',
   },
-  error:{
-    color:'red'
-  }
+  error: {
+    color: 'red',
+  },
 });
 export default styles;

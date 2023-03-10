@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useState, useEffect } from 'react';
+import {useNavigation} from '@react-navigation/native';
+import React, {useState, useEffect} from 'react';
 import {
   Image,
   Text,
@@ -12,21 +12,20 @@ import {
   ScrollView,
   SafeAreaView,
   Alert,
-  FlatList
+  FlatList,
 } from 'react-native';
 import BottomSliderHeader from '../../components/BottomSliderHeader';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import styles from './Styles';
-import { SafeAreaStyles } from '../../Global/GlobalCSS';
-import { getCourses } from '../../backenAPICalls/coursesAPICall';
+import {SafeAreaStyles} from '../../Global/GlobalCSS';
+import {getCourses} from '../../backenAPICalls/coursesAPICall';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {Colors} from '../../Global/GlobalCSS';
-
-
+import imageCoins from '../../Assets/coins.png';
 export default function BuyCoins() {
   //responsive font size
-  const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+  const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
 
   // based on iphone 5s's scale
   const scale = SCREEN_WIDTH / 320;
@@ -41,26 +40,26 @@ export default function BuyCoins() {
   };
 
   const navigation = useNavigation();
-  const { _id, accessToken } = useSelector(state => state?.login);
-  const [courses, setCourses] = useState()
+  const {_id, accessToken} = useSelector(state => state?.login);
+  const [courses, setCourses] = useState();
 
   const [coinPackage, setCoinPackage] = useState([
     {
-      label: "Package 1",
+      label: 'Package 1',
       value: 50,
-      price: 500
+      price: 500,
     },
     {
-      label: "Package 2",
+      label: 'Package 2',
       value: 100,
-      price: 800
+      price: 800,
     },
     {
-      label: "Package 3",
+      label: 'Package 3',
       value: 150,
-      price: 1250
-    }
-  ])
+      price: 1250,
+    },
+  ]);
 
   // const allCoinPackages = async () => {
   //   const headers = { token: 'Bearer ' + accessToken }
@@ -80,70 +79,85 @@ export default function BuyCoins() {
   // }
 
   const resetStates = () => {
-    setCoinPackage(null)
-  }
+    setCoinPackage(null);
+  };
 
   // useEffect(() => {
   //   allCourses()
   // }, [])
 
-
-
   const buyCoinPackage = async () => {
-    if (userName && userBio && userPayRate && payByValue && userQualification && selected) {
-      let data = {
-      }
-      console.log(data)
+    if (
+      userName &&
+      userBio &&
+      userPayRate &&
+      payByValue &&
+      userQualification &&
+      selected
+    ) {
+      let data = {};
+      console.log(data);
       try {
-        const res = await axios.patch(`https://educonnectbackend-production.up.railway.app/api/teachers/${_id}`, data, {
-          headers: {
-            token: 'Bearer ' + accessToken
-          }
-        })
+        const res = await axios.patch(
+          `https://educonnectbackend-production.up.railway.app/api/teachers/${_id}`,
+          data,
+          {
+            headers: {
+              token: 'Bearer ' + accessToken,
+            },
+          },
+        );
         if (res) {
           Alert.alert(
-            "Are your sure?",
+            'Are your sure?',
             `Are you sure you want to buy this Package?`,
             [
               {
-                text: "Yes",
+                text: 'Yes',
                 onPress: async () => {
-                  const res = await axios.patch(`https://educonnectbackend-production.up.railway.app/api/bids/${bidId}`, data, {
+                  const res = await axios.patch(
+                    `https://educonnectbackend-production.up.railway.app/api/bids/${bidId}`,
+                    data,
+                    {
                       headers: {
-                        token:'Bearer ' + accessToken
-                      }
-                    })
-                    if (res) { 
-                      Alert.alert('Success', `Bid has been ${status} successfully`, [
+                        token: 'Bearer ' + accessToken,
+                      },
+                    },
+                  );
+                  if (res) {
+                    Alert.alert(
+                      'Success',
+                      `Bid has been ${status} successfully`,
+                      [
                         {
                           text: 'Cancel',
                           onPress: () => console.log('Cancel Pressed'),
                           style: 'cancel',
                         },
                         {text: 'OK', onPress: () => console.log('OK Pressed')},
-                      ]);
-                    }
-                    else{
-                      Alert.alert('Error', 'Something went wrong', [
-                        {
-                          text: 'Cancel',
-                          onPress: () => console.log('Cancel Pressed'),
-                          style: 'cancel',
-                        },
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
-                      ]);
-                    }
+                      ],
+                    );
+                  } else {
+                    Alert.alert('Error', 'Something went wrong', [
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ]);
+                  }
                 },
               },
               {
-                text: "No",
+                text: 'No',
               },
-            ]
+            ],
           );
         }
       } catch (error) {
         // Alert.alert(error);
-        console.log(error)
+        console.log(error);
       }
     } else {
       //alert after response failure
@@ -153,19 +167,20 @@ export default function BuyCoins() {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'OK', onPress: () => console.log('OK Pressed') },
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
       ]);
     }
   };
 
-
   return (
     <SafeAreaView style={SafeAreaStyles}>
-      <ScrollView style={[styles.scrollView, ]} nestedScrollEnabled={true}>
+      <ScrollView style={[styles.scrollView]} nestedScrollEnabled={true}>
         <View style={styles.container}>
           <BottomSliderHeader title="Buy Coins" />
           <View style={[styles.mb10, styles.mt20]}>
-            <Text style={{color:'#fff', fontSize: normalize(16)}}>Select a Coin Package</Text>
+            <Text style={{color: '#fff', fontSize: normalize(16)}}>
+              Select a Coin Package
+            </Text>
           </View>
           <FlatList
             style={styles.mt20}
@@ -175,14 +190,16 @@ export default function BuyCoins() {
             }}
             horizontal
             showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
+            renderItem={({item}) => (
               <TouchableOpacity
-                style={[styles.coins, styles.boxShadow, styles.mb20, { marginRight: 20, backgroundColor: '#fff', borderRadius:5 }]}
+                style={[
+                  styles.coins,
+                  styles.boxShadow,
+                  styles.mb20,
+                  {marginRight: 20, backgroundColor: '#fff', borderRadius: 5},
+                ]}
                 onPress={() => buyCoinPackage(item)}>
-                <Image
-                  style={[styles.logo, styles.mt20]}
-                  source={require('../../assets/coins.png')}
-                />
+                <Image style={[styles.logo, styles.mt20]} source={imageCoins} />
 
                 <View style={[styles.coinInfo]}>
                   <Text
@@ -217,21 +234,27 @@ export default function BuyCoins() {
                   <Text
                     style={[
                       styles.textStyles,
-                      { marginLeft: 5, fontSize: normalize(14) },
+                      {marginLeft: 5, fontSize: normalize(14)},
                     ]}>
                     Rs. {item.price}
                   </Text>
                 </View>
-
               </TouchableOpacity>
             )}
           />
 
-          <View style={[styles.mb10, { width: '100%' }]}>
+          <View style={[styles.mb10, {width: '100%'}]}>
             <TouchableOpacity
               style={[styles.button, styles.mt10]}
               onPress={() => navigation.goBack()}>
-              <Text style={[styles.textStyles, styles.textWhite, { textAlign: 'center' }]}>Go Back</Text>
+              <Text
+                style={[
+                  styles.textStyles,
+                  styles.textWhite,
+                  {textAlign: 'center'},
+                ]}>
+                Go Back
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

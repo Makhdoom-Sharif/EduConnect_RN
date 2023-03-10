@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useState, useEffect } from 'react';
+import {useNavigation} from '@react-navigation/native';
+import React, {useState, useEffect} from 'react';
 import {
   Image,
   Text,
@@ -11,23 +11,22 @@ import {
   Platform,
   ScrollView,
   SafeAreaView,
-  Alert
+  Alert,
 } from 'react-native';
 import BottomSliderHeader from '../../components/BottomSliderHeader';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import styles from './Styles';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { SafeAreaStyles } from '../../Global/GlobalCSS';
-import { getCourses } from '../../backenAPICalls/coursesAPICall';
-import { MultipleSelectList } from 'react-native-dropdown-select-list'
-import { SelectList } from 'react-native-dropdown-select-list'
+import {SafeAreaStyles} from '../../Global/GlobalCSS';
+import {getCourses} from '../../backenAPICalls/coursesAPICall';
+import {MultipleSelectList} from 'react-native-dropdown-select-list';
+import {SelectList} from 'react-native-dropdown-select-list';
 import axios from 'axios';
-
 
 export default function UpdateProfile() {
   //responsive font size
-  const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+  const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
 
   // based on iphone 5s's scale
   const scale = SCREEN_WIDTH / 320;
@@ -43,18 +42,20 @@ export default function UpdateProfile() {
 
   const navigation = useNavigation();
 
-  const { _id, accessToken, role } = useSelector(state => state?.login);
+  const {_id, accessToken, role} = useSelector(state => state?.login);
 
-  const [courses, setCourses] = useState()
+  const [courses, setCourses] = useState();
 
-  const [userProfileImg, setUserProfileImg] = useState('https://cdn.dribbble.com/users/304574/screenshots/6222816/male-user-placeholder.png');
+  const [userProfileImg, setUserProfileImg] = useState(
+    'https://cdn.dribbble.com/users/304574/screenshots/6222816/male-user-placeholder.png',
+  );
   const [userName, setUserName] = useState(null);
   const [userBio, setUserBio] = useState(null);
   const [userPayRate, setUserPayRate] = useState(null);
   const [userQualification, setUserQualification] = useState(null);
-  const [userExperience, setUserExperience] = useState()
+  const [userExperience, setUserExperience] = useState();
   const [selected, setSelected] = useState([]);
-  const [location, setLocation] = useState([])
+  const [location, setLocation] = useState([]);
 
   const [payByOpen, setPayByOpen] = useState(false);
   const [payByValue, setPayByValue] = useState(null);
@@ -75,97 +76,103 @@ export default function UpdateProfile() {
 
   const [locationList, setLocationList] = useState([
     {
-      label: "Clifton",
-      value: "Clifton"
+      label: 'Clifton',
+      value: 'Clifton',
     },
     {
-      label: "Defence Housing Authority (DHA)",
-      value: "Defence Housing Authority (DHA)"
+      label: 'Defence Housing Authority (DHA)',
+      value: 'Defence Housing Authority (DHA)',
     },
     {
-      label: "Gulshan-e-Iqbal",
-      value: "Gulshan-e-Iqbal"
+      label: 'Gulshan-e-Iqbal',
+      value: 'Gulshan-e-Iqbal',
     },
     {
-      label: "North Nazimabad",
-      value: "North Nazimabad"
+      label: 'North Nazimabad',
+      value: 'North Nazimabad',
     },
     {
-      label: "Gulistan-e-Jauhar",
-      value: "Gulistan-e-Jauhar"
+      label: 'Gulistan-e-Jauhar',
+      value: 'Gulistan-e-Jauhar',
     },
     {
-      label: "Tariq Road",
-      value: "Tariq Road"
+      label: 'Tariq Road',
+      value: 'Tariq Road',
     },
     {
-      label: "Saddar",
-      value: "Saddar"
+      label: 'Saddar',
+      value: 'Saddar',
     },
     {
-      label: "PECHS",
-      value: "PECHS"
+      label: 'PECHS',
+      value: 'PECHS',
     },
     {
-      label: "Bahadurabad",
-      value: "Bahadurabad"
+      label: 'Bahadurabad',
+      value: 'Bahadurabad',
     },
     {
-      label: "Nazimabad",
-      value: "Nazimabad"
+      label: 'Nazimabad',
+      value: 'Nazimabad',
     },
     {
-      label: "Korangi",
-      value: "Korangi"
+      label: 'Korangi',
+      value: 'Korangi',
     },
     {
-      label: "Malir",
-      value: "Malir"
+      label: 'Malir',
+      value: 'Malir',
     },
     {
-      label: "Karachi Cantonment",
-      value: "Karachi Cantonment"
+      label: 'Karachi Cantonment',
+      value: 'Karachi Cantonment',
     },
     {
-      label: "Jamshed Road",
-      value: "Jamshed Road"
+      label: 'Jamshed Road',
+      value: 'Jamshed Road',
     },
     {
-      label: "Liaquatabad",
-      value: "Liaquatabad"
+      label: 'Liaquatabad',
+      value: 'Liaquatabad',
     },
     {
-      label: "FB Area",
-      value: "FB Area"
+      label: 'FB Area',
+      value: 'FB Area',
     },
-  ])
-
+  ]);
 
   const selectProfileImage = async () => {
     const res = await launchImageLibrary(options);
     selectProfileImage(res.assets[0].uri);
   };
 
-
   const allCourses = async () => {
-    const headers = { token: 'Bearer ' + accessToken }
-    const res = await getCourses(headers)
+    const headers = {token: 'Bearer ' + accessToken};
+    const res = await getCourses(headers);
     if (res) {
-      console.log(res.data, 'all courses')
-      const arr = []
+      console.log(res.data, 'all courses');
+      const arr = [];
       res.data.forEach(obj => {
         let data = {
           key: obj._id,
-          value: obj.title
-        }
-        arr.push(data)
+          value: obj.title,
+        };
+        arr.push(data);
       });
-      setCourses(arr)
+      setCourses(arr);
     }
-  }
+  };
 
   const updateProfile = async () => {
-    if (userName || userBio || userPayRate || payByValue || userQualification || selected || userExperience) {
+    if (
+      userName ||
+      userBio ||
+      userPayRate ||
+      payByValue ||
+      userQualification ||
+      selected ||
+      userExperience
+    ) {
       let data = {
         name: userName,
         profilePicture: userProfileImg,
@@ -173,29 +180,36 @@ export default function UpdateProfile() {
         highestQualification: userQualification,
         courses: selected.length > 0 ? selected : null,
         experience: userExperience ? userExperience : null,
-        location: location.length > 0 ? location : null
-      }
+        location: location.length > 0 ? location : null,
+      };
       Object.keys(data).forEach(key => {
         if (data[key] == null) {
-          delete data[key]
+          delete data[key];
         }
-      })
-      console.log(data)
+      });
+      console.log(data);
       try {
-        let res = null
+        let res = null;
         if (role == 'teacher') {
-          res = await axios.patch(`https://educonnectbackend-production.up.railway.app/api/teachers/${_id}`, data, {
-            headers: {
-              token: 'Bearer ' + accessToken
-            }
-          })
-        }
-        else {
-          res = await axios.put(`https://educonnectbackend-production.up.railway.app/api/students/${_id}`, data, {
-            headers: {
-              token: 'Bearer ' + accessToken
-            }
-          })
+          res = await axios.patch(
+            `https://educonnectbackend-production.up.railway.app/api/teachers/${_id}`,
+            data,
+            {
+              headers: {
+                token: 'Bearer ' + accessToken,
+              },
+            },
+          );
+        } else {
+          res = await axios.put(
+            `https://educonnectbackend-production.up.railway.app/api/students/${_id}`,
+            data,
+            {
+              headers: {
+                token: 'Bearer ' + accessToken,
+              },
+            },
+          );
         }
 
         if (res) {
@@ -209,13 +223,13 @@ export default function UpdateProfile() {
                 onPress: () => console.log('Cancel Pressed'),
                 style: 'cancel',
               },
-              { text: 'OK', onPress: () => resetStates() },
+              {text: 'OK', onPress: () => resetStates()},
             ],
           );
         }
       } catch (error) {
         // Alert.alert(error);
-        console.log(error)
+        console.log(error);
       }
     } else {
       //alert after response failure
@@ -225,29 +239,28 @@ export default function UpdateProfile() {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'OK', onPress: () => console.log('OK Pressed') },
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
       ]);
     }
-  }
+  };
 
   const resetStates = () => {
-    setUserProfileImg('')
-    setUserName(null)
-    setUserBio(null)
-    setUserPayRate(null)
-    setUserQualification(null)
-    setUserExperience(null)
-    setSelected([])
-    setLocation([])
-    setPayByOpen(false)
-    setPayByValue(null)
-    navigation.navigate('Home')
-  }
+    setUserProfileImg('');
+    setUserName(null);
+    setUserBio(null);
+    setUserPayRate(null);
+    setUserQualification(null);
+    setUserExperience(null);
+    setSelected([]);
+    setLocation([]);
+    setPayByOpen(false);
+    setPayByValue(null);
+    navigation.navigate('Home');
+  };
 
   useEffect(() => {
-    allCourses()
-  }, [])
-
+    allCourses();
+  }, []);
 
   return (
     <SafeAreaView style={SafeAreaStyles}>
@@ -255,26 +268,30 @@ export default function UpdateProfile() {
         <View style={styles.container}>
           <BottomSliderHeader title="Update Profile" />
 
-          <TouchableOpacity
-            onPress={selectProfileImage}>
+          <TouchableOpacity onPress={selectProfileImage}>
             <Image
-              style={[styles.logo, styles.mt20, styles.mb20]}
-              source={userProfileImg ? { uri: userProfileImg } : {
-                uri: 'https://cdn.dribbble.com/users/304574/screenshots/6222816/male-user-placeholder.png'
-              }}
+              style={[styles.logo, styles.mt20, styles.mb20, {}]}
+              source={
+                userProfileImg
+                  ? {uri: userProfileImg}
+                  : {
+                      uri: 'https://cdn.dribbble.com/users/304574/screenshots/6222816/male-user-placeholder.png',
+                    }
+              }
+              resizeMode="cover"
             />
           </TouchableOpacity>
           <Text
             style={[
               styles.mb30,
               styles.mainHeading,
-              { fontSize: normalize(16) },
+              {fontSize: normalize(16)},
             ]}>
             Select Profile Image
           </Text>
 
-          <View style={[styles.mb10, { width: '100%' }]}>
-            <Text style={[styles.textWhite, { fontSize: normalize(15) }]}>
+          <View style={[styles.mb10, {width: '100%'}]}>
+            <Text style={[styles.textWhite, {fontSize: normalize(15)}]}>
               Your Name:
             </Text>
             <TextInput
@@ -291,8 +308,8 @@ export default function UpdateProfile() {
             />
           </View>
 
-          <View style={[styles.mb10, { width: '100%' }]}>
-            <Text style={[styles.textWhite, { fontSize: normalize(15) }]}>
+          <View style={[styles.mb10, {width: '100%'}]}>
+            <Text style={[styles.textWhite, {fontSize: normalize(15)}]}>
               Describe Yourself:
             </Text>
             <TextInput
@@ -343,10 +360,9 @@ export default function UpdateProfile() {
               setItems={setPayBy}
             />
           </View> */}
-          {
-            role == 'teacher' &&
-            <View style={[styles.mb10, { width: '100%' }]}>
-              <Text style={[styles.textWhite, { fontSize: normalize(15) }]}>
+          {role == 'teacher' && (
+            <View style={[styles.mb10, {width: '100%'}]}>
+              <Text style={[styles.textWhite, {fontSize: normalize(15)}]}>
                 Highest Qualification:
               </Text>
               <TextInput
@@ -362,12 +378,11 @@ export default function UpdateProfile() {
                 value={userQualification}
               />
             </View>
-          }
+          )}
 
-          {
-            role == 'teacher' &&
-            <View style={[styles.mb10, { width: '100%' }]}>
-              <Text style={[styles.textWhite, { fontSize: normalize(15) }]}>
+          {role == 'teacher' && (
+            <View style={[styles.mb10, {width: '100%'}]}>
+              <Text style={[styles.textWhite, {fontSize: normalize(15)}]}>
                 Your Experience:
               </Text>
               <TextInput
@@ -383,18 +398,17 @@ export default function UpdateProfile() {
                 value={userExperience}
               />
             </View>
-          }
+          )}
 
-          {
-            role == 'teacher' &&
-            <View style={[styles.mb10, { width: '100%' }]}>
-              <Text style={[styles.textWhite, { fontSize: normalize(15) }]}>
+          {role == 'teacher' && (
+            <View style={[styles.mb10, {width: '100%'}]}>
+              <Text style={[styles.textWhite, {fontSize: normalize(15)}]}>
                 Courses To Teach:
               </Text>
               <MultipleSelectList
-                boxStyles={{ backgroundColor: '#fff' }}
-                dropdownStyles={{ backgroundColor: '#fff' }}
-                setSelected={(val) => setSelected(val)}
+                boxStyles={{backgroundColor: '#fff'}}
+                dropdownStyles={{backgroundColor: '#fff'}}
+                setSelected={val => setSelected(val)}
                 data={courses}
                 save="key"
                 label="Available Courses"
@@ -402,18 +416,17 @@ export default function UpdateProfile() {
                 searchicon={true}
               />
             </View>
-          }
+          )}
 
-          {
-            role == 'teacher' &&
-            <View style={[styles.mb10, { width: '100%' }]}>
-              <Text style={[styles.textWhite, { fontSize: normalize(15) }]}>
+          {role == 'teacher' && (
+            <View style={[styles.mb10, {width: '100%'}]}>
+              <Text style={[styles.textWhite, {fontSize: normalize(15)}]}>
                 Preferred Teaching Areas:
               </Text>
               <MultipleSelectList
-                boxStyles={{ backgroundColor: '#fff' }}
-                dropdownStyles={{ backgroundColor: '#fff' }}
-                setSelected={(val) => setLocation(val)}
+                boxStyles={{backgroundColor: '#fff'}}
+                dropdownStyles={{backgroundColor: '#fff'}}
+                setSelected={val => setLocation(val)}
                 data={locationList}
                 save="key"
                 label="Your Preferred Teaching Areas"
@@ -421,38 +434,48 @@ export default function UpdateProfile() {
                 searchicon={true}
               />
             </View>
+          )}
 
-          }
-          
-          {
-            role == 'student' &&
-            <View style={[styles.mb10, { width: '100%' }]}>
-              <Text style={[styles.textWhite, { fontSize: normalize(15) }]}>
+          {role == 'student' && (
+            <View style={[styles.mb10, {width: '100%'}]}>
+              <Text style={[styles.textWhite, {fontSize: normalize(15)}]}>
                 Your Location:
               </Text>
               <SelectList
-                boxStyles={{ backgroundColor: '#fff' }}
-                dropdownStyles={{ backgroundColor: '#fff' }}
-                setSelected={(val) => setLocation(val)}
+                boxStyles={{backgroundColor: '#fff'}}
+                dropdownStyles={{backgroundColor: '#fff'}}
+                setSelected={val => setLocation(val)}
                 data={locationList}
                 save="value"
               />
             </View>
-          }
+          )}
 
-          <View style={[styles.mb10, { width: '100%' }]}>
+          <View style={[styles.mb10, {width: '100%'}]}>
             <TouchableOpacity
               style={[styles.button, styles.mt20]}
               onPress={() => updateProfile()}>
-              <Text style={[styles.textStyles, styles.textWhite, { textAlign: 'center' }]}>
-                Update Profile
+              <Text
+                style={[
+                  styles.textStyles,
+                  styles.textWhite,
+                  {textAlign: 'center'},
+                ]}>
+                Update
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.mt10,]}
+            {/* <TouchableOpacity
+              style={[styles.button, styles.mt10]}
               onPress={() => navigation.goBack()}>
-              <Text style={[styles.textStyles, styles.textWhite, { textAlign: 'center' }]}>Go Back</Text>
-            </TouchableOpacity>
+              <Text
+                style={[
+                  styles.textStyles,
+                  styles.textWhite,
+                  {textAlign: 'center'},
+                ]}>
+                Go Back
+              </Text>
+            </TouchableOpacity> */}
           </View>
         </View>
       </ScrollView>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -6,7 +6,7 @@ import {
   Text,
   TextInput,
   View,
-  Image
+  Image,
 } from 'react-native';
 import SimpleButton from '../../../components/SimpleButton';
 import SocialAuthButton from '../../../components/SocialAuthButton';
@@ -14,18 +14,19 @@ import SimpleTextInput from '../../../components/SimpleTextInput';
 import styles from './Styles';
 import SimpleDropDown from '../../../components/SimpleDropDown';
 import BackButton from '../../../components/BackButton';
-import { useNavigation } from '@react-navigation/native';
-import { signUpUser } from '../../../Services/auth';
-import { useFormik } from 'formik';
+import {useNavigation} from '@react-navigation/native';
+import {signUpUser} from '../../../Services/auth';
+import {useFormik} from 'formik';
 import * as yup from 'yup';
 import ValidationMessage from '../../../components/ValidationMessage';
-import { useDispatch } from 'react-redux';
-import { useToast } from 'react-native-toast-notifications';
+import {useDispatch} from 'react-redux';
+import {useToast} from 'react-native-toast-notifications';
+import logo2 from '../../../Assets/logo2.png';
 
 const SignUp = () => {
   const [loading, setLoading] = useState(false);
 
-  const { goBack, navigate } = useNavigation();
+  const {goBack, navigate} = useNavigation();
   const dispatch = useDispatch();
   const toast = useToast();
   const formik = useFormik({
@@ -66,27 +67,28 @@ const SignUp = () => {
         ),
     }),
 
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values, {resetForm}) => {
       setLoading(true);
-      const { email, role, contactNo, password, username } = values;
-      await signUpUser({ email, role, contactNo, password, username })
+      const {email, role, contactNo, password, username} = values;
+      await signUpUser({email, role, contactNo, password, username})
         .then(res => {
           resetForm();
           navigate('LoginScreen');
           setLoading(false);
-          toast.show('Account created successfully', { type: 'success' });
+          toast.show('Account created successfully', {type: 'success'});
         })
         .catch(err => {
           let errorMessage =
             err?.response?.data?.code == 11000
-              ? `${Object.keys(err?.response?.data?.keyValue)[0] == 'contactNo'
-                ? 'Contact no'
-                : Object.keys(err?.response?.data?.keyValue)[0] ==
-                'contactNo'
-              } is already in use.`
+              ? `${
+                  Object.keys(err?.response?.data?.keyValue)[0] == 'contactNo'
+                    ? 'Contact no'
+                    : Object.keys(err?.response?.data?.keyValue)[0] ==
+                      'contactNo'
+                } is already in use.`
               : 'Network error';
           setLoading(false);
-          toast.show(errorMessage, { type: 'error' });
+          toast.show(errorMessage, {type: 'error'});
         });
     },
   });
@@ -102,9 +104,9 @@ const SignUp = () => {
               width: 400,
               height: 300,
               resizeMode: 'contain',
-            }
+            },
           ]}
-          source={require('../../../assets/logo2.png')}
+          source={logo2}
         />
         <View
           style={{

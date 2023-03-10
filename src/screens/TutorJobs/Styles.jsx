@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   mainHeading: {
     color: Colors.white,
-    fontFamily: 'poppins',
+    // fontFamily: 'poppins',
     textTransform: 'capitalize',
   },
   textStyles: {
@@ -68,30 +68,30 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.secondary,
     color: '#fff',
     padding: 10,
-    borderRadius: 5
+    borderRadius: 5,
   },
   tutors: {
     backgroundColor: Colors.white,
     padding: 20,
     marginBottom: 20,
-    borderRadius:10,
+    borderRadius: 10,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
-    textAlign:'center'
+    textAlign: 'center',
   },
-  avatar:{
+  avatar: {
     height: 150,
     width: 150,
     resizeMode: 'contain',
     borderRadius: 100,
   },
-  tutorInfo:{
+  tutorInfo: {
     justifyContent: 'flex-start',
-    flexDirection:'row', 
-    flexWrap:'wrap'
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
-  bannerImg:{
+  bannerImg: {
     display: 'flex',
     alignItems: 'center',
     textAlign: 'center',
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    width:'90%',
+    width: '90%',
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,

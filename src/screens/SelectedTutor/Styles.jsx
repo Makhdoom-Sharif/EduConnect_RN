@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   mainHeading: {
     color: Colors.white,
-    fontFamily: 'poppins',
+    // fontFamily: 'poppins',
     textTransform: 'capitalize',
   },
   textStyles: {
@@ -70,40 +70,40 @@ const styles = StyleSheet.create({
     color: '#fff',
     padding: 10,
     borderRadius: 5,
-    textAlign:'center'
+    textAlign: 'center',
   },
   tutors: {
     backgroundColor: Colors.white,
     padding: 10,
     marginRight: 20,
     marginBottom: 20,
-    borderRadius:10,
+    borderRadius: 10,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     textAlign: 'center',
   },
-  avatar:{
+  avatar: {
     height: 150,
     width: 150,
     resizeMode: 'contain',
     borderRadius: 100,
   },
-  tutorInfo:{
+  tutorInfo: {
     justifyContent: 'flex-start',
-    flexDirection:'row', 
-    flexWrap:'wrap'
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   card: {
-    backgroundColor:Colors.white,
+    backgroundColor: Colors.white,
     padding: 20,
-    display:'flex',
+    display: 'flex',
     flexDirection: 'column',
     width: '100%',
     alignItems: 'center',
     textAlign: 'center',
     borderRadius: 5,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 3,
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   error: {
-    color:'red'
-  }
+    color: 'red',
+  },
 });
 export default styles;

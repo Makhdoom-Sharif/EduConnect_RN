@@ -18,10 +18,11 @@ import {SafeAreaStyles} from '../../Global/GlobalCSS';
 import DropDownPicker from 'react-native-dropdown-picker';
 import styles from './Styles';
 import {useNavigation} from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { refresh } from '../../store/action';
+import {useDispatch} from 'react-redux';
+import {refresh} from '../../store/action';
+import imageStudentJob from '../../Assets/student_job.jpg';
 
 export default function SelectJob({route}) {
   //responsive font size
@@ -41,18 +42,13 @@ export default function SelectJob({route}) {
 
   const navigation = useNavigation();
   const {_id, accessToken} = useSelector(state => state?.login);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   // const {jobId, jobName, jobLogo, job, teacher, student, course, description, } = route.params;
 
-  const [jobData, setJobData] = useState(
-    route.params
-      ? route.params
-      : null
-  );
+  const [jobData, setJobData] = useState(route.params ? route.params : null);
 
   // const [jobOwner, setJobOwner] = useState()
-
 
   // const [jobOwner, setJobOwner] = useState([
   //   {
@@ -79,8 +75,8 @@ export default function SelectJob({route}) {
   // ]);
 
   const [budget, setBudget] = useState(0);
-  const [isValidBudget, setIsValidBudget] = useState(false)
-  const [isJobBudgetTouched, setIsJobBudgetTouched] = useState(false)
+  const [isValidBudget, setIsValidBudget] = useState(false);
+  const [isJobBudgetTouched, setIsJobBudgetTouched] = useState(false);
 
   const viewStudentProfile = student => {
     console.log('working');
@@ -103,34 +99,34 @@ export default function SelectJob({route}) {
       let obj = {
         job: route.params._id,
         teacher: _id,
-        bidAmount: budget
-      }
-      console.log(obj)
-      dispatch(refresh(false))
+        bidAmount: budget,
+      };
+      console.log(obj);
+      dispatch(refresh(false));
 
       try {
-        const res = await axios.post(`https://educonnectbackend-production.up.railway.app/api/bids/`, obj, {
-          headers: {
-            token:'Bearer ' + accessToken
-          }
-        })
+        const res = await axios.post(
+          `https://educonnectbackend-production.up.railway.app/api/bids/`,
+          obj,
+          {
+            headers: {
+              token: 'Bearer ' + accessToken,
+            },
+          },
+        );
         if (res) {
-          Alert.alert(
-            'Bid Sent',
-            'Your bid has been sent successfully',
-            [
-              {
-                text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-              },
-              {text: 'OK', onPress: () => resetStates()},
-            ],
-          );
-          navigate('Home')
+          Alert.alert('Bid Sent', 'Your bid has been sent successfully', [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: () => resetStates()},
+          ]);
+          navigate('Home');
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     } else {
       //alert after response failure
@@ -146,28 +142,26 @@ export default function SelectJob({route}) {
   };
 
   const resetStates = () => {
-    dispatch(refresh(true))
-    setJobData(null)
-    setBudget(0)  
-    navigation.navigate('Home')
-  }
+    dispatch(refresh(true));
+    setJobData(null);
+    setBudget(0);
+    navigation.navigate('Home');
+  };
 
   const getBudgetValidity = () => {
-    if(Number(budget) > Number(jobData.jobBudget)){
-      setIsValidBudget(true)
+    if (Number(budget) > Number(jobData.jobBudget)) {
+      setIsValidBudget(true);
+    } else {
+      setIsValidBudget(false);
     }
-    else{
-      setIsValidBudget(false)
-    }
-  }
-
+  };
 
   return (
     <SafeAreaView style={SafeAreaStyles}>
       <ScrollView
         style={[styles.scrollView, {height: '100%'}]}
         nestedScrollEnabled={true}>
-        {jobData &&
+        {jobData && (
           <>
             <View style={styles.bannerImg}>
               <Image
@@ -180,14 +174,16 @@ export default function SelectJob({route}) {
                   },
                   styles.mb20,
                 ]}
-                source={require('../../assets/student_job.jpg')}
+                source={imageStudentJob}
               />
             </View>
 
             <View style={styles.container}>
               <View style={[styles.jobDetails, styles.boxShadow]}>
                 <Text style={[styles.mb10, {fontSize: normalize(16)}]}>
-                  {jobData ? jobData.description : 'Job description not available' }
+                  {jobData
+                    ? jobData.description
+                    : 'Job description not available'}
                 </Text>
                 {/* <Text style={[styles.mb10, {fontSize: normalize(14)}]}>
                   I need a full time tutor to help me in my physics course
@@ -195,7 +191,9 @@ export default function SelectJob({route}) {
               </View>
 
               <View style={[styles.jobDetails, styles.boxShadow]}>
-                <Text style={[{fontSize: normalize(14)}]}>Budget: {jobData.jobBudget}</Text>
+                <Text style={[{fontSize: normalize(14)}]}>
+                  Budget: {jobData.jobBudget}
+                </Text>
               </View>
 
               <View
@@ -218,9 +216,13 @@ export default function SelectJob({route}) {
                   onStartShouldSetResponder={() => viewStudentProfile()}>
                   <Image
                     style={styles.jobDetailUserAvatar}
-                    source={jobData && jobData.student.profilePicture? {uri:jobData.student.profilePicture} : {
-                      uri: 'https://cdn.dribbble.com/users/304574/screenshots/6222816/male-user-placeholder.png'
-                    }}
+                    source={
+                      jobData && jobData.student.profilePicture
+                        ? {uri: jobData.student.profilePicture}
+                        : {
+                            uri: 'https://cdn.dribbble.com/users/304574/screenshots/6222816/male-user-placeholder.png',
+                          }
+                    }
                   />
                   <Text>{jobData.student.name}</Text>
                 </View>
@@ -241,20 +243,25 @@ export default function SelectJob({route}) {
                     backgroundColor: '#fff',
                     borderRadius: 7,
                   }}
-                  onChangeText={text => {setBudget(text)}}
+                  onChangeText={text => {
+                    setBudget(text);
+                  }}
                   value={budget}
                   keyboardType="numeric"
                   placeholder="Place Your Bid Amount"
                 />
-                <Text style={styles.error}>{(isJobBudgetTouched && (Number(budget) > jobData.jobBudget)) ? 'Bid amount should not exceed budget amount' : null}</Text>
+                <Text style={styles.error}>
+                  {isJobBudgetTouched && Number(budget) > jobData.jobBudget
+                    ? 'Bid amount should not exceed budget amount'
+                    : null}
+                </Text>
               </View>
 
               <View style={[styles.mb10, {width: '100%'}]}>
                 <TouchableOpacity
                   style={[styles.button, styles.mt20]}
                   onPress={() => placeBidAmount()}
-                  disabled={(Number(budget) > Number(jobData.jobBudget))}
-                  >
+                  disabled={Number(budget) > Number(jobData.jobBudget)}>
                   <Text
                     style={[
                       styles.textStyles,
@@ -279,7 +286,7 @@ export default function SelectJob({route}) {
               </View>
             </View>
           </>
-        } 
+        )}
       </ScrollView>
     </SafeAreaView>
   );

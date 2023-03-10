@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
   mainHeading: {
     color: Colors.white,
-    fontFamily: 'poppins',
+    // fontFamily: 'poppins',
     textTransform: 'capitalize',
   },
   textStyles: {
@@ -71,23 +71,23 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.secondary,
     color: '#fff',
     padding: 10,
-    borderRadius: 5
+    borderRadius: 5,
   },
-  bannerImg:{
+  bannerImg: {
     display: 'flex',
     alignItems: 'center',
     textAlign: 'center',
   },
-  inputStyles:{ 
-    height: 40, 
-    borderColor: 'gray', 
+  inputStyles: {
+    height: 40,
+    borderColor: 'gray',
     borderWidth: 1,
     placeholderTextColor: 'gray',
-    backgroundColor:"#fff",
+    backgroundColor: '#fff',
     borderRadius: 7,
-    width:'100%',
-    padding:5,
-    paddingLeft:10
+    width: '100%',
+    padding: 5,
+    paddingLeft: 10,
   },
   modalText: {
     marginBottom: 15,
