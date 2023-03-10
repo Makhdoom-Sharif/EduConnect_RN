@@ -420,7 +420,7 @@ export default function SelectedCourse({ route }) {
                                 { marginLeft: 5, fontSize: normalize(12)
                                 },
                               ]}>
-                              {item.teacher.hourlyRate}
+                              {item.bidAmount}
                             </Text>
                           </View>
 

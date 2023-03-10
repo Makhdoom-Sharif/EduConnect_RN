@@ -192,7 +192,7 @@ export default function SelectCourse({ route }) {
         // status: 'pending',
         jobPayDuration: payByValue
       }
-      
+
       dispatch(refresh(false))
       try {
         const res = await axios.post('https://educonnectbackend-production.up.railway.app/api/jobs', data, {
@@ -362,7 +362,7 @@ export default function SelectCourse({ route }) {
 
             <View style={[styles.mb10, { width: '100%' }]}>
               <Text style={[styles.textWhite, { fontSize: normalize(15) }]}>
-                Provide Job Budget:
+                Provide Job Budget(Rs.):
               </Text>
               <TextInput
                 onFocus={() => setIsJobBudgetTouched(true)}

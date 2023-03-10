@@ -98,7 +98,6 @@ export default function SelectedTutor({ route }) {
       let data = {
         status: status
       }
-      dispatch(refresh(false))
       Alert.alert(
         "Are your sure?",
         `Are you sure you want to ${status == 'accepted' ? 'accept' : 'reject'} this Bid?`,
@@ -384,7 +383,7 @@ export default function SelectedTutor({ route }) {
                     name="close"
                     size={18}
                     style={{ color: '#333', position: 'absolute', top: -5, right: -10 }}
-                    onPress={() => setModalVisible(false)}
+                    onPress={() => setEscrowModal(false)}
                   />
                 </View>
                 <Text style={[styles.mb20, styles.mt20, { textAlign: 'center', fontWeight: 'bold', fontSize: 20 }]}>Payment Escrow</Text>
