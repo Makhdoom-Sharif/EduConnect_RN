@@ -23,8 +23,6 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { refresh } from '../../store/action';
-import { Button } from 'react-native'
-import DatePicker from 'react-native-date-picker'
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
@@ -170,18 +168,7 @@ export default function SelectCourse({ route }) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [budget, setBudget] = useState(0);
-
-  const [cardNumber, setCardNumber] = useState(null)
-  const [cardCVV, setCardCVV] = useState(null)
-  const [cardHolderName, setCardHolderName] = useState(null)
   // const [cardExpirationDate, setCardExpirationDate] = useState(null)
-
-  const [date, setDate] = useState(new Date())
-  const [open, setOpen] = useState(false)
-
-  const [cardNumberTouched, setCardNumberTouched] = useState(null)
-  const [cardCVVTouched, setCardCVVTouched] = useState(null)
-  const [cardHolderNameTouched, setCardHolderNameTouched] = useState(null)
 
   const [isDescriptionTouched, setIsDescriptionTouched] = useState(null)
   const [isClassTouched, setIsClassTouched] = useState(null)
@@ -189,7 +176,7 @@ export default function SelectCourse({ route }) {
   const [isExperienceTouched, setIsExperienceTouched] = useState(null)
   const [isJobBudgetTouched, setIsJobBudgetTouched] = useState(null)
   const [isPayMethodTouched, setIsPayMethodTouched] = useState(null)
-  const [cardDateTouched, setCardDateTouched] = useState(null)
+
 
   const postStudentJob = async () => {
     if (jobDescription && courseClass && board && tutorExperience && budget && payByValue) {
@@ -221,7 +208,7 @@ export default function SelectCourse({ route }) {
           //alert after response success
           Alert.alert(
             'Job Posted',
-            'Job Budget has been escrowed. Interested Tutors will contact you shortly',
+            'Interested Tutors will contact you shortly',
             [
               {
                 text: 'Cancel',
@@ -427,7 +414,7 @@ export default function SelectCourse({ route }) {
             <View style={[styles.mb10, { width: '100%' }]}>
               <TouchableOpacity
                 style={[styles.button, styles.mt20]}
-                onPress={() => setModalVisible(true)}
+                onPress={() => postStudentJob()}
                 disabled={
                   (!jobDescription || jobDescription.length == 0) ||
                   (jobDescription && jobDescription.length < 20) ||
@@ -458,151 +445,6 @@ export default function SelectCourse({ route }) {
           </View>
         )}
 
-
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
-          style={{ backgroundColor: '#fff' }}
-        >
-          <View style={[{ flex: 1, justifyContent: 'center' }]}>
-            <View style={[styles.modalView, { backgroundColor: '#fff', padding: 20, borderRadius: 10 }]}>
-              <View style={{ width: '100%', alignItems: 'flex-end', position: 'relative' }}>
-                <Icon
-                  name="close"
-                  size={18}
-                  style={{ color: '#333', position: 'absolute', top: -5, right: -10 }}
-                  onPress={() => setModalVisible(false)}
-                />
-              </View>
-              <Text style={[styles.mb20, styles.mt20, { textAlign: 'center', fontWeight: 'bold', fontSize: 20 }]}>Payment Escrow</Text>
-
-              <TouchableOpacity style={{ width: '100%' }}>
-                <View style={[styles.mb10, { width: '100%' }]}>
-                  <Text style={{ fontSize: normalize(15) }}>
-                    Card Number
-                  </Text>
-                  <TextInput
-                    onFocus={() => setCardNumberTouched(true)}
-                    keyboardType='numeric'
-                    style={{
-                      height: 80,
-                      borderColor: 'gray',
-                      borderWidth: 1,
-                      placeholderTextColor: 'gray',
-                      backgroundColor: '#fff',
-                      borderRadius: 7,
-                    }}
-                    onChangeText={text => setCardNumber(text)}
-                    value={cardNumber}
-                  />
-                </View>
-              </TouchableOpacity>
-              <View style={{ width: '100%' }}>
-                {cardNumberTouched && (!cardNumber || cardNumber.length != 16) &&
-                  <Text style={[styles.error, { textAlign: 'center' }]}>Please provide 16 digits Card number</Text>}
-              </View>
-
-              <TouchableOpacity style={{ width: '100%' }}>
-                <View style={[styles.mb10, { width: '100%' }]}>
-                  <Text style={{ fontSize: normalize(15) }}>
-                    CVV
-                  </Text>
-                  <TextInput
-                    onFocus={() => setCardCVVTouched(true)}
-                    keyboardType='numeric'
-                    style={{
-                      height: 80,
-                      borderColor: 'gray',
-                      borderWidth: 1,
-                      placeholderTextColor: 'gray',
-                      backgroundColor: '#fff',
-                      borderRadius: 7,
-                    }}
-                    onChangeText={text => setCardCVV(text)}
-                    value={cardCVV}
-                  />
-                </View>
-              </TouchableOpacity>
-              <View style={{ width: '100%' }}>
-                {cardCVVTouched && (!cardCVV || cardCVV.length != 3) &&
-                  <Text style={[styles.error, { textAlign: 'center' }]}>Please provide 3 digits CVV</Text>}
-              </View>
-
-              <TouchableOpacity style={[{ width: '100%' }, styles.mt20]}>
-                <View style={[styles.mb10, { width: '100%' }]}>
-                  <Text style={{ fontSize: normalize(15) }}>
-                    Card Holder Name
-                  </Text>
-                  <TextInput
-                    onFocus={() => setCardHolderNameTouched(true)}
-                    style={{
-                      height: 80,
-                      borderColor: 'gray',
-                      borderWidth: 1,
-                      placeholderTextColor: 'gray',
-                      backgroundColor: '#fff',
-                      borderRadius: 7,
-                    }}
-                    onChangeText={text => setCardHolderName(text)}
-                    value={cardHolderName}
-                  />
-                </View>
-              </TouchableOpacity>
-              <View style={{ width: '100%' }}>
-                {cardHolderNameTouched && (!cardHolderName || cardHolderName.length == 0) &&
-                  <Text style={[styles.error, { textAlign: 'center' }]}>Please provide review to continue</Text>}
-
-                {cardHolderNameTouched && (cardHolderName && cardHolderName.length < 3) &&
-                  <Text style={[styles.error, { textAlign: 'center' }]}>Review should be at least 3 characters long.</Text>}
-
-                {cardHolderNameTouched && (cardHolderName && cardHolderName.length > 20) &&
-                  <Text style={[styles.error, { textAlign: 'center' }]}>Review should not exceed 30 characters</Text>}
-              </View>
-
-              <TouchableOpacity style={{ width: '100%' }}>
-                <View style={[styles.mb10, { width: '100%' }]}>
-                  <Text style={{ fontSize: normalize(15) }}>
-                    Card Expiration Date
-                  </Text>
-                  <Button style={{ backgroundCplor: Colors.primary }} title="Open" onPress={() => {setOpen(true); setCardDateTouched(true)}} />
-                  <DatePicker
-                    modal
-                    open={open}
-                    date={date}
-                    onConfirm={(date) => {
-                      setOpen(false)
-                      setDate(date)
-                    }}
-                    onCancel={() => {
-                      setOpen(false)
-                    }}
-                  />
-                </View>
-              </TouchableOpacity>
-              <View style={{ width: '100%' }}>
-                {cardDateTouched && ((new Date(date)) < Date.now()) &&
-                  <Text style={[styles.error, { textAlign: 'center' }]}>Please provide an active card</Text>}
-              </View>
-
-              <TouchableOpacity
-                style={[styles.mb10, styles.button, styles.boxShadow, styles.mt10, { width: '100%' }]}
-                onPress={() => postStudentJob()}
-                disabled={(
-                  (cardHolderName && (cardHolderName.length == 0 || cardHolderName.length < 3 || cardHolderName.length > 20)) ||
-                  (cardCVV && cardCVV.length != 3) || (cardNumber && cardNumber.length != 16) || ((new Date(date)) < Date.now())
-                )}
-              >
-                <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
-                  Submit
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
       </ScrollView>
     </SafeAreaView>
   );
