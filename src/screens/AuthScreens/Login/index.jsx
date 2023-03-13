@@ -13,7 +13,7 @@ import {useDispatch} from 'react-redux';
 import {useToast} from 'react-native-toast-notifications';
 import {loginUser} from '../../../Services/auth';
 import {login} from '../../../store/action';
-import logo2 from '../../../assets/logo2.png';
+import logo2 from '../../../Assets/logo2.png';
 
 const Login = () => {
   const {goBack, navigate, reset} = useNavigation();
@@ -56,7 +56,7 @@ const Login = () => {
           });
           setLoading(false);
           toast.show('Login successfully', {type: 'success'});
-          console.log(res, 'on login')
+          console.log(res, 'on login');
         })
         .catch(err => {
           // let errorMessage =
@@ -68,7 +68,7 @@ const Login = () => {
           //     } is already in use.`
           //     : 'Network error';
           setLoading(false);
-          toast.show('Invalid Credentials', { type: 'error' });
+          toast.show('Invalid Credentials', {type: 'error'});
         });
     },
   });

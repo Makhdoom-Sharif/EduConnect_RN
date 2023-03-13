@@ -13,9 +13,9 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {buildNumber, version} from '../../../package.json';
 import styles from './Styles';
-import { useDispatch } from 'react-redux';
-import { login, logout, resetTutorLocationQuery } from '../../store/action';
-import { useSelector } from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {login, logout, resetTutorLocationQuery} from '../../store/action';
+import {useSelector} from 'react-redux';
 
 const Setting = props => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -23,7 +23,7 @@ const Setting = props => {
   const [modState, setModState] = useState('');
   const [actState, setActionSheet] = useState('');
   const [img, setImg] = useState({});
-  const {navigate} = useNavigation();
+  const {navigate, reset} = useNavigation();
   const dispatch = useDispatch();
   const [priority, setPriority] = useState(0);
   const {accessToken, name, role} = useSelector(state => state?.login);
@@ -37,7 +37,7 @@ const Setting = props => {
 
   const requestCourse = () => {
     navigate('RequestCourse');
-  }
+  };
 
   // const buyCoins = () => {
   //   navigate('BuyCoins');
@@ -54,10 +54,17 @@ const Setting = props => {
   const contactUS = () => {};
 
   const signOutApp = () => {
-    dispatch(resetTutorLocationQuery(null))
-    dispatch(logout())
-    console.log(accessToken)
-    navigate('LoginScreen')
+    dispatch(resetTutorLocationQuery(null));
+    dispatch(logout());
+    console.log(accessToken);
+    reset({
+      index: 0,
+      routes: [
+        {
+          name: 'LandingScreen',
+        },
+      ],
+    });
   };
 
   const deleteUser = () => {};
@@ -92,14 +99,14 @@ const Setting = props => {
     // },
   ];
 
-  console.log(role)
-  if(role == 'student'){
+  console.log(role);
+  if (role == 'student') {
     let obj = {
       text: 'Request Course',
-      func: () => requestCourse()
-    }
-    data.unshift(obj)
-    console.log(data)
+      func: () => requestCourse(),
+    };
+    data.unshift(obj);
+    console.log(data);
   }
 
   return (
