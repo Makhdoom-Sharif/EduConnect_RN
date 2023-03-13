@@ -198,8 +198,8 @@ export default function SelectCourse({route}) {
         // status: 'pending',
         jobPayDuration: payByValue,
       };
-
-      dispatch(refresh(false));
+      console.log(data, 'post job')
+      // dispatch(refresh(false));
       try {
         const res = await axios.post(
           'https://educonnectbackend-production.up.railway.app/api/jobs',
@@ -232,7 +232,7 @@ export default function SelectCourse({route}) {
           );
         }
       } catch (error) {
-        Alert.alert(error);
+        console.log(error, 'error')
       }
     } else {
       //alert after response failure

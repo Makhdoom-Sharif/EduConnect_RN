@@ -22,7 +22,7 @@ import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {useDispatch} from 'react-redux';
 import {refresh} from '../../store/action';
-import imageStudentJob from '../../Assets/student_job.jpg';
+import imageStudentJob from '../../assets/student_job.jpg';
 
 export default function SelectJob({route}) {
   //responsive font size

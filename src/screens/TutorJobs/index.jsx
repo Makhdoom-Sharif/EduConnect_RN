@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -15,16 +15,20 @@ import {
   Modal,
   ScrollView,
 } from 'react-native';
-import {SafeAreaStyles} from '../../Global/GlobalCSS';
+import { SafeAreaStyles } from '../../Global/GlobalCSS';
 import DropDownPicker from 'react-native-dropdown-picker';
 import styles from './Styles';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import {Colors} from '../../Global/GlobalCSS';
-import imageStudentJob from '../../Assets/student_job.jpg';
-export default function TutorJobs({route}) {
+import { Colors } from '../../Global/GlobalCSS';
+import imageStudentJob from '../../assets/student_job.jpg';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
+import {refresh} from '../../store/action';
+
+export default function TutorJobs({ route }) {
   //responsive font size
-  const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
+  const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
   // based on iphone 5s's scale
   const scale = SCREEN_WIDTH / 320;
@@ -39,8 +43,11 @@ export default function TutorJobs({route}) {
   };
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const [jobData, setjobData] = useState(route.params ? route.params : null);
+  const { _id, accessToken } = useSelector(state => state?.login);
+
   console.log(jobData, 'tutor job');
   // const [hasJobStarted, setHasJobStarted] = useState(true);
   // const [isJobCompleted, setIsJobCompleted] = useState(true);
@@ -109,6 +116,10 @@ export default function TutorJobs({route}) {
     useState(false);
   const [isUserRatingTouched, setIsUserRatingTouched] = useState(false);
 
+  const [complainModal, setComplainModal] = useState(false)
+  const [studentComplainTouched, setStudentComplainTouched] = useState(false)
+  const [studentComplain, setStudentComplain] = useState(null)
+
   const onTutorSelect = tutor => {
     console.log(tutor, 'selected tutor');
     navigation.navigate('SelectedTutor', tutor);
@@ -132,15 +143,14 @@ export default function TutorJobs({route}) {
     //   console.log('error in user review')
     // }
     if (res) {
-      setModalVisible(false);
       //alert after response failure
       Alert.alert('Success', 'Review has been submitted', [
         {
           text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
+          onPress: () => resetStates(),
           style: 'cancel',
         },
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
+        { text: 'OK', onPress: () => resetStates() },
       ]);
     } else {
       //alert after response failure
@@ -150,14 +160,94 @@ export default function TutorJobs({route}) {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
       ]);
     }
   };
 
+  const submitStudentComplain = () => {
+    const headers = { token: 'Bearer ' + accessToken };
+    if (jobData && jobData._id && jobData.teacher && jobData.student._id && studentComplain) {
+      Alert.alert(
+        'Confirm', `Are you sure you want to post this complain?`,
+        [
+          {
+            text: 'Yes',
+            onPress: async () => {
+              let res = null;
+              const data = {
+                student: jobData.student._id,
+                teacher: jobData.teacher,
+                job: jobData._id,
+                complaintMessage: studentComplain
+              };
+              console.log(data, 'complain')
+              res = await axios.post(
+                `https://educonnectbackend-production.up.railway.app/api/complaints`,
+                data,
+                headers,
+              );
+
+              if (res) {
+                Alert.alert(
+                  'Success',
+                  `Complaint posted successfully`,
+                  [
+                    {
+                      text: 'Cancel',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                    },
+                    {
+                      text: 'OK',
+                      onPress: () => {
+                        resetStates();
+                      },
+                    },
+                  ],
+                );
+              } else {
+                Alert.alert(
+                  'Error',
+                  `Somwthing went wrong`,
+                  [
+                    {
+                      text: 'Cancel',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                    },
+                    {
+                      text: 'OK',
+                      onPress: () => {
+                        resetStates();
+                      },
+                    },
+                  ],
+                );
+              }
+            },
+          },
+          {
+            text: 'No',
+          },
+        ],
+      );
+    }
+  };
+
+  const resetStates = () => {
+    dispatch(refresh(true));
+    setModalVisible(false);
+
+    setComplainModal(false)
+    setStudentComplainTouched(false)
+    setStudentComplain(null)
+    navigation.navigate('Home');
+  };
+
   return (
     <SafeAreaView style={SafeAreaStyles}>
-      <ScrollView style={{height: '100%'}}>
+      <ScrollView style={{ height: '100%' }}>
         {jobData.status != 'completed' && (
           <View style={styles.bannerImg}>
             <Image
@@ -175,53 +265,53 @@ export default function TutorJobs({route}) {
           {jobData.status == 'pending' ? (
             <View
               style={[
-                {width: '100%', flex: 1},
+                { width: '100%', flex: 1 },
                 styles.tutors,
                 styles.boxShadow,
               ]}>
               <View style={[styles.mb10]}>
-                <View style={[styles.mb10, {flexDirection: 'row'}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                <View style={[styles.mb10, { flexDirection: 'row' }]}>
+                  <Text style={[{ fontSize: normalize(18), fontWeight: 'bold' }]}>
                     Job:{' '}
                   </Text>
-                  <Text style={{fontSize: normalize(18)}}>
+                  <Text style={{ fontSize: normalize(18) }}>
                     {jobData && jobData.description}
                   </Text>
                 </View>
-                <View style={[styles.mb10, {flexDirection: 'row'}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                <View style={[styles.mb10, { flexDirection: 'row' }]}>
+                  <Text style={[{ fontSize: normalize(18), fontWeight: 'bold' }]}>
                     Course:{' '}
                   </Text>
-                  <Text style={{fontSize: normalize(18)}}>
+                  <Text style={{ fontSize: normalize(18) }}>
                     {jobData && jobData.course.title}
                   </Text>
                 </View>
-                <View style={[styles.mb10, {flexDirection: 'row'}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                <View style={[styles.mb10, { flexDirection: 'row' }]}>
+                  <Text style={[{ fontSize: normalize(18), fontWeight: 'bold' }]}>
                     Student:{' '}
                   </Text>
-                  <Text style={{fontSize: normalize(18)}}>
+                  <Text style={{ fontSize: normalize(18) }}>
                     {jobData && jobData.student.name}
                   </Text>
                 </View>
-                <View style={[styles.mb10, {flexDirection: 'row'}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                <View style={[styles.mb10, { flexDirection: 'row' }]}>
+                  <Text style={[{ fontSize: normalize(18), fontWeight: 'bold' }]}>
                     Status:{' '}
                   </Text>
-                  <Text style={{fontSize: normalize(18)}}>Bit sent</Text>
+                  <Text style={{ fontSize: normalize(18) }}>Bit sent</Text>
                 </View>
-                <View style={[styles.mb10, {flexDirection: 'row'}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                <View style={[styles.mb10, { flexDirection: 'row' }]}>
+                  <Text style={[{ fontSize: normalize(18), fontWeight: 'bold' }]}>
                     Budget:{' '}
                   </Text>
-                  <Text style={{fontSize: normalize(18)}}>
+                  <Text style={{ fontSize: normalize(18) }}>
                     {jobData &&
                       jobData.jobBudget + '/' + jobData.jobPayDuration}
                   </Text>
                 </View>
               </View>
 
-              <View style={[styles.mb10, {width: '100%'}]}>
+              <View style={[styles.mb10, { width: '100%' }]}>
                 {/* {bidStatus == 'accepted' && (
                   <TouchableOpacity
                     style={[styles.button, styles.mb10]}
@@ -244,66 +334,84 @@ export default function TutorJobs({route}) {
                 <TouchableOpacity
                   style={[styles.button, styles.boxShadow]}
                   onPress={() => navigation.goBack()}>
-                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                  <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
                     Go Back
                   </Text>
                 </TouchableOpacity>
               </View>
             </View>
           ) : jobData.status == 'started' ? (
-            <View style={[{width: '100%'}, styles.tutors, styles.boxShadow]}>
+            <View style={[{ width: '100%' }, styles.tutors, styles.boxShadow]}>
               <View style={[styles.mb10]}>
-                <Text style={[styles.mb10, {fontSize: normalize(18)}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                <Text style={[styles.mb10, { fontSize: normalize(18) }]}>
+                  <Text style={[{ fontSize: normalize(18), fontWeight: 'bold' }]}>
                     Job:
                   </Text>
                   {'  '}
-                  <Text style={{fontSize: normalize(18)}}>
+                  <Text style={{ fontSize: normalize(18) }}>
                     {jobData && jobData.description}
                   </Text>
                 </Text>
-                <Text style={[styles.mb10, {fontSize: normalize(18)}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                <Text style={[styles.mb10, { fontSize: normalize(18) }]}>
+                  <Text style={[{ fontSize: normalize(18), fontWeight: 'bold' }]}>
                     Course:
                   </Text>
                   {'  '}
-                  <Text style={{fontSize: normalize(18)}}>
+                  <Text style={{ fontSize: normalize(18) }}>
                     {jobData && jobData.course.title}
                   </Text>
                 </Text>
-                <Text style={[styles.mb10, {fontSize: normalize(18)}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                <Text style={[styles.mb10, { fontSize: normalize(18) }]}>
+                  <Text style={[{ fontSize: normalize(18), fontWeight: 'bold' }]}>
                     Status:
                   </Text>
                   {'  '}
-                  <Text style={{fontSize: normalize(18)}}>In Progress</Text>
+                  <Text style={{ fontSize: normalize(18) }}>In Progress</Text>
                 </Text>
-                <Text style={[styles.mb10, {fontSize: normalize(18)}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                <Text style={[styles.mb10, { fontSize: normalize(18) }]}>
+                  <Text style={[{ fontSize: normalize(18), fontWeight: 'bold' }]}>
                     Student:
                   </Text>{' '}
                   {'  '}
-                  <Text style={{fontSize: normalize(18)}}>
+                  <Text style={{ fontSize: normalize(18) }}>
                     {jobData && jobData.student.name}
                   </Text>
                 </Text>
-                <Text style={[{fontSize: normalize(18)}]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                <Text style={[{ fontSize: normalize(18) }]}>
+                  <Text style={[{ fontSize: normalize(18), fontWeight: 'bold' }]}>
                     Agreed Budget:
                   </Text>
                   {'  '}
-                  <Text style={{fontSize: normalize(18)}}>
+                  <Text style={{ fontSize: normalize(18) }}>
                     Rs.
                     {jobData &&
                       jobData.jobBudget + '/' + jobData.jobPayDuration}
                   </Text>
                 </Text>
               </View>
+              <View style={[styles.mb10, styles.mt20, { width: '100%' }]}>
+                <TouchableOpacity
+                  style={[styles.button, styles.boxShadow]}
+                  onPress={() => setComplainModal(!complainModal)}>
+                  <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                    Post a Complain
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View style={[styles.mb10, { width: '100%' }]}>
+                <TouchableOpacity
+                  style={[styles.button, styles.boxShadow]}
+                  onPress={() => navigation.goBack()}>
+                  <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                    Go Back
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           ) : jobData.status == 'completed' ? (
-            <View style={[{width: '100%'}, styles.tutors, styles.boxShadow]}>
+            <View style={[{ width: '100%' }, styles.tutors, styles.boxShadow]}>
               <View
-                style={[styles.mb20, {alignItems: 'center', width: '100%'}]}>
+                style={[styles.mb20, { alignItems: 'center', width: '100%' }]}>
                 <Image
                   style={[styles.logo]}
                   source={{
@@ -323,39 +431,39 @@ export default function TutorJobs({route}) {
                 </Text>
               </View>
               <View style={[styles.mb20]}>
-                <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                <Text style={[{ fontSize: normalize(18) }, styles.mb10]}>
+                  <Text style={[{ fontSize: normalize(18), fontWeight: 'bold' }]}>
                     Job:
                   </Text>
                   {'  '}
-                  <Text style={{fontSize: normalize(18)}}>
+                  <Text style={{ fontSize: normalize(18) }}>
                     {jobData && jobData.description}
                   </Text>
                 </Text>
-                <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                <Text style={[{ fontSize: normalize(18) }, styles.mb10]}>
+                  <Text style={[{ fontSize: normalize(18), fontWeight: 'bold' }]}>
                     Course:
                   </Text>
                   {'  '}
-                  <Text style={{fontSize: normalize(18)}}>
+                  <Text style={{ fontSize: normalize(18) }}>
                     {jobData && jobData.course.title}
                   </Text>
                 </Text>
-                <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                <Text style={[{ fontSize: normalize(18) }, styles.mb10]}>
+                  <Text style={[{ fontSize: normalize(18), fontWeight: 'bold' }]}>
                     Student:
                   </Text>
                   {'  '}
-                  <Text style={{fontSize: normalize(18)}}>
+                  <Text style={{ fontSize: normalize(18) }}>
                     {jobData && jobData.student.name}
                   </Text>
                 </Text>
-                <Text style={[{fontSize: normalize(18)}, styles.mb10]}>
-                  <Text style={[{fontSize: normalize(18), fontWeight: 'bold'}]}>
+                <Text style={[{ fontSize: normalize(18) }, styles.mb10]}>
+                  <Text style={[{ fontSize: normalize(18), fontWeight: 'bold' }]}>
                     Agreed Budget:
                   </Text>
                   {'  '}
-                  <Text style={{fontSize: normalize(18)}}>
+                  <Text style={{ fontSize: normalize(18) }}>
                     Rs.
                     {jobData &&
                       jobData.jobBudget + '/' + jobData.jobPayDuration}
@@ -363,18 +471,18 @@ export default function TutorJobs({route}) {
                 </Text>
               </View>
 
-              <View style={[styles.mb10, {width: '100%'}]}>
+              <View style={[styles.mb10, { width: '100%' }]}>
                 <TouchableOpacity
                   style={[styles.mb10, styles.button, styles.boxShadow]}
                   onPress={() => navigation.goBack()}>
-                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                  <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
                     Go Back
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.mb10, styles.button, styles.boxShadow]}
                   onPress={() => setModalVisible(true)}>
-                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                  <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
                     Review Student
                   </Text>
                 </TouchableOpacity>
@@ -391,7 +499,7 @@ export default function TutorJobs({route}) {
             onRequestClose={() => {
               setModalVisible(!modalVisible);
             }}>
-            <View style={[{flex: 1, justifyContent: 'center'}]}>
+            <View style={[{ flex: 1, justifyContent: 'center' }]}>
               <View style={[styles.modalView]}>
                 <View
                   style={{
@@ -423,8 +531,8 @@ export default function TutorJobs({route}) {
                   ]}>
                   How was your experience with {jobData.student.name} ?
                 </Text>
-                <View style={[styles.mb20, {width: '100%'}]}>
-                  <Text style={[styles.mb10, {textAlign: 'center'}]}>
+                <View style={[styles.mb20, { width: '100%' }]}>
+                  <Text style={[styles.mb10, { textAlign: 'center' }]}>
                     Provide Rating
                   </Text>
                   <View
@@ -442,7 +550,7 @@ export default function TutorJobs({route}) {
                         name="star"
                         size={18}
                         style={[
-                          {marginTop: 5, marginLeft: 10},
+                          { marginTop: 5, marginLeft: 10 },
                           {
                             color:
                               userRating && userRating >= index + 1
@@ -458,7 +566,7 @@ export default function TutorJobs({route}) {
                       />
                     ))}
                     <View
-                      style={[{borderRadius: 5, marginLeft: 20, marginTop: 5}]}>
+                      style={[{ borderRadius: 5, marginLeft: 20, marginTop: 5 }]}>
                       <Icon
                         name="reply"
                         size={10}
@@ -472,20 +580,20 @@ export default function TutorJobs({route}) {
                       />
                     </View>
                   </View>
-                  <View style={{width: '100%'}}>
+                  <View style={{ width: '100%' }}>
                     {isUserRatingTouched &&
                       (!userRating || userRating == 0) && (
-                        <Text style={[styles.error, {textAlign: 'center'}]}>
+                        <Text style={[styles.error, { textAlign: 'center' }]}>
                           Please provide rating
                         </Text>
                       )}
                   </View>
                 </View>
 
-                <Text style={[styles.mb10, {color: '#333'}]}>
+                <Text style={[styles.mb10, { color: '#333' }]}>
                   Provide Your Review
                 </Text>
-                <TouchableOpacity style={{width: '100%'}}>
+                <TouchableOpacity style={{ width: '100%' }}>
                   <View>
                     <TextInput
                       onFocus={() => setTutorReviewsStudentTouched(true)}
@@ -505,20 +613,20 @@ export default function TutorJobs({route}) {
                     />
                   </View>
                 </TouchableOpacity>
-                <View style={{width: '100%'}}>
+                <View style={{ width: '100%' }}>
                   {tutorReviewsStudentTouched &&
                     (!tutorReviewsStudent ||
                       tutorReviewsStudent.length == 0) && (
-                      <Text style={[styles.error, {textAlign: 'center'}]}>
+                      <Text style={[styles.error, { textAlign: 'center' }]}>
                         Please provide review to continue
                       </Text>
                     )}
 
                   {tutorReviewsStudentTouched &&
                     tutorReviewsStudent &&
-                    tutorReviewsStudent.length < 30 && (
-                      <Text style={[styles.error, {textAlign: 'center'}]}>
-                        Review should be at least 30 characters long.
+                    tutorReviewsStudent.length < 15 && (
+                      <Text style={[styles.error, { textAlign: 'center' }]}>
+                        Review should be at least 15 characters long.
                       </Text>
                     )}
                 </View>
@@ -529,22 +637,118 @@ export default function TutorJobs({route}) {
                     styles.button,
                     styles.boxShadow,
                     styles.mt10,
-                    {width: '100%'},
+                    { width: '100%' },
                   ]}
                   onPress={() => postStudentReview()}
                   disabled={
                     !tutorReviewsStudent ||
                     !userRating ||
-                    tutorReviewsStudent.length < 30 ||
+                    tutorReviewsStudent.length < 15 ||
                     userRating == 0
                   }>
-                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                  <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
                     Submit
                   </Text>
                 </TouchableOpacity>
               </View>
             </View>
           </Modal>
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={complainModal}
+            onRequestClose={() => {
+              setComplainModal(!complainModal);
+            }}>
+            <View style={[{ flex: 1, justifyContent: 'center' }]}>
+              <View style={[styles.modalView]}>
+                <View
+                  style={{
+                    width: '100%',
+                    alignItems: 'flex-end',
+                    position: 'relative',
+                  }}>
+                  <Icon
+                    name="close"
+                    size={18}
+                    style={{
+                      color: '#333',
+                      position: 'absolute',
+                      top: -5,
+                      right: -10,
+                    }}
+                    onPress={() => setComplainModal(false)}
+                  />
+                </View>
+
+                <Text
+                  style={[
+                    styles.mb10,
+                    styles.mt20,
+                    { textAlign: 'center', fontWeight: 'bold', fontSize: 14 },
+                  ]}>
+                  Write your complain
+                </Text>
+                <TouchableOpacity style={{ width: '100%' }}>
+                  <View>
+                    <TextInput
+                      onFocus={() => setStudentComplainTouched(true)}
+                      style={{
+                        height: 80,
+                        borderColor: 'gray',
+                        borderWidth: 1,
+                        placeholderTextColor: 'gray',
+                        backgroundColor: '#fff',
+                        borderRadius: 7,
+                        width: '100%',
+                      }}
+                      onChangeText={text => setStudentComplain(text)}
+                      value={studentComplain}
+                      multiline={true}
+                      numberOfLines={4}
+                    />
+                  </View>
+                </TouchableOpacity>
+                <View style={{ width: '100%' }}>
+                  {studentComplainTouched &&
+                    (!studentComplain ||
+                      studentComplain.length == 0) && (
+                      <Text style={[styles.error, { textAlign: 'center' }]}>
+                        Please write complain to continue
+                      </Text>
+                    )}
+
+                  {studentComplainTouched &&
+                    studentComplain &&
+                    studentComplain.length < 15 && (
+                      <Text style={[styles.error, { textAlign: 'center' }]}>
+                        Complain should be at least 15 characters long
+                      </Text>
+                    )}
+                </View>
+
+                <TouchableOpacity
+                  style={[
+                    styles.mb10,
+                    styles.button,
+                    styles.boxShadow,
+                    styles.mt10,
+                    { width: '100%' },
+                  ]}
+                  onPress={() => submitStudentComplain()}
+                  disabled={
+                    !studentComplain ||
+                    studentComplain.length < 15
+                  }>
+                  <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                    Submit
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+
         </View>
       </ScrollView>
     </SafeAreaView>

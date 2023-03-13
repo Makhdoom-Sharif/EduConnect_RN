@@ -26,8 +26,10 @@ import SelectPaymentMethod from '../screens/SelectPaymentMethod';
 import SearchScreen from '../screens/SearchScreen';
 import Setting from '../screens/Setting';
 import UpdateProfile from '../screens/UpdateProfile';
+import RequestCourse from '../screens/RequestCourse';
 import BuyCoins from '../screens/BuyCoins';
 import { useSelector } from 'react-redux';
+
 const Tab = createBottomTabNavigator();
 function MyTabs() {
   return (
@@ -248,6 +250,15 @@ const Navigation = () => {
         <Stack.Screen
           name="BuyCoins"
           component={BuyCoins}
+          options={{
+            headerShown: false,
+            presentation: 'modal',
+            animation: 'slide_from_right',
+          }}
+        />
+         <Stack.Screen
+          name="RequestCourse"
+          component={RequestCourse}
           options={{
             headerShown: false,
             presentation: 'modal',

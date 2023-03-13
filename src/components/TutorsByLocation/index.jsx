@@ -22,10 +22,10 @@ const TutorsByLocation = () => {
     const headers = { token: 'Bearer ' + accessToken }
     console.log(userLocation, 'user location')
     if (userLocation) {
-      const res = await axios.get(`https://educonnectbackend-production.up.railway.app/api/teachers/${userLocation}`, headers)
+      const res = await axios.get(`https://educonnectbackend-production.up.railway.app/api/teachers/location/${userLocation}`, headers)
       if (res) {
         setTeachers(res.data)
-        dispatch(refresh(true))
+        // dispatch(refresh(true))
       }
       console.log(res.data, 'tutors by location')
     }
@@ -39,15 +39,15 @@ const TutorsByLocation = () => {
 
 
   return (
-    <>
+    <View style={[userLocation ? styles.mainContainer : null]}>
       {
         teachers && teachers.length > 0 ?
           <View style={styles.mainContainer}>
             <View style={[styles.headingContainer, { width: '100%', justifyContent: 'center' }]}>
-              <Text style={[styles.mainHeading]}>Nearest Tutors</Text>
+              <Text style={[styles.mainHeading]}>Tutors in {userLocation}</Text>
             </View>
             <FlatList
-              data={nearestTeachers}
+              data={teachers}
               horizontal
               showsHorizontalScrollIndicator={false}
               renderItem={({ item }) => (
@@ -89,17 +89,15 @@ const TutorsByLocation = () => {
                 </TouchableOpacity>
               )}
             />
-            :
-            <View style={{ paddingBottom: 10 }}>
-              <Text style={[styles.mainHeading, { fontSize: 13 }]}>
-                No data available
-              </Text>
-            </View>
           </View>
           :
-          null
+          <View style={{ paddingBottom: 10 }}>
+            <Text style={[styles.mainHeading, { fontSize: 16, textAlign:'center' }]}>
+            No tutor available in {userLocation}
+            </Text>
+        </View>
       }
-    </>
+    </View>
   );
 };
 

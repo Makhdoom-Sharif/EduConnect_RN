@@ -22,3 +22,10 @@ export const tutorsByLocation = data => {
   };
 };
 
+export const resetTutorLocationQuery = data => {
+  return {
+    type: 'RESET_TUTOR_LOCATION_QUERY',
+    payload: data,
+  };
+};
+

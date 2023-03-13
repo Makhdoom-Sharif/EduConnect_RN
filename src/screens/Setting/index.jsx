@@ -14,7 +14,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {buildNumber, version} from '../../../package.json';
 import styles from './Styles';
 import { useDispatch } from 'react-redux';
-import { login, logout } from '../../store/action';
+import { login, logout, resetTutorLocationQuery } from '../../store/action';
 import { useSelector } from 'react-redux';
 
 const Setting = props => {
@@ -26,7 +26,7 @@ const Setting = props => {
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
   const [priority, setPriority] = useState(0);
-  const {accessToken, name} = useSelector(state => state?.login);
+  const {accessToken, name, role} = useSelector(state => state?.login);
 
   // const result = name.split(/(?=[A-Z])/);
   // const userName = result[0]+' '+result[1]
@@ -35,9 +35,13 @@ const Setting = props => {
     navigate('UpdateProfile');
   };
 
-  const buyCoins = () => {
-    navigate('BuyCoins');
-  };
+  const requestCourse = () => {
+    navigate('RequestCourse');
+  }
+
+  // const buyCoins = () => {
+  //   navigate('BuyCoins');
+  // };
 
   const changePassword = () => {
     navigate('ChangePassword');
@@ -50,6 +54,7 @@ const Setting = props => {
   const contactUS = () => {};
 
   const signOutApp = () => {
+    dispatch(resetTutorLocationQuery(null))
     dispatch(logout())
     console.log(accessToken)
     navigate('LoginScreen')
@@ -61,35 +66,42 @@ const Setting = props => {
       text: 'Update Profile',
       func: () => updateProfile(),
     },
-    {
-      text: 'Buy Coins',
-      func: () => buyCoins(),
-    },
-    {
-      text: 'Change Password',
-      func: () => changePassword(),
-    },
-    {
-      text: 'Leave Us A Review In The App Store',
-      func: () => openAppStoreReview(),
-    },
-    {
-      text: 'About Us',
-      func: () => aboutUs(),
-    },
-    {
-      text: 'Contact Us',
-      func: () => contactUS(),
-    },
+    // {
+    //   text: 'Change Password',
+    //   func: () => changePassword(),
+    // },
+    // {
+    //   text: 'Leave Us A Review In The App Store',
+    //   func: () => openAppStoreReview(),
+    // },
+    // {
+    //   text: 'About Us',
+    //   func: () => aboutUs(),
+    // },
+    // {
+    //   text: 'Contact Us',
+    //   func: () => contactUS(),
+    // },
     {
       text: 'Logout',
       func: () => signOutApp(),
     },
-    {
-      text: 'Delete Account',
-      func: () => deleteUser(),
-    },
+    // {
+    //   text: 'Delete Account',
+    //   func: () => deleteUser(),
+    // },
   ];
+
+  console.log(role)
+  if(role == 'student'){
+    let obj = {
+      text: 'Request Course',
+      func: () => requestCourse()
+    }
+    data.unshift(obj)
+    console.log(data)
+  }
+
   return (
     <View style={styles.container}>
       <SafeAreaView>

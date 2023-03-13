@@ -86,6 +86,9 @@ const RecommendTopRated = () => {
                 <Text style={styles.bottomGap}>
                   {item.avgRating.toPrecision(2)}
                 </Text>
+                <Text style={styles.bottomGap}>
+                  {item.availability ?  item.availability : 'Working hours not available'}
+                </Text>
                 <View style={{width: '100%'}}>
                   <Text style={{fontWeight: 'bold'}}>Specializes in: </Text>
                   {item.courses && item.courses.length > 0 ? (

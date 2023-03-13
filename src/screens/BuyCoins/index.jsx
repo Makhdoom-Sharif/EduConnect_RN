@@ -22,7 +22,7 @@ import {getCourses} from '../../backenAPICalls/coursesAPICall';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {Colors} from '../../Global/GlobalCSS';
-import imageCoins from '../../Assets/coins.png';
+import imageCoins from '../../assets/coins.png';
 export default function BuyCoins() {
   //responsive font size
   const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');

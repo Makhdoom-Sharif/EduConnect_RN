@@ -21,7 +21,7 @@ import * as yup from 'yup';
 import ValidationMessage from '../../../components/ValidationMessage';
 import {useDispatch} from 'react-redux';
 import {useToast} from 'react-native-toast-notifications';
-import logo2 from '../../../Assets/logo2.png';
+import logo2 from '../../../assets/logo2.png';
 
 const SignUp = () => {
   const [loading, setLoading] = useState(false);

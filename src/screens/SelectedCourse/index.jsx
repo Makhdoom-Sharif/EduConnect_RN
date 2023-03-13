@@ -25,7 +25,8 @@ import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {useDispatch} from 'react-redux';
 import {refresh} from '../../store/action';
-import imageTutorJob from '../../Assets/tutor_job.jpg';
+import imageTutorJob from '../../assets/tutor_job.jpg';
+
 export default function SelectedCourse({route}) {
   //responsive font size
   const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -126,9 +127,12 @@ export default function SelectedCourse({route}) {
   const [studentReviewsTeacher, setStudentReviewsTeacher] = useState();
   const [userRating, setUserRating] = useState(null);
 
-  const [studentReviewsTeacherTouched, setStudentReviewsTeacherTouched] =
-    useState(false);
+  const [studentReviewsTeacherTouched, setStudentReviewsTeacherTouched] = useState(false);
   const [isUserRatingTouched, setIsUserRatingTouched] = useState(false);
+
+  const [complainModal, setComplainModal] = useState(false)
+  const [teacherComplainTouched, setTeacherComplainTouched] = useState(false)
+  const [teacherComplain, setTeacherComplain] = useState(null)
 
   const onTutorSelect = tutor => {
     console.log(tutor, 'selected tutor');
@@ -273,10 +277,85 @@ export default function SelectedCourse({route}) {
     }
   };
 
+  const submitTeacherComplain = () => {
+    const headers = {token: 'Bearer ' + accessToken};
+    if (jobData && jobData._id && jobData.teacher && jobData.student && teacherComplain) {
+
+      Alert.alert(
+        'Confirm', `Are you sure you want to post this complain?`,
+        [
+          {
+            text: 'Yes',
+            onPress: async () => {
+              let res = null;
+                const data = {
+                  student: jobData.student, 
+                  teacher: jobData.teacher,
+                  job: jobData._id,
+                  complaintMessage: teacherComplain
+                };
+                console.log(data, 'complain')
+                res = await axios.post(
+                  `https://educonnectbackend-production.up.railway.app/api/complaints`,
+                  data,
+                  headers,
+                );
+              
+                if (res) {
+                  Alert.alert(
+                    'Success',
+                    `Complaint posted successfully`,
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'OK',
+                        onPress: () => {
+                          resetStates();
+                        },
+                      },
+                    ],
+                  );
+                } else {
+                  Alert.alert(
+                    'Error',
+                    `Somwthing went wrong`,
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'OK',
+                        onPress: () => {
+                          resetStates();
+                        },
+                      },
+                    ],
+                  );
+                }
+            },
+          },
+          {
+            text: 'No',
+          },
+        ],
+      );
+    }
+  };
+
   const resetStates = () => {
     dispatch(refresh(true));
     setIsPaymentDate(false);
     setModalVisible(false);
+
+    setComplainModal(false)
+    setTeacherComplainTouched(false)
+    setTeacherComplain(null)
     navigation.navigate('Home');
   };
 
@@ -732,6 +811,17 @@ export default function SelectedCourse({route}) {
                   </TouchableOpacity>
                 )}
               </View>
+              
+              <View style={[styles.mb10, {width: '100%'}]}>
+                <TouchableOpacity
+                  style={[styles.button, styles.boxShadow]}
+                  onPress={() => setComplainModal(!complainModal)}>
+                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                    Post a Complain
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              
               <View style={[styles.mb10, {width: '100%'}]}>
                 <TouchableOpacity
                   style={[styles.button, styles.boxShadow]}
@@ -812,6 +902,16 @@ export default function SelectedCourse({route}) {
                     Post Job Again
                   </Text>
                 </TouchableOpacity>
+
+                <View style={[styles.mb10, {width: '100%'}]}>
+                  <TouchableOpacity
+                    style={[styles.button, styles.boxShadow]}
+                    onPress={() => setComplainModal(!complainModal)}>
+                    <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                      Post a Complain
+                    </Text>
+                  </TouchableOpacity>
+                </View>
                 {/* <TouchableOpacity
                     style={[styles.mb10, styles.button, styles.boxShadow]}>
                     <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
@@ -830,6 +930,7 @@ export default function SelectedCourse({route}) {
           ) : (
             ''
           )}
+
 
           <Modal
             animationType="slide"
@@ -980,6 +1081,101 @@ export default function SelectedCourse({route}) {
                     !userRating ||
                     studentReviewsTeacher.length < 30 ||
                     userRating == 0
+                  }>
+                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                    Submit
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={complainModal}
+            onRequestClose={() => {
+              setComplainModal(!complainModal);
+            }}>
+            <View style={[{flex: 1, justifyContent: 'center'}]}>
+              <View style={[styles.modalView]}>
+                <View
+                  style={{
+                    width: '100%',
+                    alignItems: 'flex-end',
+                    position: 'relative',
+                  }}>
+                  <Icon
+                    name="close"
+                    size={18}
+                    style={{
+                      color: '#333',
+                      position: 'absolute',
+                      top: -5,
+                      right: -10,
+                    }}
+                    onPress={() => setComplainModal(false)}
+                  />
+                </View>
+
+                <Text
+                  style={[
+                    styles.mb10,
+                    styles.mt20,
+                    {textAlign: 'center', fontWeight: 'bold', fontSize: 14},
+                  ]}>
+                  Write your complain
+                </Text>
+                <TouchableOpacity style={{width: '100%'}}>
+                  <View>
+                    <TextInput
+                      onFocus={() => setTeacherComplainTouched(true)}
+                      style={{
+                        height: 80,
+                        borderColor: 'gray',
+                        borderWidth: 1,
+                        placeholderTextColor: 'gray',
+                        backgroundColor: '#fff',
+                        borderRadius: 7,
+                        width: '100%',
+                      }}
+                      onChangeText={text => setTeacherComplain(text)}
+                      value={teacherComplain}
+                      multiline={true}
+                      numberOfLines={4}
+                    />
+                  </View>
+                </TouchableOpacity>
+                <View style={{width: '100%'}}>
+                  {teacherComplainTouched &&
+                    (!teacherComplain ||
+                      teacherComplain.length == 0) && (
+                      <Text style={[styles.error, {textAlign: 'center'}]}>
+                        Please write complain to continue
+                      </Text>
+                    )}
+
+                  {teacherComplainTouched &&
+                    teacherComplain &&
+                    teacherComplain.length < 30 && (
+                      <Text style={[styles.error, {textAlign: 'center'}]}>
+                        Complain should be at least 15 characters long
+                      </Text>
+                    )}
+                </View>
+
+                <TouchableOpacity
+                  style={[
+                    styles.mb10,
+                    styles.button,
+                    styles.boxShadow,
+                    styles.mt10,
+                    {width: '100%'},
+                  ]}
+                  onPress={() => submitTeacherComplain()}
+                  disabled={
+                    !teacherComplain ||
+                    teacherComplain.length < 15
                   }>
                   <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
                     Submit

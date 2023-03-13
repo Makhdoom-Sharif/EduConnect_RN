@@ -13,7 +13,7 @@ import {useDispatch} from 'react-redux';
 import {useToast} from 'react-native-toast-notifications';
 import {loginUser} from '../../../Services/auth';
 import {login} from '../../../store/action';
-import logo2 from '../../../Assets/logo2.png';
+import logo2 from '../../../assets/logo2.png';
 
 const Login = () => {
   const {goBack, navigate, reset} = useNavigation();
@@ -56,6 +56,7 @@ const Login = () => {
           });
           setLoading(false);
           toast.show('Login successfully', {type: 'success'});
+          console.log(res, 'on login')
         })
         .catch(err => {
           // let errorMessage =
@@ -67,7 +68,7 @@ const Login = () => {
           //     } is already in use.`
           //     : 'Network error';
           setLoading(false);
-          // toast.show(errorMessage, { type: 'error' });
+          toast.show('Invalid Credentials', { type: 'error' });
         });
     },
   });
@@ -116,14 +117,14 @@ const Login = () => {
           {formik.errors.password && formik.values.password.length > 0 && (
             <ValidationMessage error={formik.errors.password} />
           )}
-          <Text
+          {/* <Text
             style={[
               styles.simpleTextStyle,
               {textAlign: 'right', marginBottom: 10},
             ]}
             onPress={() => navigate('ForgotPasswordScreen')}>
             Forgot your password?
-          </Text>
+          </Text> */}
           <SimpleButton
             title="Login"
             backgroundColor="#FBB718"
@@ -131,10 +132,10 @@ const Login = () => {
             handleClick={formik.handleSubmit}
             loading={loading}
           />
-          <Text style={[styles.simpleTextStyle, {textAlign: 'center'}]}>
+          {/* <Text style={[styles.simpleTextStyle, {textAlign: 'center'}]}>
             or log in with
-          </Text>
-          <SocialAuthButton />
+          </Text> */}
+          {/* <SocialAuthButton /> */}
         </View>
         {/* <Text onPress={() => navigate('SignUpScreen')} style={[styles.simpleTextStyle,{ textAlign: 'center', marginTop:0},]}>
           Not a user?  {''}

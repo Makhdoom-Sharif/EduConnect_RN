@@ -6,6 +6,8 @@ const tutorsByLocation = (state = initialState, action) => {
   switch (action.type) {
     case 'TUTORS_BY_LOCATIONS':
       return action.payload
+    case 'RESET_TUTOR_LOCATION_QUERY':
+      return initialState;
     default:
       return state;
   }
